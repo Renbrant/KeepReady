@@ -10,6 +10,7 @@
 
 * [Functional Specifications (FEATURES.md)](./FEATURES.md) — Detailed specification of all 10 application modules, the 7 purpose-built kits, the 10 threat scenarios, and the complete Free vs. Pro matrix.
 * [Page Flows & Screen Architecture (PAGE_FLOWS.md)](./PAGE_FLOWS.md) — Comprehensive user journeys, wireflow logic, and layout adaptations for Mobile (APK) and Web.
+* [Visual Identity & Design System (DESIGN_SYSTEM.md)](./DESIGN_SYSTEM.md) — Tactical minimalist UI specifications, color tokens, typography, and component styling inspired by Voxyl and MeshCrossway.
 * [Emergency Communications & Offline Maps (COMMUNICATIONS_AND_MAPS.md)](./COMMUNICATIONS_AND_MAPS.md) — The PACE framework, LoRa mesh bridge (Meshtastic/MeshCore), and downloadable offline vector mapping.
 * [Authoritative Public Data Sources (DATA_SOURCES.md)](./DATA_SOURCES.md) — Catalog of scientific standards, government APIs, humanitarian nutrition benchmarks, and civil defense frameworks with verified links.
 * [Database Schema (schema.sql)](./schema.sql) — Initial PostgreSQL relational database schema designed for Supabase with Row-Level Security (RLS).
@@ -50,6 +51,7 @@ KeepReady bridges that gap by combining:
    - Compiled authoritative scientific standards in DATA_SOURCES.md.
    - Formalized functional modules in FEATURES.md.
    - Documented screen architecture and wireflows in PAGE_FLOWS.md.
+   - Standardized tactical visual identity in DESIGN_SYSTEM.md.
    - Detailed PACE radio comms and offline maps in COMMUNICATIONS_AND_MAPS.md.
    - Linked all specifications in README.md.
 2. Phase 2: Database & Backend Deployment
