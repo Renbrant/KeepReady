@@ -9,10 +9,12 @@
 ## 📚 Project Documentation Index
 
 * [Functional Specifications (FEATURES.md)](./FEATURES.md) — Complete specifications of all 10 core modules, the 7 purpose-built kits, the 10 threat scenarios, and the Free vs. Pro matrix.
-* [Emergency Communications & Offline Maps (COMMUNICATIONS_AND_MAPS.md)](./COMMUNICATIONS_AND_MAPS.md) — The PACE framework, LoRa mesh bridge (Meshtastic / MeshCore), and downloadable offline vector mapping engine.
+* [Page Flows & Screen Architecture (PAGE_FLOWS.md)](./PAGE_FLOWS.md) — Comprehensive user journeys, wireflow logic, and layout adaptations for Mobile (APK) and Web.
+* [Emergency Communications & Offline Maps (COMMUNICATIONS_AND_MAPS.md)](./COMMUNICATIONS_AND_MAPS.md) — The PACE framework, LoRa mesh bridge (Meshtastic / MeshCore), local USB-OTG RTL-SDR tuning, and downloadable offline vector maps.
 * [Visual Identity & Design System (DESIGN_SYSTEM.md)](./DESIGN_SYSTEM.md) — Tactical minimalist UI specifications, color tokens, typography, and component styling inspired by Voxyl and MeshCrossway.
 * [Authoritative Public Data Sources (DATA_SOURCES.md)](./DATA_SOURCES.md) — Catalog of scientific standards, government APIs, humanitarian nutrition benchmarks, and civil defense frameworks with verified links.
-* [Database Schema (schema.sql)](./schema.sql) — Initial PostgreSQL relational database schema designed for Supabase with Row-Level Security (RLS).
+* [Reference Knowledge Base (knowledge_base/)](./knowledge_base/README.md) — Structured directory containing empirical food storage profiles, cooking fuel physics, CDC water formulas, TCCC trauma protocols, and global SDR presets.
+* [Database Schema (schema.sql)](./schema.sql) — Comprehensive PostgreSQL relational schema designed for Supabase with Row-Level Security (RLS).
 * [License (LICENSE)](./LICENSE) — Business Source License 1.1 (BSL 1.1).
 
 ---
@@ -37,6 +39,7 @@ Most preparedness software is either a rigid spreadsheet, a generic pantry check
 4. **Off-Grid Communications Bridge (KeepReady Comms):**
    - Implementation of the CISA PACE plan: Primary (Cloud), Alternate (Local Wi-Fi/SMS), Contingency (LoRa Mesh via Meshtastic / MeshCore), and Emergency (Two-way radio 3-3-3 protocols).
    - Automated transport failover: sends via internet when connected, automatically routes through Bluetooth-paired LoRa nodes when the cellular grid collapses.
+   - Dual-Mode SDR Receiver: Streams remote WebSDR/KiwiSDR frequencies online, and tunes local airwaves (500 kHz to 1.76 GHz) directly using a phone-connected USB-OTG RTL-SDR dongle offline.
 
 5. **Downloadable Offline Vector Maps & Hazard Sentry:**
    - Pre-downloadable regional map packs (OpenStreetMap / MapLibre vector tiles) stored directly on the device for 100% offline navigation.
@@ -53,6 +56,7 @@ Most preparedness software is either a rigid spreadsheet, a generic pantry check
 - Offline Data Sync: PowerSync (Bi-directional delta synchronization and local caching).
 - Hosting & Delivery: Cloudflare Pages (Fast Global CDN, Free Tier).
 - Communications Bridge: Bluetooth LE (BLE) client to Meshtastic / MeshCore hardware nodes.
+- Local Radio Receiver: USB-OTG RTL-SDR driver via Flutter FFI (`core_rtlsdr`).
 - Geospatial Engine: MapLibre GL / MBTiles offline vector tiles.
 - Billing & Subscriptions: Stripe or Lemon Squeezy.
 
@@ -77,7 +81,7 @@ Most preparedness software is either a rigid spreadsheet, a generic pantry check
    - Embed offline USDA / USU reference data.
 4. Phase 4: Comms, Mapping & Pre-Release APK
    - Integrate BLE bridge for Meshtastic/MeshCore.
-   - Implement offline vector map pack downloader.
+   - Implement offline vector map pack downloader and USB RTL-SDR receiver.
    - Compile standalone Android APKs (keepready-v1.0.apk) for field testing.
    - Deploy web app to Cloudflare Pages (keepready.pages.dev).
 5. Phase 5: Monetization & Public Launch
