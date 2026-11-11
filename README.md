@@ -14,6 +14,7 @@
 * [Emergency Communications & Offline Maps (COMMUNICATIONS_AND_MAPS.md)](./COMMUNICATIONS_AND_MAPS.md) — The PACE framework, LoRa mesh bridge (Meshtastic/MeshCore), and downloadable offline vector mapping.
 * [Authoritative Public Data Sources (DATA_SOURCES.md)](./DATA_SOURCES.md) — Catalog of scientific standards, government APIs, humanitarian nutrition benchmarks, and civil defense frameworks with verified links.
 * [Database Schema (schema.sql)](./schema.sql) — Initial PostgreSQL relational database schema designed for Supabase with Row-Level Security (RLS).
+* [License (LICENSE)](./LICENSE) — Business Source License 1.1 (BSL 1.1).
 
 ---
 
@@ -53,6 +54,7 @@ KeepReady bridges that gap by combining:
    - Documented screen architecture and wireflows in PAGE_FLOWS.md.
    - Standardized tactical visual identity in DESIGN_SYSTEM.md.
    - Detailed PACE radio comms and offline maps in COMMUNICATIONS_AND_MAPS.md.
+   - Established Business Source License 1.1 (BSL 1.1) in LICENSE.
    - Linked all specifications in README.md.
 2. Phase 2: Database & Backend Deployment
    - Deploy Supabase PostgreSQL schema with Row-Level Security (RLS).
@@ -67,3 +69,9 @@ KeepReady bridges that gap by combining:
 5. Phase 5: Monetization & Public Launch
    - Integrate Stripe payment webhooks for Pro subscriptions.
    - Publish to Google Play Store and Apple App Store.
+
+---
+
+## 4. License
+
+This project is licensed under the **Business Source License 1.1 (BSL 1.1)**. See the [LICENSE](./LICENSE) file for permitted non-commercial uses and commercial restrictions.
