@@ -8,8 +8,9 @@
 
 ## 📚 Project Documentation Index
 
-* [Functional Specifications (FEATURES.md)](./FEATURES.md) — Detailed specification of all 10 application modules, the 7 purpose-built kits, the 10 threat scenarios, PACE hybrid mesh communications, and the complete Free vs. Pro matrix.
-* [Authoritative Public Data Sources (DATA_SOURCES.md)](./DATA_SOURCES.md) — Comprehensive catalog of scientific standards, government APIs, humanitarian nutrition benchmarks, and civil defense frameworks with verified links.
+* [Functional Specifications (FEATURES.md)](./FEATURES.md) — Detailed specification of all 10 application modules, the 7 purpose-built kits, the 10 threat scenarios, and the complete Free vs. Pro matrix.
+* [Emergency Communications & Offline Maps (COMMUNICATIONS_AND_MAPS.md)](./COMMUNICATIONS_AND_MAPS.md) — Comprehensive guide to the PACE framework, LoRa mesh bridge (Meshtastic/MeshCore), and downloadable offline vector mapping.
+* [Authoritative Public Data Sources (DATA_SOURCES.md)](./DATA_SOURCES.md) — Catalog of scientific standards, government APIs, humanitarian nutrition benchmarks, and civil defense frameworks with verified links.
 * [Database Schema (schema.sql)](./schema.sql) — Initial PostgreSQL relational database schema designed for Supabase with Row-Level Security (RLS).
 
 ---
@@ -25,7 +26,8 @@ KeepReady bridges that gap by combining:
 2. A Hierarchical Inventory Manager: Tracks physical items across nested containers (e.g., Mylar bag in Bucket #4, Basement Shelf B) with FIFO rotation and batch expiration monitoring.
 3. An Embedded Storage Instructor: Educates users on safe, long-term preservation methods using authoritative public datasets.
 4. Hybrid Emergency Communications (PACE): Seamless failover from cloud messaging to off-grid LoRa Mesh networks (Meshtastic / MeshCore).
-5. Resilient Local-First Architecture: Completely operational offline without cellular or grid connectivity, automatically reconciling data via cloud sync once reconnected.
+5. Offline Vector Mapping: Pre-downloaded map packs and live family GPS tracking over radio mesh.
+6. Resilient Local-First Architecture: Completely operational offline without cellular or grid connectivity, automatically reconciling data via cloud sync once reconnected.
 
 ---
 
@@ -46,6 +48,7 @@ KeepReady bridges that gap by combining:
    - Defined system architecture, brand identity, and freemium model.
    - Compiled authoritative scientific standards in DATA_SOURCES.md.
    - Formalized functional modules in FEATURES.md.
+   - Detailed PACE radio comms and offline maps in COMMUNICATIONS_AND_MAPS.md.
    - Linked all specifications in README.md.
 2. Phase 2: Database & Backend Deployment
    - Deploy Supabase PostgreSQL schema with Row-Level Security (RLS).
