@@ -1,113 +1,98 @@
-﻿# KeepReady — Functional Specifications & Feature Breakdown
+﻿# KeepReady — Comprehensive Functional Specifications & Public Data Architecture
 
-This document provides a detailed specification of all functional modules, calculation logic, user workflows, and data relationships for the **KeepReady** application.
-
----
-
-## Module 1: Household Profile & Emergency Parameters
-
-Allows users to define the specific composition and survival criteria of their household.
-
-### 1.1 Household Member Definition
-* Member Profiles: Name, age category (Infant, Child, Adult, Senior), and physiological states (pregnant, lactating, high physical activity).
-* Caloric Baseline: 
-  - Default: 2,100 kcal / person / day based on The Sphere Handbook Standards.
-  - Customizable target per individual (e.g., 2,500 kcal for manual labor or 1,600 kcal for sedentary elderly).
-* Hydration Baseline:
-  - Default: 3.0 liters / person / day (drinking and rehydration).
-  - Optional hygiene allowance (+2.0 to +10.0 liters / day).
-* Pet Tracking: Support for domestic pets (dogs, cats) with daily dry/wet food and water requirements.
-
-### 1.2 Scenario & Environmental Factors
-* Climate Adjustment: Dynamic increase of +100 kcal / day for every 5°C ambient temperature drop below 20°C.
-* Cooking Constraints:
-  - Standard (Full grid / gas available).
-  - No Electricity / Boiling Only (Filters meals to items requiring only boiled water, e.g., freeze-dried, oatmeal, ramen).
-  - Zero Cooking / No Heat (Filters to ready-to-eat rations, canned meats, crackers, peanut butter).
+This document provides the complete technical and functional specification for **KeepReady**, detailing all modules, calculation algorithms, threat scenarios, kit frameworks, and authoritative public data integrations.
 
 ---
 
-## Module 2: Dynamic Living Calculator
+## 1. Authoritative Public Data Sources & Standards
 
-The core mathematical engine that bridges what the household needs with what is currently in stock.
+KeepReady grounds its calculation engines, safety warnings, and shelf-life recommendations in verified scientific and humanitarian public databases:
 
-### 2.1 Real-Time Autonomy Gauges
-* Days of Food (Caloric Autonomy): Total consumable calories divided by the household's aggregate daily caloric burn.
-* Days of Water (Hydration Autonomy): Total stored potable water divided by daily household requirements.
-* Limiting Factor Warning: Explicitly highlights the shortest bottleneck (e.g., "You have 90 days of food, but your water reserve expires in 14 days").
+### 1.1 Food Safety & Shelf-Life Research
+* **USDA FSIS FoodKeeper Dataset:** Published via Data.gov by the USDA Food Safety and Inspection Service, Cornell University, and FMI. Provides empirical shelf-life data across room-temperature pantry, cool cellar, refrigeration, and freezing.
+* **Utah State University (USU) Extension — Preserve the Harvest:** Authoritative academic guidelines for long-term dry packaging, oxygen absorber sizing (cc ratings), moisture thresholds (<10% to eliminate anaerobic botulism risks), and storage temperature curves.
+* **National Center for Home Food Preservation (NCHFP / USDA):** Standardized scientific procedures for water-bath canning, pressure canning, and thermal dehydration.
 
-### 2.2 Nutritional Balance & Macro Breakdown
-* Macronutrient Distribution:
-  - Protein: 10% to 15% of total caloric intake.
-  - Fat / Lipids: 17% to 20% of total caloric intake.
-  - Carbohydrates: Remainder (55% to 70%).
-* Micronutrient & Salt Check: Tracks minimum daily sodium (iodized salt) requirements (~5g/day/adult) and vital vitamin reserves.
-
-### 2.3 Gap Analysis & Shopping List Generator
-* Compares current inventory against target duration (e.g., 90-day goal).
-* Identifies exact deficits (e.g., Deficit: -18 kg legumes, -12 liters oil).
-* Automatically generates prioritized shopping lists to bridge deficits without food waste.
+### 1.2 Nutrition, Calories & Global Barcodes
+* **The Sphere Handbook (Humanitarian Charter & Minimum Standards):** Internationally recognized disaster nutrition benchmark establishing the baseline of **2,100 kcal / person / day**, macronutrient balance (10–12% protein, 17–20% lipids), hydration baseline (minimum 3.0 L/person/day for consumption and rehydration), and temperature adjustment (+100 kcal/day for each 5°C below 20°C).
+* **USDA FoodData Central API:** Open REST service providing comprehensive macronutrient, caloric, and micronutrient profiles per 100g and serving units.
+* **Open Food Facts Database & API:** Global open database with over 3 million barcoded products (UPC / EAN / GTIN) for automated product identification across international markets.
 
 ---
 
-## Module 3: Hierarchical Inventory Management
+## 2. Module Breakdown
 
-Enables physical organization from rooms down to individual sealed bags.
+### Module 1: Household Profile & Nutrition Math
+* **Member Profiles:** Name, age bracket (Infant, Child, Adult, Senior), and physiological modifiers (pregnancy, lactation, intense physical labor).
+* **Caloric Customization:** Default 2,100 kcal baseline with custom overrides per member.
+* **Hydration Calculator:** 3.0 L/day drinking baseline, with selectable allowances for hygiene (+2.0 to +10.0 L/day) and climate conditions.
+* **Pet Requirements:** Tailored profiles for dogs and cats tracking dry/wet food and daily water requirements.
 
-### 3.1 Multi-Level Storage Hierarchy
-* Level 1: Locations / Rooms (e.g., Basement, Garage, Pantry Closet, Bug-Out Bag).
-* Level 2: Furniture / Zones (e.g., Shelf Unit A, Storage Rack 3).
-* Level 3: Containers & Bins (e.g., 5-Gallon Bucket #04, Heavy Duty Tote #2).
-* Level 4: Items & Batches (e.g., 10x White Rice 1kg in Mylar Bag with 300cc O2 Absorber).
+### Module 2: The 7 Purpose-Built Preparedness Kits
+Pre-configured structural checklists with recommended quantities, essential vs. optional priority weighting, and packaging guidelines:
+1. **Home Preparedness Kit (Static Reserve):** Primary shelter-in-place buffer for 14 days to 1+ year.
+2. **Bug-Out Bag (BOB - 72h Individual):** Rapid-evacuation backpack limited to critical weight thresholds.
+3. **Family Bug-Out Kit:** Coordinated multi-person evacuation system distributing communal supplies.
+4. **Vehicle Emergency Kit:** Roadside survival, signaling, emergency water rations, and mechanical tools.
+5. **Winter Vehicle Kit:** Sub-zero thermal protection, snow-traction gear, and high-calorie rations.
+6. **Get-Home Bag (GHB - 24h to 48h):** Compact kit designed to transit from workplace/commute back to home.
+7. **Camping & Wilderness Kit:** Remote self-reliance, wilderness water filtration, and field cooking.
 
-### 3.2 Product Catalog & Barcode Scanning
-* Global Barcode Lookup: Instant product identification via Open Food Facts API and USDA FoodData Central.
-* Bulk Goods Support: Direct manual entry for non-barcoded commodities (beans, grains, honey, sugar, salt).
+### Module 3: Dynamic Living Calculator & Readiness Score
+* **Readiness Score (0% to 100%):** Weighted readiness metric evaluating preparedness across Water, Food, and Supplies. Essential survival items carry higher mathematical weight than secondary comfort items.
+* **Autonomy Gauges:** Real-time metrics showing exact days of food and days of water remaining based on active stock.
+* **Limiting Factor Highlight:** Instantly flags the weakest link in the supply chain (e.g., *"Food: 120 days | Water: 10 days — Water is your critical bottleneck"*).
+* **Deficit & Gap Analysis:** Compares current stock against the household target duration and automatically generates a prioritized shopping replenishment list.
 
-### 3.3 Batch & Expiration Management (FIFO)
-* First-In, First-Out (FIFO) Sorting: Shows which batch of a product should be eaten or rotated first.
-* Opened vs. Unopened Status: Tracking of opened goods with reduced shelf life.
-* Lot Numbers & Packaging Dates: Detailed traceability for home-canned or home-packaged goods.
+### Module 4: The 10 Threat Scenarios & Action Plans
+Structured action plans divided into three operational phases: **Before (Prepare)**, **During (Survive)**, and **After (Recover)**:
+1. **Power Outage (Grid Failure):** Food preservation in unpowered freezers, backup lighting, water pressure loss.
+2. **Severe Storm & Hurricane:** Windproofing, emergency water harvesting, safe indoor cooking without gas lines.
+3. **Earthquake:** Structural mitigation, shutoff valve locations, rupture-resistant water storage.
+4. **Winter Storm & Deep Freeze:** Hypothermia prevention, off-grid heating, frozen pipe contingencies.
+5. **Flooding:** Moving stock above flood lines, biological water contamination, sealed dry-bags.
+6. **Wildfire & Smoke Inhalation:** 15-minute evacuation readiness, air filtration (N95/P100), firebreaks.
+7. **War & Civil Conflict:** Discretion/security, decentralized stockpiling, supply-chain blackout planning.
+8. **Nuclear & Radiological Fallout:** Shelter sealing, shelf-stable non-perishables, potassium iodide protocol.
+9. **Wilderness Survival & Stranded Isolation:** Field water purification, emergency shelter, foraging/emergency rations.
+10. **Pandemic & Quarantine:** Supply isolation, medical stock, contact-free replenishment.
+
+### Module 5: Comprehensive Inventory & Multi-Supply Tracking
+* **Food & Potable Water:** Calories, shelf life, bulk grains, canned goods, water barrels, filtration filters.
+* **Power & Batteries:** AA, AAA, 18650, LiFePO4 power stations, recharge cycles, and battery leak expiration tracking.
+* **Medical & First Aid:** Prescription medicines, trauma kits, antibiotics, and expiration alerts.
+* **Tools & Tactical Gear:** Flashlights, radios, stoves, fuel canisters, sanitation supplies.
+* **Hierarchical Location Nesting:** Mappable storage structure: *Property → Room/Area → Shelf/Rack → Container/Bucket → Batch/Item*.
+* **Barcode & Expiry Scanning:** Rapid barcode lookup via Open Food Facts and camera OCR date recognition.
+
+### Module 6: Storage Instructor & Safety Advisor
+* **Preservation Methodology Engine:** Guides users on when to use standard pantries, food-grade HDPE buckets, glass jars, or Mylar bags.
+* **Oxygen Absorber Calculator:** Computes exact cc capacity needed based on container volume and food density.
+* **Botulism Safety Alert:** Mandatory system warning blocking anaerobic packaging for goods with >10% moisture content.
+* **Storage Temperature Visualizer:** Highlights shelf-life reduction curves when ambient heat exceeds 24°C (75°F).
+
+### Module 7: Smart Rotation (FIFO) & Alerts
+* **First-In, First-Out (FIFO) Ledger:** Highlights the oldest batches to consume first.
+* **Configurable Notification Milestones:** Automated alerts at 6 months, 90 days, 30 days, and 7 days before expiration.
+* **Pantry Rotation Integration:** Suggests rotating stored goods into everyday meals before expiration.
+
+### Module 8: Local-First Architecture & Data Portability
+* **100% Offline Independence:** All queries and updates execute locally against SQLite on the device.
+* **PowerSync Cloud Synchronization:** Seamless background replication to Supabase PostgreSQL when internet is available.
+* **Printable Emergency Binder Exports:** One-click generation of formatted PDF emergency inventories and CSV raw data backups.
 
 ---
 
-## Module 4: The Storage Instructor & Safety Advisor
+## 3. Freemium Feature Matrix
 
-In-app educational engine derived from verified scientific preservation literature.
-
-### 4.1 Preservation Knowledge Base
-* Shelf-Life Advisor: Integrated offline data from USDA FSIS FoodKeeper showing expected lifespan across room temperature, cool cellars, and freezers.
-* Mylar & Oxygen Absorber Sizing: Automatic calculation of required cubic centimeter (cc) rating of oxygen absorbers based on container volume and food bulk density (derived from USU Extension Guidelines).
-
-### 4.2 Critical Safety Rules
-* Anaerobic Hazard Detection (Botulism Warning): Hard system alert warning users never to use oxygen absorbers on items with >10% moisture content (e.g., brown rice, nuts, dried fruits, flour).
-* Temperature Degradation Curve: Visual explanation of how storage temperatures above 24°C (75°F) cut vitamin and nutritional lifespan by half.
-
----
-
-## Module 5: Rotation Alerts & Notifications
-
-* Staged Expiration Alerts: Push notifications at customizable intervals (e.g., 6 months, 90 days, 30 days before best-by date).
-* Rotation Suggestions: Suggests incorporating items nearing expiration into daily household meals before they spoil.
-
----
-
-## Module 6: Offline Resilience & Cloud Sync
-
-* 100% Local-First: All database queries run locally against SQLite on the device. Zero loading spinners, works in airplane mode or during grid outages.
-* Background Cloud Sync: Automatically reconciles local SQLite with Supabase PostgreSQL using PowerSync when an active internet connection is detected.
-* Emergency Data Export: Generates clean, printable PDF inventory sheets and offline CSV backups for physical binder storage.
-
----
-
-## Module 7: Tiered Feature Matrix
-
-| Feature | Community / Free | Pro / Family Subscriber |
+| Functional Area | Community Tier (Free) | Pro / Family Subscriber |
 | :--- | :--- | :--- |
-| Duration Horizon | Up to 30 days | Unlimited (up to 5 years) |
-| Household Capacity | Up to 4 members | Unlimited members & pets |
-| Storage Depth | 2 locations, 100 items | Unlimited locations, deep container nesting |
-| Barcode Scanner | Enabled | Enabled |
-| Storage Instructor | Basic guides | Full safety warnings & O2 sizing engine |
-| Multi-Device Sync | Single device backup | Real-time multi-device family collaboration |
-| Export Formats | Screen view only | Formatted Emergency PDF & CSV exports |
+| **Emergency Kits** | 1 Complete Kit (Home Preparedness) | Unlimited kits across all 7 purpose-built types |
+| **Threat Scenarios** | 1 Complete Plan (Power Outage) | All 10 Threat Scenarios with Before/During/After plans |
+| **Duration Target** | Up to 30 days of autonomy | Unlimited duration (3 months, 1 year, up to 5 years) |
+| **Household Size** | Up to 4 members | Unlimited members & domestic pets |
+| **Inventory Limits** | Up to 100 tracked items & 2 storage rooms | Unlimited items & deep container nesting (totes, buckets, bags) |
+| **Barcode & Scanning** | Standard barcode scanner | Barcode scanner + OCR expiration date camera reader |
+| **Storage Instructor** | Standard storage guidelines | Full scientific engine, O2 absorber calculator & safety warnings |
+| **Synchronization** | Single-device local storage + backup | Real-time multi-device family cloud sync |
+| **Exports** | In-app screen summary | Formatted Print-Ready Emergency PDF & full CSV exports |
