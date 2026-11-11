@@ -1,12 +1,12 @@
 ﻿# KeepReady — Comprehensive Functional Specifications & Public Data Architecture
 
-This document provides the complete technical and functional specification for **KeepReady**, detailing all modules, calculation algorithms, threat scenarios, kit frameworks, preservation intelligence, offline mesh communications, hazard sentry feeds, and authoritative public data integrations.
+This document provides the complete technical and functional specification for **KeepReady**, detailing all modules, calculation algorithms, threat scenarios, kit frameworks, preservation intelligence, trauma protocols, contingency communications, and authoritative public data integrations.
 
 ---
 
-## 1. Authoritative Public Data Sources & Standards
+## 1. Authoritative Public Data Sources & Scientific Standards
 
-KeepReady grounds its calculation engines, safety warnings, shelf-life recommendations, and hazard feeds in verified scientific, humanitarian, and public-domain databases:
+KeepReady grounds its calculation engines, safety warnings, shelf-life recommendations, trauma protocols, and hazard sentry feeds in verified scientific, humanitarian, and civil defense standards:
 
 ### 1.1 Food Safety, Shelf-Life & Preservation Research
 * **USDA FSIS FoodKeeper Dataset:** Published via Data.gov by the USDA Food Safety and Inspection Service, Cornell University, and FMI. Provides empirical shelf-life data across room-temperature pantry, cool cellar, refrigeration, and freezing.
@@ -18,16 +18,26 @@ KeepReady grounds its calculation engines, safety warnings, shelf-life recommend
 * **USDA FoodData Central API:** Open REST service providing comprehensive macronutrient, caloric, and micronutrient profiles per 100g and serving units.
 * **Open Food Facts Database & API:** Global open database with over 3 million barcoded products (UPC / EAN / GTIN) for automated product identification across international markets.
 
-### 1.3 Food Contamination & Safety Recalls
-* **openFDA Food Enforcement API:** Open REST service from the U.S. Food and Drug Administration providing weekly updated public records on recalled and contaminated food batches (e.g., botulinum toxin, Salmonella, Listeria, foreign contaminants).
+### 1.3 Civil Defense & Total Defence Frameworks
+* **MSB Sweden — "If Crisis or War Comes" (Om krisen eller kriget kommer):** The gold standard of national civil defense resilience. Establishes the **7-Day Household Autonomy Standard**, civilian unpowered heating, cash buffer recommendations (for electronic banking blackouts), and civil alert siren recognition.
+* **Finland National Emergency Supply Agency (NESA / 72 Hours Model):** Cold-climate household resilience standards for sub-zero shelter and essential home reserves.
 
-### 1.4 Global Disaster Feeds & Hazard Early-Warning
-* **GDACS API (Global Disaster Alert and Coordination System):** Multi-hazard alert system operated jointly by the United Nations and the European Commission. Provides real-time public feeds (Common Alerting Protocol / GeoJSON) on earthquakes, tsunamis, tropical cyclones, floods, and volcanic activity without requiring API authentication.
-* **NASA FIRMS API (Fire Information for Resource Management System):** Real-time global satellite thermal imaging (MODIS and VIIRS sensors) detecting active wildfires and thermal hotspots within customizable geographic radii.
-* **NOAA Space Weather Prediction Center (SWPC) API:** Real-time planetary Kp-index and geomagnetic storm classifications (G1 to G5) tracking Coronal Mass Ejections (CMEs) and electrical grid disruption risks.
+### 1.4 Radiological Defense & Fallout Engineering
+* **Oak Ridge National Laboratory — Nuclear War Survival Skills (NWSS, by Cresson H. Kearny):** Empirical civil defense physics published under the U.S. Department of Energy. Provides the **7-10 Radiation Decay Rule** (every 7x increase in hours reduces gamma intensity by a factor of 10), material half-thickness shielding values (15 cm packed earth, 10 cm concrete, 18 cm water per half-value layer), and field shelter ventilation physics.
 
-### 1.5 Emergency Water Purification Science
-* **CDC Emergency Water Disinfection Protocols & EPA Guidelines:** Empirically verified chemical dosing formulas for disinfecting questionable surface/flood water using liquid household bleach (drops per liter/gallon for clear vs. turbid water), chlorine dioxide tablets, and elevation-corrected boiling times.
+### 1.5 Austere Trauma Medicine & Tactical First Aid
+* **Tactical Combat Casualty Care (TCCC Guidelines / CoTCCC):** U.S. Department of Defense evidence-based prehospital trauma care standard. Replaces civilian ABC with the battlefield-proven **MARCH** algorithm (Massive Hemorrhage, Airway, Respiration, Circulation, Hypothermia prevention).
+
+### 1.6 Contingency Communications & Survival Fundamentals
+* **CISA Emergency Communications Ecosystem — PACE Protocol:** National emergency communications standard: **P**rimary (Cellular/Internet), **A**lternate (Local Wi-Fi/SMS), **C**ontingency (LoRa Mesh/Meshtastic), and **E**mergency (Analog Two-Way Radio with 3-3-3 hailing schedule).
+* **U.S. Army Survival Manual (FM 21-76 / TC 3-21.76):** Establishes the physiological **Rule of Threes** (3 minutes without oxygen, 3 hours without thermal shelter, 3 days without water, 3 weeks without food) governing KeepReady's survival priority hierarchy.
+
+### 1.7 Hazards, Recalls & Water Science
+* **openFDA Food Enforcement API:** Real-time FDA food recall and contamination alerts.
+* **GDACS API (Global Disaster Alert and Coordination System):** Multi-hazard UN/EC real-time disaster feeds (Common Alerting Protocol).
+* **NASA FIRMS API:** Real-time satellite thermal anomaly detection for active wildfires.
+* **NOAA Space Weather Prediction Center (SWPC) API:** Real-time Kp-index and solar storm disruption monitoring.
+* **CDC Emergency Water Disinfection Protocols:** Verified chemical dosage formulas for liquid bleach and chlorine dioxide disinfection.
 
 ---
 
@@ -38,6 +48,7 @@ KeepReady grounds its calculation engines, safety warnings, shelf-life recommend
 * **Caloric Customization:** Default 2,100 kcal baseline with custom overrides per member.
 * **Hydration Calculator:** 3.0 L/day drinking baseline, with selectable allowances for hygiene (+2.0 to +10.0 L/day) and climate conditions.
 * **Pet Requirements:** Tailored profiles for dogs and cats tracking dry/wet food and daily water requirements.
+* **Nordic Cash Reserve Buffer:** Calculates recommended emergency cash-on-hand based on household size to cover fuel and food during electronic payment outages.
 
 ### Module 2: The 7 Purpose-Built Preparedness Kits
 Pre-configured structural checklists with recommended quantities, essential vs. optional priority weighting, and packaging guidelines:
@@ -49,7 +60,8 @@ Pre-configured structural checklists with recommended quantities, essential vs. 
 6. **Get-Home Bag (GHB - 24h to 48h):** Compact kit designed to transit from workplace/commute back to home.
 7. **Camping & Wilderness Kit:** Remote self-reliance, wilderness water filtration, and field cooking.
 
-### Module 3: Dynamic Living Calculator & Readiness Score
+### Module 3: Dynamic Living Calculator, Rule of Threes & Readiness Score
+* **Rule of Threes Priority Engine:** Visualizes survival readiness according to physiological urgency: Thermal Shelter (3h) → Potable Water (3d) → Caloric Energy (3w). Prevents planning bias where users over-invest in long-term food while neglecting immediate water or thermal defense.
 * **Readiness Score (0% to 100%):** Weighted readiness metric evaluating preparedness across Water, Food, and Supplies. Essential survival items carry higher mathematical weight than secondary comfort items.
 * **Autonomy Gauges:** Real-time metrics showing exact days of food and days of water remaining based on active stock.
 * **Limiting Factor Highlight:** Instantly flags the weakest link in the supply chain (e.g., *"Food: 120 days | Water: 10 days — Water is your critical bottleneck"*).
@@ -65,14 +77,14 @@ Structured action plans divided into three operational phases: **Before (Prepare
 5. **Flooding:** Moving stock above flood lines, biological water contamination, sealed dry-bags.
 6. **Wildfire & Smoke Inhalation:** 15-minute evacuation readiness, air filtration (N95/P100), firebreaks.
 7. **War & Civil Conflict:** Discretion/security, decentralized stockpiling, supply-chain blackout planning.
-8. **Nuclear & Radiological Fallout:** Shelter sealing, shelf-stable non-perishables, potassium iodide protocol.
+8. **Nuclear & Radiological Fallout:** Incorporates Oak Ridge NWSS physics: material half-thickness calculations, 7-10 radiation decay timeline tracker, shelter sealing, and potassium iodide (KI) protocols.
 9. **Wilderness Survival & Stranded Isolation:** Field water purification, emergency shelter, foraging/emergency rations.
 10. **Pandemic & Quarantine:** Supply isolation, medical stock, contact-free replenishment.
 
-### Module 5: Comprehensive Inventory & Multi-Supply Tracking
+### Module 5: Comprehensive Inventory, Trauma Kits & Multi-Supply Tracking
 * **Food & Potable Water:** Calories, shelf life, bulk grains, canned goods, water barrels, filtration filters.
+* **Trauma & Medical Supplies (MARCH Standard):** Specialized inventory categories tracking tourniquets (CAT/SOF-T), hemostatic gauze, vented chest seals, pressure dressings, and prescription medications with expiration tracking.
 * **Power & Batteries:** AA, AAA, 18650, LiFePO4 power stations, recharge cycles, and battery leak expiration tracking.
-* **Medical & First Aid:** Prescription medicines, trauma kits, antibiotics, and expiration alerts.
 * **Tools & Tactical Gear:** Flashlights, radios, stoves, fuel canisters, sanitation supplies.
 * **Hierarchical Location Nesting:** Mappable storage structure: *Property → Room/Area → Shelf/Rack → Container/Bucket → Batch/Item*.
 * **Smart Bin Tags (Printable QR Labels):** One-click generation of printable QR codes for storage tubs, boxes, and 5-gallon buckets. Scanning a tag with the app camera instantly displays all internal contents, expiration dates, and calories without unsealing containers.
@@ -94,16 +106,18 @@ Structured action plans divided into three operational phases: **Before (Prepare
 ### Module 8: Local-First Architecture & Emergency Offline Binder
 * **100% Offline Independence:** All queries and updates execute locally against SQLite on the device.
 * **PowerSync Cloud Synchronization:** Seamless background replication to Supabase PostgreSQL when internet is available.
-* **Emergency Family Binder One-Pager:** Generates a standardized, printable one-page laminated card containing emergency contacts, utility shutoff instructions, radio frequencies, and a critical inventory index.
+* **Emergency Family Binder One-Pager:** Generates a standardized, printable one-page laminated card containing emergency contacts, utility shutoff instructions, radio frequencies, PACE plan summary, and a critical inventory index.
 * **Printable Emergency Inventory:** Formatted PDF reports and CSV raw data backups.
 
-### Module 9: KeepReady Comms — Hybrid Emergency Communicator & Mesh Bridge
-A resilient, family-oriented crisis communication bridge combining cloud messaging with off-grid LoRa mesh networks (Meshtastic & MeshCore protocols):
-* **Smart Transport Failover (Internet vs. Mesh):**
-  - *Primary Route (Cloud):* Sends encrypted messages and read receipts via Supabase Realtime WebSockets over active cellular/Wi-Fi networks.
-  - *Secondary Route (LoRa Mesh Fallback):* When internet/cellular connectivity fails, the app automatically fails over to a Bluetooth LE (BLE) connected LoRa node (Meshtastic or MeshCore).
-* **Decoupled Radio Configuration (Zero-Friction for Family):** Complex radio settings remain in native Meshtastic/MeshCore apps; KeepReady connects as a clean, simple communication UI.
-* **Automated Family Channels & Encryption:** Encrypted private family group keys hopping transparently over public repeaters.
+### Module 9: KeepReady Comms — Hybrid Emergency Communicator & PACE Mesh Bridge
+A resilient crisis communication framework combining cloud messaging with off-grid LoRa mesh networks, structured under the CISA PACE plan:
+* **PACE Emergency Communications Architecture:**
+  - *Primary (P):* KeepReady Cloud encrypted messaging over cellular/Wi-Fi with read receipts.
+  - *Alternate (A):* Direct SMS and local Wi-Fi mesh sync.
+  - *Contingency (C):* LoRa Mesh bridge (Meshtastic / MeshCore via BLE) automatically engaged upon internet loss.
+  - *Emergency (E):* Standardized analog two-way radio guide (FRS/GMRS/VHF) with pre-loaded 3-3-3 emergency hailing schedules (Channel 3 every 3 hours for 3 minutes).
+* **Decoupled Radio Configuration:** Radio hardware is configured in native Meshtastic/MeshCore apps; KeepReady connects solely as an emergency message and location client.
+* **Automated Family Channels:** AES-256 encrypted private family group keys hopping across public repeaters.
 * **One-Tap Emergency Status Pings:** Bandwidth-optimized, low-byte broadcast messages (*"Safe"*, *"Need Assistance"*, *"At Rendezvous Point"*).
 * **Offline Grid Map & Location Beaconing:** Periodic GPS coordinate exchange rendered on an offline vector map.
 
@@ -122,17 +136,18 @@ Integrates automated intelligence from international monitoring bodies to safegu
 | Functional Area | Community Tier (Free) | Pro / Family Subscriber |
 | :--- | :--- | :--- |
 | **Emergency Kits** | 1 Complete Kit (Home Preparedness) | Unlimited kits across all 7 purpose-built types |
-| **Threat Scenarios** | 1 Complete Plan (Power Outage) | All 10 Threat Scenarios with Before/During/After plans |
+| **Threat Scenarios** | 1 Complete Plan (Power Outage) | All 10 Threat Scenarios with NWSS radiation decay & shelter plans |
 | **Duration Target** | Up to 30 days of autonomy | Unlimited duration (3 months, 1 year, up to 5 years) |
 | **Household Size** | Up to 4 members | Unlimited members & domestic pets |
 | **Inventory Limits** | Up to 100 tracked items & 2 storage rooms | Unlimited items & deep container nesting (totes, buckets, bags) |
 | **Smart Bin QR Tags** | Up to 3 printable container QR codes | Unlimited container QR generation and instant camera scanning |
 | **Cooking Feasibility** | Basic days calculation | Full Zero-Cook grid-down audit & cooking water check |
 | **Valuation & Budget** | Item counts only | Total stockpile valuation & monthly budget optimizer |
+| **Trauma Kits (MARCH)** | Basic first-aid checklist | Complete TCCC MARCH protocol trauma tracking with expiration alerts |
 | **Barcode & Scanning** | Standard barcode scanner | Barcode scanner + OCR expiration date camera reader |
 | **Storage Instructor** | Standard storage guidelines | Full scientific engine, O2 absorber calculator & safety warnings |
 | **Water Disinfection** | CDC Chemical Dosage Calculator | CDC Chemical Dosage Calculator + custom field filter tracking |
 | **Hazard Sentry Feeds** | Manual refresh of local alerts | Automated openFDA food recall audits, GDACS alerts, NASA FIRMS wildfire proximity & NOAA space weather monitor |
-| **Mesh Communications** | Local Bluetooth LoRa pings (SOS broadcast only) | Full Hybrid Smart-Routing (Cloud + LoRa Mesh), family channels, & GPS map tracking |
+| **Mesh & PACE Comms** | Local Bluetooth LoRa pings (SOS broadcast only) | Full Hybrid PACE Smart-Routing (Cloud + LoRa Mesh), family channels, & GPS map tracking |
 | **Synchronization** | Single-device local storage + backup | Real-time multi-device family cloud sync |
 | **Exports** | In-app screen summary | Print-Ready Family Binder One-Pager, PDF & CSV exports |
