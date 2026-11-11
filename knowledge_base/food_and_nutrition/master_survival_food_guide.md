@@ -1,6 +1,6 @@
 ﻿# Master Survival Food & Nutrition Compendium: The Tactical Bug-In Blueprint
 
-A comprehensive, cross-referenced manual on long-term survival nutrition, food procurement, storage engineering, and crisis kitchen management. Synthesizes tactical military principles (inspired by elite special operations doctrine and Joel Lambert's "A Navy SEAL's Bug-In Guide") with empirical research from Utah State University Extension, the USDA, The Sphere Project, and the LDS Family Home Storage system.
+A comprehensive, cross-referenced manual on long-term survival nutrition, food procurement, storage engineering, and crisis kitchen management. Synthesizes tactical military survival doctrine and expeditionary operational research with empirical data from Utah State University Extension, the USDA, The Sphere Project, and the LDS Family Home Storage system.
 
 ---
 
@@ -79,7 +79,7 @@ To prevent exhausting camping gas canisters or propane tanks:
 
 ## 5. Appetite Fatigue & Morale Multipliers
 
-Joel Lambert and military survival instructors emphasize the danger of "Appetite Fatigue":
+Military survival doctrine and expeditionary psychologists emphasize the danger of "Appetite Fatigue":
 * Under extreme psychological trauma, human beings (especially children) will literally refuse to eat if forced to consume unflavored, identical mush day after day.
 * Food is morale, psychological normalcy, and hope during a crisis.
 
