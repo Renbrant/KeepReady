@@ -1,6 +1,6 @@
 ﻿# KeepReady — Emergency Communications (PACE), SDR Intelligence & Offline Mapping
 
-This document details the crisis telecommunications architecture, off-grid LoRa mesh networks (Meshtastic and MeshCore), Software-Defined Radio (WebSDR, KiwiSDR, and RTL-SDR), and the offline vector mapping engine for **KeepReady**.
+This document details the crisis telecommunications architecture, off-grid LoRa mesh networks (Meshtastic and MeshCore), Software-Defined Radio (WebSDR, KiwiSDR, and local USB-OTG RTL-SDR tuning), and the offline vector mapping engine for **KeepReady**.
 
 ---
 
@@ -33,27 +33,29 @@ In catastrophe and grid-down scenarios, telecommunications fail in predictable s
 
 ---
 
-## 2. Software-Defined Radio (SDR) Intelligence & Emergency Monitoring
+## 2. Software-Defined Radio (SDR) Intelligence & Wideband Spectrum Receiver
 
-KeepReady integrates dual-mode Software-Defined Radio listening capabilities for intelligence gathering, civil defense alerts, and search-and-rescue:
+KeepReady transforms the smartphone into a high-grade signal intelligence (SIGINT) receiver, providing both remote cloud SDR listening and autonomous, off-grid over-the-air spectrum tuning:
 
-### 2.1 Remote WebSDR & KiwiSDR Streaming (Connected Mode)
-* Architecture: Connects directly via WebSocket JSON protocols to hundreds of globally distributed KiwiSDR and WebSDR receivers.
-* Curated Emergency Directory: Pre-filtered 1-click bookmarks to critical HF emergency channels without requiring external antennas:
-  - 14.300 MHz: Global Maritime Mobile Service Net (marine emergencies, hurricane tracking).
-  - 7.055 / 7.110 MHz: Regional Amateur Radio Emergency Service (ARES) nets.
-  - 5.000 / 10.000 / 15.000 MHz (WWV / CHU): Atomic time synchronization and solar storm forecasts.
-  - International Shortwave Broadcasters (BBC World Service, Voice of America).
-* Spectrum & Waterfall Display: In-app real-time waterfall display allowing users to visually spot active radio signals across the HF spectrum.
+### 2.1 Local USB-OTG RTL-SDR Tuner (100% Offline / Wideband Autonomous Receiver)
+When all cellular towers, internet lines, and electrical grids collapse, KeepReady allows users to plug an inexpensive USB SDR dongle (e.g., RTL-SDR v4, HackRF One, or Nooelec NESDR) directly into the smartphone's USB-C port via a standard USB-OTG cable:
+* Architecture: Native USB communication powered directly by the phone's internal battery (~280 mA draw), utilizing the Flutter `core_rtlsdr` DSP engine (running native C/C++ FFI demodulators).
+* Zero-Infrastructure Dependency: Operates completely air-gapped without internet, Wi-Fi, or cellular network access, capturing physical electromagnetic radio waves directly through an attached portable antenna.
+* Continuous Wideband Tuning Range: 500 kHz to 1.766 GHz (covers HF, VHF, and UHF).
+* Tunable Spectrum & Demodulation Modes:
+  - AM (Amplitude Modulation): AM broadcast band (530-1700 kHz), international shortwave, and Aviation Tower/Airband (118-137 MHz).
+  - WFM (Wideband FM with stereo & RDS): Commercial broadcast FM stations (88-108 MHz) for local government emergency decrees.
+  - NFM (Narrowband FM): Citizen walkie-talkies (FRS, GMRS, MURS, PMR446), marine radio (VHF Ch 16 @ 156.8 MHz), and amateur radio repeaters (144-148 MHz and 420-450 MHz).
+  - USB / LSB (Single Sideband): Long-distance high-frequency disaster nets (14.300 MHz MMSN, 7.268 MHz HWN) and military strategic communications.
+  - CW (Continuous Wave / Morse Code).
+* Visual Real-Time Waterfall Scope: Displays a live graphical RF waterfall and spectrum analyzer, allowing users to visually spot active radio signals and transmissions across the band without knowing the exact frequency in advance.
+* ADS-B Aircraft Tracking (1090 MHz): Decodes unencrypted transponder beacons from commercial and emergency aircraft flying overhead, plotting their altitude, speed, and heading live on KeepReady's offline map without internet!
 
-### 2.2 Local USB-OTG RTL-SDR Receiver (100% Offline Grid-Down Mode)
-* Architecture: Native USB-OTG connection from an Android smartphone to an inexpensive RTL-SDR dongle (RTL2832U chip / v4 tuner) using the Flutter `core_rtlsdr` driver engine.
-* True Air-Gap Reception: Operates with zero internet, zero cellular towers, and zero cloud dependencies.
-* Receivable Over-The-Air Bands (24 MHz to 1.7 GHz):
-  - NOAA Weather Radio (162.400 to 162.550 MHz with automated alert tone detection).
-  - Local FM broadcast stations for civil emergency announcements.
-  - VHF Marine & Aviation emergency hailing frequencies (121.5 MHz / 156.8 MHz Channel 16).
-  - Local unencrypted analog emergency service dispatch.
+### 2.2 Remote WebSDR & KiwiSDR Streaming (Connected / Satellite Mode)
+When internet, Starlink, or local Wi-Fi connectivity is present:
+* Direct WebSocket Audio Stream: Connects to hundreds of public, distributed WebSDR and KiwiSDR stations globally without opening third-party web browsers.
+* Pre-Configured Emergency Bookmarks: 1-click tuning to 14.300 MHz (MMSN), 14.325 MHz (Hurricane Watch Net), WWV Solar Storm alerts, and USAF 11.175 MHz HFGCS strategic monitoring.
+* Global 24/7 News Audio: Direct streaming presets for BBC World Service, NPR, VOA, RFI, and integration with the community Radio-Browser API (45,000+ local AM/FM stations worldwide).
 
 ---
 
