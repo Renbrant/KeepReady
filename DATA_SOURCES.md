@@ -1,10 +1,10 @@
 ﻿# KeepReady — Authoritative Public Data Sources & Scientific Standards
 
-This document catalogs all verified scientific databases, government APIs, humanitarian standards, and civil defense frameworks integrated into **KeepReady**.
+This document catalogs all verified scientific databases, government APIs, humanitarian nutrition benchmarks, civil defense frameworks, and empirical food preservation standards integrated into **KeepReady**.
 
 ---
 
-## 1. Food Safety, Shelf-Life & Long-Term Preservation
+## 1. Food Safety, Shelf-Life & Long-Term Preservation Research
 
 * **[USDA FSIS FoodKeeper Dataset](https://catalog.data.gov/dataset/fsis-foodkeeper-data)**
   - *Publishing Body:* USDA Food Safety and Inspection Service, Cornell University, and FMI.
@@ -12,38 +12,65 @@ This document catalogs all verified scientific databases, government APIs, human
   - *Application:* Provides empirical shelf-life baselines across ambient room-temperature pantry, cool cellar, refrigeration, and freezer storage for over 500 food categories.
 
 * **[Utah State University (USU) Extension — Preserve the Harvest](https://extension.usu.edu/preserve-the-harvest/food-storage-packaging)**
-  - *Publishing Body:* Utah State University Extension.
-  - *Application:* The benchmark scientific guidelines for long-term dry packaging: oxygen absorber sizing (cc ratings), moisture thresholds (<10% to prevent anaerobic botulism risks in Mylar), and temperature shelf-life reduction curves.
+  - *Publishing Body:* Utah State University Extension (Department of Nutrition, Dietetics, and Food Sciences).
+  - *Application:* Benchmark academic research on long-term dry packaging:
+    - Oxygen absorber capacity calculation formulas (cc ratings based on container volume and food bulk density).
+    - Strict moisture safety threshold (<10% moisture content required to eliminate anaerobic *Clostridium botulinum* risks in Mylar).
+    - Thermal degradation curves (Arrhenius equation showing shelf-life cuts by half for every 10°C increase above 21°C).
+    - Specific storage bulletins for white rice, hard wheat, rolled oats, dried beans, and powdered milk.
 
 * **[National Center for Home Food Preservation (NCHFP)](https://nchfp.uga.edu/)**
-  - *Publishing Body:* Cooperative Extension System / USDA.
-  - *Application:* Peer-reviewed scientific thermal processing tables for pressure canning, boiling water-bath canning, and food dehydration.
+  - *Publishing Body:* Cooperative Extension System / USDA (University of Georgia).
+  - *Application:* Peer-reviewed scientific thermal processing tables for pressure canning, boiling water-bath canning, pickling, and food dehydration.
+
+* **[LDS Family Home Storage Standards & Order Form Guidelines](https://www.churchofjesuschrist.org/life/preparedness/long-term-food-and-water-storage?lang=eng)**
+  - *Publishing Body:* Welfare and Self-Reliance Services / Brigham Young University (BYU) Food Science Department.
+  - *Application:* The globally recognized universal 1-year dry storage baseline per adult (300–400 lbs grains, 60 lbs legumes, 60 lbs sugars, 16–24 lbs non-fat dry milk, 4 gallons cooking oil, 8–10 lbs iodized salt).
 
 ---
 
-## 2. Disaster Nutrition, Caloric Standards & Global Barcodes
+## 2. National Disaster Nutrition & Rationing Quantity Models
 
 * **[The Sphere Handbook — Humanitarian Charter and Minimum Standards](https://emergency.unhcr.org/sites/default/files/2024-05/SphereFS%2BN.pdf)**
   - *Publishing Body:* The Sphere Project (supported by UN, Red Cross, and international NGOs).
-  - *Application:* Establishes the global disaster nutrition standard of **2,100 kcal / person / day**, macronutrient distribution (10–12% protein, 17–20% lipids), hydration minimum (3.0 L/person/day), and climate adjustment (+100 kcal/day for each 5°C below 20°C).
+  - *Application:* Establishes the global disaster nutrition baseline of **2,100 kcal / person / day**, macronutrient distribution (10–12% protein, 17–20% lipids), hydration minimum (3.0 L/person/day), and cold-weather climate adjustments (+100 kcal/day for each 5°C below 20°C).
 
-* **[USDA FoodData Central API](https://fdc.nal.usda.gov/)**
-  - *Publishing Body:* USDA Agricultural Research Service.
-  - *Format:* REST API / Downloadable CSV/JSON.
-  - *Application:* Nutritional composition engine providing precise calories, proteins, carbohydrates, lipids, sodium, and vitamins per 100g and serving size.
+* **[German Federal Ministry of Food and Agriculture (BMEL / BBK Ernährungsvorsorge)](https://www.ernaehrungsvorsorge.de/private-vorsorge/notvorrat/vorratstabelle)**
+  - *Publishing Body:* Bundesministerium für Ernährung und Landwirtschaft (BMEL) and Federal Office of Civil Protection and Disaster Assistance (BBK).
+  - *Application:* Official scientific 10-day emergency food stock table providing a balanced **2,200 kcal / person / day** across 7 mandatory food groups:
+    - 20 L beverages/water
+    - 3.5 kg grain products, bread, potatoes, pasta, rice
+    - 4.0 kg vegetables and legumes
+    - 2.5 kg fruits and nuts
+    - 2.6 kg milk and dairy products
+    - 1.5 kg meat, fish, eggs (or whole egg powder)
+    - 0.357 kg dietary fats and cooking oils
 
-* **[Open Food Facts Database & API](https://world.openfoodfacts.org/)**
-  - *Publishing Body:* Open Food Facts Non-profit.
-  - *Format:* Open REST API covering 3M+ products globally.
-  - *Application:* Global barcode scanning engine (UPC, EAN, GTIN) to pull brand names, nutritional labels, and package weights instantly.
+* **[Swiss Federal Office for National Economic Supply (BWL / FONES — "Notvorrat")](https://www.bwl.admin.ch/de/kluger-rat-notvorrat)**
+  - *Publishing Body:* Swiss Federal Department of Economic Affairs, Education and Research (EAER / BWL).
+  - *Application:* The Swiss national 7-day civil contingency standard: non-perishable foods requiring minimal cooking fuel, plus a strict minimum of 9 liters of potable water per person for immediate 3-day emergency buffer.
 
 ---
 
-## 3. Civil Defense, Total Defence & National Resilience
+## 3. Nutritional Composition & Global Barcode APIs
+
+* **[USDA FoodData Central API](https://fdc.nal.usda.gov/)**
+  - *Publishing Body:* USDA Agricultural Research Service.
+  - *Format:* REST API / Downloadable CSV/JSON (Public Domain).
+  - *Application:* Comprehensive macronutrient, caloric, and micronutrient profiles per 100g and custom serving units.
+
+* **[Open Food Facts Database & API](https://world.openfoodfacts.org/)**
+  - *Publishing Body:* Open Food Facts Non-profit Association.
+  - *Format:* Open REST API covering 3M+ products globally.
+  - *Application:* Global barcode scanning engine (UPC, EAN, GTIN) to pull brand names, nutritional labels, and package weights.
+
+---
+
+## 4. Civil Defense, Total Defence & National Resilience
 
 * **[MSB Sweden — "If Crisis or War Comes" (Om krisen eller kriget kommer)](https://www.jonkoping.se/download/18.6a087b4c169dcff8c903056e/1556627549015/Engelska.pdf)**
   - *Publishing Body:* Swedish Civil Contingencies Agency (MSB).
-  - *Application:* National resilience benchmark establishing the **7-Day Household Autonomy Standard**, unpowered thermal heating guidelines, and civilian cash reserve buffers during electronic banking outages.
+  - *Application:* National resilience benchmark establishing the **7-Day Household Autonomy Standard**, unpowered heating guidelines, civilian cash buffer recommendations, and civil alert siren recognition.
 
 * **[Finland National Emergency Supply Agency (NESA / 72 Hours Model)](https://72tuntia.fi/)**
   - *Publishing Body:* Ministry of the Interior of Finland.
@@ -51,7 +78,7 @@ This document catalogs all verified scientific databases, government APIs, human
 
 ---
 
-## 4. Radiological Protection & Nuclear Civil Defense
+## 5. Radiological Protection & Nuclear Civil Defense
 
 * **[Oak Ridge National Laboratory — Nuclear War Survival Skills (NWSS)](https://en.wikipedia.org/wiki/Nuclear_War_Survival_Skills)**
   - *Author:* Cresson H. Kearny (Oak Ridge National Laboratory / U.S. Department of Energy).
@@ -59,7 +86,7 @@ This document catalogs all verified scientific databases, government APIs, human
 
 ---
 
-## 5. Austere Trauma Care & Tactical First Aid
+## 6. Austere Trauma Care & Tactical First Aid
 
 * **[Tactical Combat Casualty Care (TCCC Guidelines / CoTCCC)](https://tccc.org.ua/files/downloads/clinical-guidelines-2026-en.pdf)**
   - *Publishing Body:* U.S. Department of Defense Joint Trauma System.
@@ -67,7 +94,7 @@ This document catalogs all verified scientific databases, government APIs, human
 
 ---
 
-## 6. Contingency Communications & Survival Fundamentals
+## 7. Contingency Communications & Survival Fundamentals
 
 * **[CISA Emergency Communications Ecosystem — PACE Protocol](https://www.cisa.gov/resources-tools/resources/leveraging-pace-plan-emergency-communications-ecosystem)**
   - *Publishing Body:* Cybersecurity and Infrastructure Security Agency (CISA / U.S. DHS).
@@ -79,7 +106,7 @@ This document catalogs all verified scientific databases, government APIs, human
 
 ---
 
-## 7. Real-Time Hazard Feeds & Water Science
+## 8. Real-Time Hazard Feeds & Water Science
 
 * **[openFDA Food Enforcement API](https://open.fda.gov/apis/food/enforcement/)**
   - *Publishing Body:* U.S. Food and Drug Administration.
