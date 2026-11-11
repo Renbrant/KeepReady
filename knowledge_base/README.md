@@ -5,6 +5,7 @@ This directory contains structured scientific data, empirical formulas, calculat
 ## Directory Structure
 
 * [food_and_nutrition/](./food_and_nutrition/)
+  - [calculation_tables.md](./food_and_nutrition/calculation_tables.md) — Exact demographic caloric multipliers, commodity nutritional densities, O2 absorber sizing tables, and cooking fuel consumption rates.
   - [master_survival_food_guide.md](./food_and_nutrition/master_survival_food_guide.md) — The master tactical bug-in food blueprint, 3-tier pantry layers, metabolic burn rates, thermal haybox cooking, and appetite fatigue mitigation.
   - [storage_rules.md](./food_and_nutrition/storage_rules.md) — Quick shelf-life tiers, annual rations, oxygen absorber formulas, and packaging rules.
 * [water_and_sanitation/](./water_and_sanitation/)
