@@ -14,7 +14,8 @@ This directory contains structured scientific data, empirical formulas, calculat
   - [water_storage_and_reserves.md](./water_and_sanitation/water_storage_and_reserves.md) — Long-term potable water storage, 55-gallon drum sanitization, 5-year preservation, concrete pallet isolation, and draining hidden house water heaters.
   - [water_purification.md](./water_and_sanitation/water_purification.md) — Disinfection chemical dosages (CDC bleach drops), boiling altitude math, and FM 21-10 field sanitation.
 * [communications/](./communications/)
-  - [pace_and_radio.md](./communications/pace_and_radio.md) — PACE matrix, LoRa mesh protocols, analog radio emergency hailing frequencies.
+  - [equipment_and_hardware_catalog.md](./communications/equipment_and_hardware_catalog.md) — Complete hardware catalog: LoRa nodes (Heltec, Seeed, LILYGO, RAK), tuned antennas, handheld radios (FRS/GMRS/MURS/Ham), and emergency AM/FM/SW receivers.
+  - [pace_and_radio.md](./communications/pace_and_radio.md) — Operational PACE plan matrix, standard emergency frequencies, the 3-3-3 schedule, NATO phonetics, and EMCON radio discipline.
 * [medical_and_trauma/](./medical_and_trauma/)
   - [march_protocol.md](./medical_and_trauma/march_protocol.md) — TCCC MARCH trauma algorithms and emergency medical supply lists.
 * [civil_defense_and_hazards/](./civil_defense_and_hazards/)
