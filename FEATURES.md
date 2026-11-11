@@ -1,6 +1,6 @@
 ﻿# KeepReady — Comprehensive Functional Specifications & Public Data Architecture
 
-This document provides the complete technical and functional specification for **KeepReady**, detailing all modules, calculation algorithms, threat scenarios, kit frameworks, preservation intelligence, and authoritative public data integrations.
+This document provides the complete technical and functional specification for **KeepReady**, detailing all modules, calculation algorithms, threat scenarios, kit frameworks, preservation intelligence, offline mesh communications, and authoritative public data integrations.
 
 ---
 
@@ -86,6 +86,18 @@ Structured action plans divided into three operational phases: **Before (Prepare
 * **Emergency Family Binder One-Pager:** Generates a standardized, printable one-page laminated card containing emergency contacts, utility shutoff instructions, radio frequencies, and a critical inventory index.
 * **Printable Emergency Inventory:** Formatted PDF reports and CSV raw data backups.
 
+### Module 9: KeepReady Comms — Hybrid Emergency Communicator & Mesh Bridge
+A resilient, family-oriented crisis communication bridge combining cloud messaging with off-grid LoRa mesh networks (Meshtastic & MeshCore protocols):
+* **Smart Transport Failover (Internet vs. Mesh):**
+  - *Primary Route (Cloud):* Sends encrypted messages and read receipts via Supabase Realtime WebSockets over active cellular/Wi-Fi networks.
+  - *Secondary Route (LoRa Mesh Fallback):* When internet/cellular connectivity fails, the app automatically fails over to a Bluetooth LE (BLE) connected LoRa node (Meshtastic or MeshCore).
+* **Decoupled Radio Configuration (Zero-Friction for Family):**
+  - Complex radio configuration (frequencies, modem presets, hop limits) is managed externally in native Meshtastic/MeshCore apps.
+  - KeepReady connects to the pre-paired BLE device solely to transmit and receive high-priority text packets, status pings, and location beacons.
+* **Automated Family Channels & Encryption:** Automatically utilizes a shared, encrypted private group key, allowing family traffic to hop across public repeaters without exposing message contents.
+* **One-Tap Emergency Status Pings:** Bandwidth-optimized, low-byte broadcast messages designed for high packet reliability over long-range LoRa (*"I am safe"*, *"Need immediate assistance"*, *"En route to primary rendezvous point"*, *"Battery level: 15%"*).
+* **Offline Grid Map & Location Beaconing:** Periodic GPS coordinate exchange over mesh or internet, rendering family positions, bearings, and distances on an offline vector map.
+
 ---
 
 ## 3. Freemium Feature Matrix
@@ -102,5 +114,6 @@ Structured action plans divided into three operational phases: **Before (Prepare
 | **Valuation & Budget** | Item counts only | Total stockpile valuation & monthly budget optimizer |
 | **Barcode & Scanning** | Standard barcode scanner | Barcode scanner + OCR expiration date camera reader |
 | **Storage Instructor** | Standard storage guidelines | Full scientific engine, O2 absorber calculator & safety warnings |
+| **Mesh Communications** | Local Bluetooth LoRa pings (SOS broadcast only) | Full Hybrid Smart-Routing (Cloud + LoRa Mesh), family channels, & GPS map tracking |
 | **Synchronization** | Single-device local storage + backup | Real-time multi-device family cloud sync |
 | **Exports** | In-app screen summary | Print-Ready Family Binder One-Pager, PDF & CSV exports |
