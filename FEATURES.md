@@ -1,14 +1,14 @@
 ﻿# KeepReady — Comprehensive Functional Specifications & Public Data Architecture
 
-This document provides the complete technical and functional specification for **KeepReady**, detailing all modules, calculation algorithms, threat scenarios, kit frameworks, preservation intelligence, offline mesh communications, and authoritative public data integrations.
+This document provides the complete technical and functional specification for **KeepReady**, detailing all modules, calculation algorithms, threat scenarios, kit frameworks, preservation intelligence, offline mesh communications, hazard sentry feeds, and authoritative public data integrations.
 
 ---
 
 ## 1. Authoritative Public Data Sources & Standards
 
-KeepReady grounds its calculation engines, safety warnings, and shelf-life recommendations in verified scientific and humanitarian public databases:
+KeepReady grounds its calculation engines, safety warnings, shelf-life recommendations, and hazard feeds in verified scientific, humanitarian, and public-domain databases:
 
-### 1.1 Food Safety & Shelf-Life Research
+### 1.1 Food Safety, Shelf-Life & Preservation Research
 * **USDA FSIS FoodKeeper Dataset:** Published via Data.gov by the USDA Food Safety and Inspection Service, Cornell University, and FMI. Provides empirical shelf-life data across room-temperature pantry, cool cellar, refrigeration, and freezing.
 * **Utah State University (USU) Extension — Preserve the Harvest:** Authoritative academic guidelines for long-term dry packaging, oxygen absorber sizing (cc ratings), moisture thresholds (<10% to eliminate anaerobic botulism risks), and storage temperature degradation curves.
 * **National Center for Home Food Preservation (NCHFP / USDA):** Standardized scientific procedures for water-bath canning, pressure canning, and thermal dehydration.
@@ -17,6 +17,17 @@ KeepReady grounds its calculation engines, safety warnings, and shelf-life recom
 * **The Sphere Handbook (Humanitarian Charter & Minimum Standards):** Internationally recognized disaster nutrition benchmark establishing the baseline of **2,100 kcal / person / day**, macronutrient balance (10–12% protein, 17–20% lipids), hydration baseline (minimum 3.0 L/person/day for consumption and rehydration), and temperature adjustment (+100 kcal/day for each 5°C below 20°C).
 * **USDA FoodData Central API:** Open REST service providing comprehensive macronutrient, caloric, and micronutrient profiles per 100g and serving units.
 * **Open Food Facts Database & API:** Global open database with over 3 million barcoded products (UPC / EAN / GTIN) for automated product identification across international markets.
+
+### 1.3 Food Contamination & Safety Recalls
+* **openFDA Food Enforcement API:** Open REST service from the U.S. Food and Drug Administration providing weekly updated public records on recalled and contaminated food batches (e.g., botulinum toxin, Salmonella, Listeria, foreign contaminants).
+
+### 1.4 Global Disaster Feeds & Hazard Early-Warning
+* **GDACS API (Global Disaster Alert and Coordination System):** Multi-hazard alert system operated jointly by the United Nations and the European Commission. Provides real-time public feeds (Common Alerting Protocol / GeoJSON) on earthquakes, tsunamis, tropical cyclones, floods, and volcanic activity without requiring API authentication.
+* **NASA FIRMS API (Fire Information for Resource Management System):** Real-time global satellite thermal imaging (MODIS and VIIRS sensors) detecting active wildfires and thermal hotspots within customizable geographic radii.
+* **NOAA Space Weather Prediction Center (SWPC) API:** Real-time planetary Kp-index and geomagnetic storm classifications (G1 to G5) tracking Coronal Mass Ejections (CMEs) and electrical grid disruption risks.
+
+### 1.5 Emergency Water Purification Science
+* **CDC Emergency Water Disinfection Protocols & EPA Guidelines:** Empirically verified chemical dosing formulas for disinfecting questionable surface/flood water using liquid household bleach (drops per liter/gallon for clear vs. turbid water), chlorine dioxide tablets, and elevation-corrected boiling times.
 
 ---
 
@@ -91,12 +102,18 @@ A resilient, family-oriented crisis communication bridge combining cloud messagi
 * **Smart Transport Failover (Internet vs. Mesh):**
   - *Primary Route (Cloud):* Sends encrypted messages and read receipts via Supabase Realtime WebSockets over active cellular/Wi-Fi networks.
   - *Secondary Route (LoRa Mesh Fallback):* When internet/cellular connectivity fails, the app automatically fails over to a Bluetooth LE (BLE) connected LoRa node (Meshtastic or MeshCore).
-* **Decoupled Radio Configuration (Zero-Friction for Family):**
-  - Complex radio configuration (frequencies, modem presets, hop limits) is managed externally in native Meshtastic/MeshCore apps.
-  - KeepReady connects to the pre-paired BLE device solely to transmit and receive high-priority text packets, status pings, and location beacons.
-* **Automated Family Channels & Encryption:** Automatically utilizes a shared, encrypted private group key, allowing family traffic to hop across public repeaters without exposing message contents.
-* **One-Tap Emergency Status Pings:** Bandwidth-optimized, low-byte broadcast messages designed for high packet reliability over long-range LoRa (*"I am safe"*, *"Need immediate assistance"*, *"En route to primary rendezvous point"*, *"Battery level: 15%"*).
-* **Offline Grid Map & Location Beaconing:** Periodic GPS coordinate exchange over mesh or internet, rendering family positions, bearings, and distances on an offline vector map.
+* **Decoupled Radio Configuration (Zero-Friction for Family):** Complex radio settings remain in native Meshtastic/MeshCore apps; KeepReady connects as a clean, simple communication UI.
+* **Automated Family Channels & Encryption:** Encrypted private family group keys hopping transparently over public repeaters.
+* **One-Tap Emergency Status Pings:** Bandwidth-optimized, low-byte broadcast messages (*"Safe"*, *"Need Assistance"*, *"At Rendezvous Point"*).
+* **Offline Grid Map & Location Beaconing:** Periodic GPS coordinate exchange rendered on an offline vector map.
+
+### Module 10: KeepReady Sentry — Hazard Early-Warning & Safety Feeds
+Integrates automated intelligence from international monitoring bodies to safeguard supplies and alert households:
+* **Automated Stock Contamination Sentry (openFDA API):** Background cross-referencing of stored barcodes and product names against active recall databases. Triggers immediate contamination alerts targeting the exact storage bin holding the recalled item.
+* **Geographic Disaster Early-Warning (GDACS API):** Proximity-based alerts for emerging earthquakes, hurricanes, floods, and severe weather events, prompting the user to run the relevant preparedness checklist.
+* **Wildfire Perimeter Tracking (NASA FIRMS API):** Real-time satellite thermal anomaly monitoring around the user's primary residence or bug-out destination.
+* **Space Weather & Grid Vulnerability Gauge (NOAA SWPC API):** Geomagnetic storm (Kp-index) visual indicator alerting users to charge battery banks and store extra water ahead of solar grid disruptions.
+* **Offline Emergency Water Disinfection Calculator (CDC Protocols):** Built-in mathematical calculator converting raw collected water volume into exact chemical dosage requirements (bleach drops, chlorine dioxide, or boiling minutes adjusted for altitude) without requiring an internet connection.
 
 ---
 
@@ -114,6 +131,8 @@ A resilient, family-oriented crisis communication bridge combining cloud messagi
 | **Valuation & Budget** | Item counts only | Total stockpile valuation & monthly budget optimizer |
 | **Barcode & Scanning** | Standard barcode scanner | Barcode scanner + OCR expiration date camera reader |
 | **Storage Instructor** | Standard storage guidelines | Full scientific engine, O2 absorber calculator & safety warnings |
+| **Water Disinfection** | CDC Chemical Dosage Calculator | CDC Chemical Dosage Calculator + custom field filter tracking |
+| **Hazard Sentry Feeds** | Manual refresh of local alerts | Automated openFDA food recall audits, GDACS alerts, NASA FIRMS wildfire proximity & NOAA space weather monitor |
 | **Mesh Communications** | Local Bluetooth LoRa pings (SOS broadcast only) | Full Hybrid Smart-Routing (Cloud + LoRa Mesh), family channels, & GPS map tracking |
 | **Synchronization** | Single-device local storage + backup | Real-time multi-device family cloud sync |
 | **Exports** | In-app screen summary | Print-Ready Family Binder One-Pager, PDF & CSV exports |
