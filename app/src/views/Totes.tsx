@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { Btn, Card, NumField, Pill, SelectField, TextField } from '../components/ui';
-import { CATEGORY_LABEL, CATEGORY_ORDER, SOURCE_LABEL } from '../content/catalog';
+import { CATEGORY_LABEL, CATEGORY_ORDER, SOURCE_LABEL, catText } from '../content/catalog';
+import { L } from '../lib/i18n';
 import { diffDays, fmtDate, todayISO } from '../lib/dates';
 import { saveGear, store } from '../lib/db';
 import { usePlan, useReadiness } from '../lib/derived';
@@ -24,42 +25,42 @@ function GearRow({ l, today }: { l: GearLine; today: string }) {
         <div class="grow">
           <div style={{ fontWeight: 600 }}>{l.name}</div>
           <div class="xs muted mono">
-            preciso {n0(l.need)} {l.unit}
-            {l.missing > 0 ? ` · falta ${n0(l.missing)}` : ''}
+            {L('preciso ', 'need ')}{n0(l.need)} {l.unit}
+            {l.missing > 0 ? L(` · falta ${n0(l.missing)}`, ` · missing ${n0(l.missing)}`) : ''}
           </div>
           <div class="row wrap" style={{ marginTop: 4, gap: 6 }}>
-            <Pill tone={complete ? 'ok' : l.have > 0 ? 'warn' : 'neutral'}>{complete ? 'Completo' : l.have > 0 ? 'Parcial' : 'Falta'}</Pill>
-            {l.outside && <Pill tone="info">Fora da caixa</Pill>}
-            {exp === 'bad' && <Pill tone="bad">Vencido</Pill>}
-            {exp === 'warn' && <Pill tone="warn">Vence em breve</Pill>}
+            <Pill tone={complete ? 'ok' : l.have > 0 ? 'warn' : 'neutral'}>{complete ? L('Completo', 'Complete') : l.have > 0 ? L('Parcial', 'Partial') : L('Falta', 'Missing')}</Pill>
+            {l.outside && <Pill tone="info">{L('Fora da caixa', 'Outside the tote')}</Pill>}
+            {exp === 'bad' && <Pill tone="bad">{L('Vencido', 'Expired')}</Pill>}
+            {exp === 'warn' && <Pill tone="warn">{L('Vence em breve', 'Expires soon')}</Pill>}
           </div>
         </div>
         <div style={{ width: 92 }}>
-          <NumField label="Tenho" value={l.have} min={0} step={1} onChange={(v) => saveGear(l.id, { have: Math.max(0, v ?? 0) })} />
+          <NumField label={L('Tenho', 'I have')} value={l.have} min={0} step={1} onChange={(v) => saveGear(l.id, { have: Math.max(0, v ?? 0) })} />
         </div>
       </div>
       <details style={{ marginTop: 4 }}>
-        <summary class="xs muted">Detalhes</summary>
+        <summary class="xs muted">{L('Detalhes', 'Details')}</summary>
         <div class="stack" style={{ marginTop: 8 }}>
           {l.item && (
             <div class="xs muted">
               <div>
-                Quantidade: {l.item.how} ({l.item.qty === 'fonte' ? 'valor citado pela fonte' : 'estimativa do app'}).
+                {L('Quantidade: ', 'Quantity: ')}{catText(l.item).how} ({l.item.qty === 'fonte' ? L('valor citado pela fonte', 'value cited by the source') : L('estimativa do app', 'app estimate')}).
               </div>
-              <div>Item listado por: {l.item.listedBy.map((s) => SOURCE_LABEL[s]).join(', ')}.</div>
-              {l.item.note && <div style={{ marginTop: 4 }}>{l.item.note}</div>}
+              <div>{L('Item listado por: ', 'Item listed by: ')}{l.item.listedBy.map((s) => SOURCE_LABEL[s]).join(', ')}.</div>
+              {l.item.note && <div style={{ marginTop: 4 }}>{catText(l.item).note}</div>}
             </div>
           )}
-          {l.custom && <div class="xs muted">Item seu.</div>}
-          <TextField label="Validade (do que você tem)" type="date" value={l.expiresOn ?? ''} onChange={(v) => saveGear(l.id, { expiresOn: v || undefined })} />
+          {l.custom && <div class="xs muted">{L('Item seu.', 'Your own item.')}</div>}
+          <TextField label={L('Validade (do que você tem)', 'Expiry date (of what you have)')} type="date" value={l.expiresOn ?? ''} onChange={(v) => saveGear(l.id, { expiresOn: v || undefined })} />
           <div class="row wrap">
             {l.custom ? (
               <Btn small kind="danger" onClick={() => store.remove(gearRecId(l.id))}>
-                Remover item
+                {L('Remover item', 'Remove item')}
               </Btn>
             ) : (
               <Btn small onClick={() => saveGear(l.id, { hidden: true })}>
-                Desligar este item
+                {L('Desligar este item', 'Turn off this item')}
               </Btn>
             )}
           </div>
@@ -102,52 +103,52 @@ export function Totes() {
     <>
       <div class="topbar">
         <div>
-          <h1>Caixas de {TOTE_GAL} gal</h1>
+          <h1>{L(`Caixas de ${TOTE_GAL} gal`, `${TOTE_GAL}-gal totes`)}</h1>
           <div class="sub">
-            {plan.totes.length} {plural(plan.totes.length, 'caixa', 'caixas')} · {prog.done} de {prog.total} itens completos
+            {plan.totes.length} {plural(plan.totes.length, L('caixa', 'tote'), L('caixas', 'totes'))} · {prog.done}{L(' de ', ' of ')}{prog.total}{L(' itens completos', ' items complete')}
           </div>
         </div>
       </div>
 
       <Card>
         <div class="small">
-          As caixas guardam o que <b>não é perecível, não precisa de vedação e você vai usar com frequência</b>: higiene, cozinha, remédios, lanternas, pilhas e ferramentas. Comida de longo prazo vai nos baldes de Mylar.
+          {L('As caixas guardam o que ', 'The totes hold what is ')}<b>{L('não é perecível, não precisa de vedação e você vai usar com frequência', 'non-perishable, needs no sealing and that you will use often')}</b>{L(': higiene, cozinha, remédios, lanternas, pilhas e ferramentas. Comida de longo prazo vai nos baldes de Mylar.', ': hygiene, kitchen, medication, flashlights, batteries and tools. Long-term food goes in the Mylar buckets.')}
         </div>
         <div class="xs muted" style={{ marginTop: 8 }}>
-          A lista abaixo se recalcula com as pessoas, a meta de {r.settings.daysTarget} dias e o perfil de cada um (<a href="#/plano">Plano</a>). Cada caixa leva até {n0(r.settings.toteCapKg)} kg e {Math.round(TOTE_FILL * 100)}% do volume.
+          {L(`A lista abaixo se recalcula com as pessoas, a meta de ${r.settings.daysTarget} dias e o perfil de cada um (`, `The list below recalculates with the people, the ${r.settings.daysTarget}-day goal and each person's profile (`)}<a href="#/plano">{L('Plano', 'Plan')}</a>{L(`). Cada caixa leva até ${n0(r.settings.toteCapKg)} kg e ${Math.round(TOTE_FILL * 100)}% do volume.`, `). Each tote holds up to ${n0(r.settings.toteCapKg)} kg and ${Math.round(TOTE_FILL * 100)}% of its volume.`)}
         </div>
         <div class="grid2" style={{ marginTop: 10 }}>
           <div>
             <div class="mono" style={{ fontSize: '1.3rem', fontWeight: 700 }}>{plan.totes.length}</div>
-            <div class="xs muted">{plural(plan.totes.length, 'caixa', 'caixas')} de {TOTE_GAL} gal</div>
+            <div class="xs muted">{plural(plan.totes.length, L('caixa', 'tote'), L('caixas', 'totes'))}{L(' de ', ' of ')}{TOTE_GAL} gal</div>
           </div>
           <div>
             <div class="mono" style={{ fontSize: '1.3rem', fontWeight: 700 }}>{prog.pct}%</div>
-            <div class="xs muted">dos itens completos</div>
+            <div class="xs muted">{L('dos itens completos', 'of items complete')}</div>
           </div>
         </div>
         <div class="xs faint" style={{ marginTop: 8 }}>
-          Volume e peso por item são aproximações do app ({n0(totals.liters)} L, {n0(totals.kg)} kg no total): confira ao arrumar de verdade.
+          {L(`Volume e peso por item são aproximações do app (${n0(totals.liters)} L, ${n0(totals.kg)} kg no total): confira ao arrumar de verdade.`, `Volume and weight per item are app approximations (${n0(totals.liters)} L, ${n0(totals.kg)} kg in total): check when you actually pack.`)}
         </div>
       </Card>
 
       {expiringSoon.length > 0 && (
         <Card tone="warn">
-          <h2>Validade</h2>
+          <h2>{L('Validade', 'Expiry')}</h2>
           <ul class="list">
             {expiringSoon.map((l) => (
               <li key={l.id} class="small">
-                {l.name}: {diffDays(today, l.expiresOn!) < 0 ? `venceu em ${fmtDate(l.expiresOn)}` : `vence em ${fmtDate(l.expiresOn)}`}
+                {l.name}: {diffDays(today, l.expiresOn!) < 0 ? L(`venceu em ${fmtDate(l.expiresOn)}`, `expired on ${fmtDate(l.expiresOn)}`) : L(`vence em ${fmtDate(l.expiresOn)}`, `expires on ${fmtDate(l.expiresOn)}`)}
               </li>
             ))}
           </ul>
         </Card>
       )}
 
-      <h2>Como arrumar</h2>
+      <h2>{L('Como arrumar', 'How to pack')}</h2>
       {plan.totes.length === 0 && (
         <Card>
-          <div class="small muted">Nenhum item ligado. Adicione pessoas e uma meta no Plano.</div>
+          <div class="small muted">{L('Nenhum item ligado. Adicione pessoas e uma meta no Plano.', 'No items turned on. Add people and a goal in the Plan.')}</div>
         </Card>
       )}
       {plan.totes.map((t) => (
@@ -157,7 +158,7 @@ export function Totes() {
               <div>
                 <b>{toteTitle(t)}</b>
                 <div class="xs muted mono">
-                  {n0(t.liters)} L · {n1(t.kg)} kg · {t.lines.length} {plural(t.lines.length, 'item', 'itens')}
+                  {n0(t.liters)} L · {n1(t.kg)} kg · {t.lines.length} {plural(t.lines.length, 'item', L('itens', 'items'))}
                 </div>
               </div>
             </div>
@@ -172,7 +173,7 @@ export function Totes() {
         </details>
       ))}
 
-      <h2>Lista por categoria</h2>
+      <h2>{L('Lista por categoria', 'List by category')}</h2>
       {byCat.map((g) => (
         <Card key={g.c}>
           <div class="row between">
@@ -192,16 +193,16 @@ export function Totes() {
       {na.length > 0 && (
         <details class="card">
           <summary>
-            <b>Não se aplicam à sua casa agora ({na.length})</b>
+            <b>{L(`Não se aplicam à sua casa agora (${na.length})`, `Do not apply to your household right now (${na.length})`)}</b>
           </summary>
           <div class="xs muted" style={{ marginTop: 6 }}>
-            O perfil das pessoas faz a quantidade ser zero (por exemplo, fraldas sem bebê). Se mudar o perfil, o item volta sozinho.
+            {L('O perfil das pessoas faz a quantidade ser zero (por exemplo, fraldas sem bebê). Se mudar o perfil, o item volta sozinho.', 'The people’s profiles make the quantity zero (for example, diapers with no baby). If you change the profile, the item comes back on its own.')}
           </div>
           <ul class="list" style={{ marginTop: 6 }}>
             {na.map((l) => (
               <li key={l.id} class="small">
                 {l.name}
-                {l.item ? <div class="xs muted">{l.item.how}</div> : null}
+                {l.item ? <div class="xs muted">{catText(l.item).how}</div> : null}
               </li>
             ))}
           </ul>
@@ -211,10 +212,10 @@ export function Totes() {
       {hidden.length > 0 && (
         <details class="card">
           <summary>
-            <b>Itens desligados ({hidden.length})</b>
+            <b>{L(`Itens desligados (${hidden.length})`, `Turned-off items (${hidden.length})`)}</b>
           </summary>
           <div class="xs muted" style={{ marginTop: 6 }}>
-            Opcionais vêm desligados. Itens desligados não entram na conta das caixas nem na lista de compras.
+            {L('Opcionais vêm desligados. Itens desligados não entram na conta das caixas nem na lista de compras.', 'Optional items start turned off. Turned-off items are not counted in the totes or the shopping list.')}
           </div>
           <ul class="list" style={{ marginTop: 6 }}>
             {hidden.map((l) => (
@@ -227,7 +228,7 @@ export function Totes() {
                     </div>
                   </div>
                   <Btn small onClick={() => saveGear(l.id, { hidden: false })}>
-                    Ligar
+                    {L('Ligar', 'Turn on')}
                   </Btn>
                 </div>
               </li>
@@ -238,21 +239,21 @@ export function Totes() {
 
       <details class="card">
         <summary>
-          <b>Adicionar um item seu</b>
+          <b>{L('Adicionar um item seu', 'Add your own item')}</b>
         </summary>
         <div class="stack">
-          <TextField label="Item" value={name} onChange={setName} placeholder="Ex.: ração de gato" />
+          <TextField label={L('Item', 'Item')} value={name} onChange={setName} placeholder={L('Ex.: ração de gato', 'E.g. cat food')} />
           <div class="grid2">
-            <SelectField<GearCategory> label="Categoria" value={cat} options={CATEGORY_ORDER.map((c) => ({ value: c, label: CATEGORY_LABEL[c] }))} onChange={setCat} />
-            <TextField label="Unidade" value={unit} onChange={setUnit} />
+            <SelectField<GearCategory> label={L('Categoria', 'Category')} value={cat} options={CATEGORY_ORDER.map((c) => ({ value: c, label: CATEGORY_LABEL[c] }))} onChange={setCat} />
+            <TextField label={L('Unidade', 'Unit')} value={unit} onChange={setUnit} />
           </div>
           <div class="grid3">
-            <NumField label="Preciso" value={need} min={0} step={1} onChange={setNeed} />
-            <NumField label="Volume (L)" value={liters} min={0} onChange={setLiters} />
-            <NumField label="Peso (kg)" value={kg} min={0} onChange={setKg} />
+            <NumField label={L('Preciso', 'I need')} value={need} min={0} step={1} onChange={setNeed} />
+            <NumField label={L('Volume (L)', 'Volume (L)')} value={liters} min={0} onChange={setLiters} />
+            <NumField label={L('Peso (kg)', 'Weight (kg)')} value={kg} min={0} onChange={setKg} />
           </div>
           <Btn kind="primary" onClick={addCustom} disabled={!name.trim()}>
-            Adicionar
+            {L('Adicionar', 'Add')}
           </Btn>
         </div>
       </details>

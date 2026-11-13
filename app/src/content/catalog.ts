@@ -1,4 +1,6 @@
 import type { GearCategory, Member } from '../lib/types';
+import { L, getLang } from '../lib/i18n';
+import { CATALOG_EN } from './catalog.en';
 
 /**
  * Catálogo dos itens que não são comida: o que vai nas caixas de 27 galões (e o que fica fora delas).
@@ -40,12 +42,24 @@ export interface CatalogItem {
 }
 
 export const CATEGORY_LABEL: Record<GearCategory, string> = {
-  saude: 'Saúde',
-  higiene: 'Higiene e saneamento',
-  cozinha: 'Cozinha',
-  energia: 'Luz, energia e rádio',
-  ferramentas: 'Ferramentas e segurança',
-  documentos: 'Documentos e comunicação',
+  get saude() {
+    return L('Saúde', 'Health');
+  },
+  get higiene() {
+    return L('Higiene e saneamento', 'Hygiene and sanitation');
+  },
+  get cozinha() {
+    return L('Cozinha', 'Kitchen');
+  },
+  get energia() {
+    return L('Luz, energia e rádio', 'Light, power and radio');
+  },
+  get ferramentas() {
+    return L('Ferramentas e segurança', 'Tools and safety');
+  },
+  get documentos() {
+    return L('Documentos e comunicação', 'Documents and communication');
+  },
 };
 
 /** Ordem em que as categorias são arrumadas nas caixas. */
@@ -53,9 +67,22 @@ export const CATEGORY_ORDER: GearCategory[] = ['saude', 'higiene', 'cozinha', 'e
 
 export const SOURCE_LABEL: Record<Source, string> = {
   'ready.gov': 'Ready.gov',
-  redcross: 'Cruz Vermelha',
-  repo: 'seu repositório',
+  get redcross() {
+    return L('Cruz Vermelha', 'Red Cross');
+  },
+  get repo() {
+    return L('seu repositório', 'your repository');
+  },
 };
+
+/** Nome, unidade, forma de cálculo e nota do item no idioma atual. */
+export function catText(item: CatalogItem): { name: string; unit: string; how: string; note?: string } {
+  if (getLang() === 'en') {
+    const e = CATALOG_EN[item.id];
+    if (e) return e;
+  }
+  return { name: item.name, unit: item.unit, how: item.how, note: item.note };
+}
 
 /* ---------- regras de quantidade ---------- */
 

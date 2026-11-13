@@ -1,0 +1,68 @@
+/** Inglês dos itens do catálogo (por id). O português fica em catalog.ts. */
+export interface CatEn {
+  name: string;
+  unit: string;
+  how: string;
+  note?: string;
+}
+
+export const CATALOG_EN: Record<string, CatEn> = {
+  'first-aid': { name: 'First aid kit', unit: 'kit', how: '1 per household' },
+  ifak: {
+    name: 'Trauma kit: 2 CAT tourniquets, 2 hemostatic gauzes, 2 chest seals, pressure bandage, shears',
+    unit: 'kit',
+    how: '1 per household (from your repository list)',
+    note: 'List from the repository’s MARCH manifest. Only useful with training: look for a bleeding-control course.',
+  },
+  'meds-rx': {
+    name: 'Ongoing prescription medication',
+    unit: 'days of supply',
+    how: 'the goal in days (between 7 and 30) per person on ongoing medication',
+    note: 'The Red Cross cites a 7-day supply. The app extends it up to 30 days. Renew by the prescription’s expiry and talk to your doctor about how much to keep.',
+  },
+  otc: { name: 'Over-the-counter medication: pain reliever, anti-diarrheal, antacid, laxative', unit: 'kit', how: '1 kit per household; doses follow the label and your doctor' },
+  glasses: { name: 'Spare glasses or contacts and solution', unit: 'set', how: '1 per person who wears glasses or contacts' },
+  masks: { name: 'N95 masks', unit: 'unit', how: '2 per person' },
+  vitamins: { name: 'Multivitamin', unit: 'tablet', how: '1 per person per day' },
+  'toilet-paper': { name: 'Toilet paper', unit: 'roll', how: '0.4 roll per person per day' },
+  wipes: { name: 'Wet wipes (pack of 80)', unit: 'pack', how: '1 pack per 15 person-days' },
+  soap: { name: 'Bar soap', unit: 'bar', how: '1 bar per person every 30 days, at least 1' },
+  sanitizer: { name: 'Hand sanitizer gel 500 ml', unit: 'bottle', how: '1 bottle per 60 person-days, at least 1' },
+  toothpaste: { name: 'Toothpaste', unit: 'tube', how: '1 tube per 60 person-days, at least 1' },
+  toothbrush: { name: 'Toothbrush', unit: 'unit', how: '1 per person, plus 1 every 90 days' },
+  feminine: { name: 'Pads or tampons', unit: 'unit', how: '20 every 28 days per woman aged 12 to 51 (needs sex to be entered)', note: 'If it does not apply to anyone in the household, hide the item.' },
+  diapers: { name: 'Diapers', unit: 'unit', how: '8 per day up to age 1, 6 up to age 2, 5 up to age 3 (needs age to be entered)', note: 'Formula and baby food are not included in the calculation. Talk to the pediatrician.' },
+  'trash-bags': { name: 'Trash bags 13 gal', unit: 'unit', how: '1 bag per 2 people per day (trash and emergency toilet)' },
+  bleach: { name: 'Unscented bleach (1 gallon)', unit: 'bottle', how: '1 per household (to disinfect water and dishes)', note: 'Bleach loses strength over time. Check the expiry date on the label and replace it.' },
+  'pressure-cooker': { name: 'Stovetop pressure cooker (8 qt)', unit: 'cooker', how: '1 per household. At altitude, beans without it use much more gas' },
+  stove: { name: 'Propane camp stove', unit: 'stove', how: '1 per household. Use outdoors or well ventilated' },
+  'can-opener': { name: 'Manual can opener', unit: 'unit', how: '2 per household (one spare)' },
+  lighters: { name: 'Lighters', unit: 'unit', how: '3 per household' },
+  matches: { name: 'Matches in a waterproof container', unit: 'jar', how: '1 per household' },
+  'dish-soap': { name: 'Dish soap 500 ml', unit: 'bottle', how: '1 bottle per 120 person-days, at least 1' },
+  'paper-towels': { name: 'Paper towels', unit: 'roll', how: '1 roll per 20 person-days' },
+  sponges: { name: 'Sponges', unit: 'unit', how: '1 per 120 person-days, at least 2' },
+  disposables: { name: 'Disposable plates, cups and cutlery (set)', unit: 'set', how: '2 sets per person per day: saves dish-washing water' },
+  headlamp: { name: 'Headlamp or flashlight', unit: 'unit', how: '1 per person' },
+  lantern: { name: 'Area lantern (LED)', unit: 'unit', how: '1 per 3 people, at least 2' },
+  'batteries-aa': { name: 'AA batteries', unit: 'unit', how: '0.3 battery per person per day', note: 'Rechargeable batteries with a solar charger reduce this number. Check the expiry date: a leaking battery ruins the flashlight.' },
+  radio: { name: 'Battery or hand-crank radio with NOAA alerts', unit: 'unit', how: '1 per household' },
+  'power-bank': { name: 'Phone power bank', unit: 'unit', how: '1 per 2 people, at least 2', note: 'Recharge every few months.' },
+  'solar-charger': { name: 'Solar charger', unit: 'unit', how: '1 per household' },
+  whistle: { name: 'Whistle', unit: 'unit', how: '1 per person' },
+  multitool: { name: 'Multitool or pliers', unit: 'unit', how: '1 per household' },
+  wrench: { name: 'Wrench to shut off gas and water valves', unit: 'unit', how: '1 per household' },
+  'duct-tape': { name: 'Heavy-duty duct tape', unit: 'roll', how: '2 per household' },
+  'plastic-sheeting': { name: 'Plastic sheeting', unit: 'roll', how: '1 per household' },
+  scissors: { name: 'Scissors', unit: 'unit', how: '1 per household' },
+  'zip-ties': { name: 'Zip ties (pack)', unit: 'pack', how: '1 per household' },
+  'work-gloves': { name: 'Work gloves', unit: 'pair', how: '1 pair per person' },
+  'emergency-blanket': { name: 'Emergency blanket (Mylar)', unit: 'unit', how: '1 per person' },
+  blankets: { name: 'Blanket or sleeping bag', unit: 'unit', how: '1 per person' },
+  extinguisher: { name: 'Fire extinguisher', unit: 'unit', how: '1 per household' },
+  docs: { name: 'Copies of documents and contacts, in a waterproof bag', unit: 'kit', how: '1 per household' },
+  map: { name: 'Paper map of the area', unit: 'unit', how: '1 per household' },
+  'paper-pencil': { name: 'Paper and pencil', unit: 'kit', how: '1 per household' },
+  'two-way': { name: 'Two-way radios (pair)', unit: 'pair', how: '1 pair per household' },
+  games: { name: 'Games and books for the children', unit: 'kit', how: '1 kit if there is a child under 13 (needs age to be entered)' },
+};

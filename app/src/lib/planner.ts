@@ -1,8 +1,9 @@
-import { CATALOG, CATEGORY_LABEL, CATEGORY_ORDER, type CatalogItem, type Ctx } from '../content/catalog';
+import { CATALOG, CATEGORY_LABEL, CATEGORY_ORDER, catText, type CatalogItem, type Ctx } from '../content/catalog';
 import { GAL_L, bucketKcal, cylindersNeeded, householdKcalPerDay, waterNeededGal } from './calc';
 import { memberTarget } from './nutrition';
 import { GRAIN_BAGS, MIXED_BAGS, PANTRY, grainItems, mixedItems } from './plan';
 import type { Bucket, GearCategory, GearState, Member, Settings } from './types';
+import { L } from './i18n';
 
 /* ====================================================================
  * Motor do plano: pessoas + dias + perfil → comida, baldes, água, gás e caixas.
@@ -148,9 +149,9 @@ export function gearLines(ctx: Ctx, recs: GearRec[]): GearLine[] {
     const hidden = st?.hidden ?? !!item.optional;
     out.push({
       id: item.id,
-      name: item.name,
+      name: catText(item).name,
       category: item.category,
-      unit: item.unit,
+      unit: catText(item).unit,
       need,
       have,
       missing: hidden ? 0 : Math.max(0, need - have),
@@ -265,7 +266,7 @@ export function packTotes(lines: GearLine[], opt: PackOptions): Tote[] {
 
 export function toteTitle(t: Tote): string {
   const names = t.categories.map((c) => CATEGORY_LABEL[c]);
-  return `Caixa ${t.n}: ${names.join(' + ')}`;
+  return L(`Caixa ${t.n}: ${names.join(' + ')}`, `Tote ${t.n}: ${names.join(' + ')}`);
 }
 
 /* ---------- Plano completo ---------- */
@@ -303,14 +304,14 @@ export function computePlan(input: PlanInput): PlanResult {
 
   const warnings: string[] = [];
   const noKcal = members.filter((m) => memberTarget(m) <= 0);
-  if (people === 0) warnings.push('Adicione pelo menos uma pessoa.');
-  if (noKcal.length > 0) warnings.push(`${noKcal.map((m) => m.name || 'Pessoa').join(', ')}: sem meta de calorias. Informe idade e sexo ou defina a meta na Família.`);
+  if (people === 0) warnings.push(L('Adicione pelo menos uma pessoa.', 'Add at least one person.'));
+  if (noKcal.length > 0) warnings.push(L(`${noKcal.map((m) => m.name || 'Pessoa').join(', ')}: sem meta de calorias. Informe idade e sexo ou defina a meta na Família.`, `${noKcal.map((m) => m.name || 'Person').join(', ')}: no calorie goal. Enter age and sex or set the goal in Family.`));
   const noProfile = members.filter((m) => m.age === undefined || m.sex === undefined);
   if (noProfile.length > 0 && noKcal.length === 0) {
-    warnings.push(`Sem idade ou sexo: ${noProfile.map((m) => m.name || 'Pessoa').join(', ')}. Itens como absorventes e fraldas dependem disso.`);
+    warnings.push(L(`Sem idade ou sexo: ${noProfile.map((m) => m.name || 'Pessoa').join(', ')}. Itens como absorventes e fraldas dependem disso.`, `No age or sex: ${noProfile.map((m) => m.name || 'Person').join(', ')}. Items such as pads and diapers depend on this.`));
   }
   if (members.some((m) => m.age !== undefined && m.age < 1)) {
-    warnings.push('Bebê com menos de 1 ano: fórmula e papinha não entram nesta conta. Combine com o pediatra.');
+    warnings.push(L('Bebê com menos de 1 ano: fórmula e papinha não entram nesta conta. Combine com o pediatra.', 'Baby under 1 year old: formula and baby food are not in this calculation. Talk to the pediatrician.'));
   }
 
   return {
