@@ -70,6 +70,7 @@ export function Dashboard() {
   const waterOk = r.sup.waterGal >= r.sup.waterTargetGal;
   const gasOk = r.sup.propaneFull >= r.sup.propaneTarget;
   const steps = [
+    { done: r.settings.planConfigured, title: 'Planejar: pessoas, dias e perfil', detail: r.settings.planConfigured ? `${r.members.length} ${plural(r.members.length, 'pessoa', 'pessoas')} · ${target} dias de meta` : 'Comece aqui: o app calcula comida, baldes, água, gás e caixas', href: '#/plano' },
     { done: shopTotal > 0 && shopDone === shopTotal, title: 'Comprar os itens', detail: `${shopDone} de ${shopTotal} comprados`, href: '#/compras' },
     { done: inRotationOrSealed === r.buckets.length, title: 'Reembalar e lacrar os baldes', detail: `${inRotationOrSealed} de ${r.buckets.length} lacrados`, href: '#/estoque' },
     { done: pantryDone === r.pantry.length, title: 'Montar a despensa', detail: `${pantryDone} de ${r.pantry.length} itens completos`, href: '#/estoque' },

@@ -4,7 +4,7 @@ import { buildApply } from '../lib/apply';
 import { saveSettings, runOps } from '../lib/db';
 import { useReadiness, usePlan } from '../lib/derived';
 import { n0, n1, plural } from '../lib/fmt';
-import { gearProgress, gearTotals, grainBucketKcal, SHORT_GOAL_DAYS } from '../lib/planner';
+import { foodRations, gearProgress, gearTotals, grainBucketKcal, SHORT_GOAL_DAYS } from '../lib/planner';
 import { newId } from '../lib/store';
 import type { Settings } from '../lib/types';
 import { MemberCard, addMember, type M } from './Family';
@@ -50,6 +50,7 @@ export function Plan() {
   const f = plan.food;
   const totals = gearTotals(plan.gearLines);
   const prog = gearProgress(plan.gearLines);
+  const rations = foodRations(f, plan.people);
   const grainDays = plan.kcalPerDay > 0 ? grainBucketKcal() / plan.kcalPerDay : 0;
   const state = { plan, buckets: r.buckets, pantry: r.pantry, shop: r.shop, sup: r.sup };
   // A prévia é refeita a cada tela, então nunca fica velha se o usuário mexer nos números com ela aberta.
@@ -198,6 +199,30 @@ export function Plan() {
           </a>
         </div>
       </Card>
+
+      {rations.rows.length > 0 && (
+        <Card>
+          <h2>Na prática, por pessoa</h2>
+          <div class="xs muted" style={{ marginBottom: 6 }}>
+            Quantidade média de cada alimento, se a comida for esticada até o fim do plano. Veja se faz sentido para vocês: se alguém come mais ou menos, ajuste as calorias dessa pessoa em Família e tudo se recalcula.
+          </div>
+          <ul class="list">
+            {rations.rows.map((x) => (
+              <li key={x.name}>
+                <div class="row between">
+                  <div class="grow small">{x.name}</div>
+                  <div class="mono small" style={{ textAlign: 'right' }}>
+                    {x.unit === 'por semana' ? `${n1(x.amount)} ${x.countUnit} por semana` : `${n0(x.amount)} ${x.unit} por dia`}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div class="xs muted" style={{ marginTop: 8 }}>
+            Soma: cerca de <b>{n0(rations.kcalPerPerson)}</b> kcal por pessoa por dia (média da casa: {n0(plan.kcalPerDay / Math.max(1, plan.people))}, mais a folga). Sal, café e temperos não contam calorias.
+          </div>
+        </Card>
+      )}
 
       {plan.warnings.length > 0 && (
         <Card tone="warn">

@@ -344,3 +344,47 @@ export function gearTotals(lines: GearLine[]): { liters: number; kg: number; ite
     items: act.length,
   };
 }
+
+/* ---------- Em comida de verdade ---------- */
+
+export interface Ration {
+  name: string;
+  /** Quantidade média por pessoa: por dia (g, mL) ou por semana (contáveis). */
+  amount: number;
+  unit: 'g' | 'mL' | 'por semana';
+  /** Para contáveis: nome da unidade (latas, pacotes, barras). */
+  countUnit?: string;
+  kcalPerDay: number;
+}
+
+/**
+ * Traduz o plano de comida em quantidade média por pessoa, para o usuário julgar se faz sentido.
+ * Divide pelo que o plano realmente cobre (dias com a folga), então é a ração diária se a comida for esticada até o fim.
+ */
+export function foodRations(food: FoodPlan, people: number): { rows: Ration[]; kcalPerPerson: number } {
+  const span = people * food.coverDays;
+  if (span <= 0) return { rows: [], kcalPerPerson: 0 };
+  const rows: Ration[] = [];
+  const kg = new Map<string, { kg: number; kcal: number }>();
+  const addKg = (items: { name: string; kg: number; kcalPerKg: number }[], times: number) => {
+    for (const it of items) {
+      const cur = kg.get(it.name) ?? { kg: 0, kcal: 0 };
+      kg.set(it.name, { kg: cur.kg + it.kg * times, kcal: cur.kcal + it.kg * it.kcalPerKg * times });
+    }
+  };
+  addKg(grainItems(), food.grainBuckets);
+  addKg(scaledMixedItems(food.mixedScale), food.mixedBuckets);
+  for (const [name, v] of kg) {
+    if (v.kg <= 0) continue;
+    rows.push({ name: name.replace(/ \(.*\)$/, ''), amount: (v.kg * 1000) / span, unit: 'g', kcalPerDay: v.kcal / span });
+  }
+  for (const p of PANTRY) {
+    const qty = p.planQty * food.pantryScale;
+    if (qty <= 0) continue;
+    const kcal = (qty * p.kcalPerUnit) / span;
+    if (p.unit === 'kg') rows.push({ name: p.name, amount: (qty * 1000) / span, unit: 'g', kcalPerDay: kcal });
+    else if (p.unit === 'L') rows.push({ name: p.name, amount: (qty * 1000) / span, unit: 'mL', kcalPerDay: kcal });
+    else rows.push({ name: p.name, amount: (qty * 7) / span, unit: 'por semana', countUnit: p.unit, kcalPerDay: kcal });
+  }
+  return { rows, kcalPerPerson: rows.reduce((s, r) => s + r.kcalPerDay, 0) };
+}

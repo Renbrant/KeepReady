@@ -12,6 +12,7 @@ import {
   gearProgress,
   grainBucketKcal,
   mixedBucketKcal,
+  foodRations,
   packTotes,
   planFood,
 } from '../src/lib/planner';
@@ -539,5 +540,24 @@ describe('buildApply (de ponta a ponta com os dados do plano de exemplo)', () =>
     const s = seedState();
     s.members = [];
     expect(() => buildApply(toApplyState(s))).not.toThrow();
+  });
+});
+
+describe('foodRations', () => {
+  it('a soma por pessoa fica perto da meta de calorias por pessoa (até a folga e o arredondamento)', () => {
+    const f = planFood({ kcalPerDay: 8000, days: 30, bufferPct: 10, mode: 'auto' });
+    const r = foodRations(f, 4);
+    expect(r.rows.length).toBeGreaterThan(5);
+    expect(r.kcalPerPerson).toBeGreaterThan(1800);
+    expect(r.kcalPerPerson).toBeLessThan(2300);
+    expect(r.rows.find((x) => x.name === 'Arroz')!.amount).toBeGreaterThan(100);
+  });
+  it('meta curta: só despensa, sem arroz', () => {
+    const r = foodRations(planFood({ kcalPerDay: 8000, days: 7, bufferPct: 10, mode: 'auto' }), 4);
+    expect(r.rows.some((x) => x.name === 'Arroz')).toBe(false);
+    expect(r.kcalPerPerson).toBeGreaterThan(1800);
+  });
+  it('sem pessoas, vazio', () => {
+    expect(foodRations(planFood({ kcalPerDay: 0, days: 30, bufferPct: 10, mode: 'auto' }), 0).rows).toEqual([]);
   });
 });
