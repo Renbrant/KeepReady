@@ -33,7 +33,7 @@ export const GUIDES: Guide[] = [
     summary: 'Do saco grande do Costco para Mylar com absorvedor, dentro do balde.',
     intro: [
       'Os sacos de papel e de plástico fino do mercado deixam passar umidade e oxigênio e não seguram insetos nem roedores. O Mylar tem uma camada de alumínio que reduz muito a passagem de oxigênio e umidade, e o balde protege o saco de furos e de roedores. Abra o saco grande, divida em sacos de Mylar e feche com absorvedor de oxigênio.',
-      'Materiais: baldes de 5 galões de plástico próprio para alimento, com tampa; sacos de Mylar de 1,5 a 2 galões (o cartão de cada balde, em Estoque, diz quantos); absorvedores de oxigênio de 500 cc para os sacos de grão; ferro de passar, alisador de cabelo ou seladora; pote de vidro com tampa para os absorvedores que sobrarem; caneta permanente.',
+      'Materiais: baldes de 5 galões de plástico próprio para alimento, com tampa; sacos de Mylar de 1,5 a 2 galões (o cartão de cada balde, em Estoque, diz quantos); absorvedores de oxigênio de 700 cc para os sacos de grão; ferro de passar, alisador de cabelo ou seladora; pote de vidro com tampa para os absorvedores que sobrarem; caneta permanente.',
     ],
     steps: [
       {
@@ -54,7 +54,7 @@ export const GUIDES: Guide[] = [
       },
       {
         title: 'Coloque o absorvedor e sele logo',
-        text: 'Abra o pacote de absorvedores, solte um de 500 cc em cada saco de grão e feche o pote de vidro com os que sobraram, de preferência com o cartão rosa indicador dentro. Sele a boca do saco com ferro ou alisador (a fonte usa alisador a cerca de 220 °C), deixando uma abertura pequena, aperte para sair o ar e sele o resto. Passe a selagem duas vezes.',
+        text: 'Abra o pacote de absorvedores, solte um de 700 cc em cada saco de grão e feche o pote de vidro com os que sobraram, de preferência com o cartão rosa indicador dentro. Sele a boca do saco com ferro ou alisador (a fonte usa alisador a cerca de 220 °C), deixando uma abertura pequena, aperte para sair o ar e sele o resto. Passe a selagem duas vezes.',
       },
       {
         title: 'Confira a selagem',
@@ -69,7 +69,7 @@ export const GUIDES: Guide[] = [
       'Macarrão: as pontas podem furar o saco. Use sacos grossos e coloque o macarrão com cuidado. Esta é uma precaução do app, não vem das fontes.',
       'Balde 7 (açúcar, sal, leite em pó, café): açúcar e sal não levam absorvedor, porque podem empedrar. Use absorvedor no leite em pó e no café. Embale cada item em saco separado.',
       'Arroz integral tem óleo demais para este método. O plano usa arroz branco.',
-      'Tamanho do absorvedor: a fonte cita 300 a 500 cc para um saco de 1 galão. O app usa 500 cc para sacos de 1,5 a 2 galões.',
+      'Tamanho do absorvedor: a fonte cita 300 a 500 cc para um saco de 1 galão. O app usa 700 cc para sacos de 2 galões (13×17 pol), que é o que o vendedor do absorvedor recomenda para esse tamanho.',
     ],
     sources: [USU_PACK, MYLAR],
   },

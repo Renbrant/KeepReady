@@ -119,7 +119,7 @@ const SHOP: ShopSeed[] = [
   { name: 'Encher propano', qty: 3, unit: 'enchimento 20 lb', store: 'Costco', section: 'Gás', note: 'Cerca de US$ 13 a 18 cada (guia de terceiros).' },
   { name: 'Baldes de 5 galões com tampa', qty: 7, unit: 'balde', store: 'Outros', section: 'Embalagem', note: 'Home Depot, Lowe\'s ou Amazon.' },
   { name: 'Sacos de Mylar de 2 galões (13×17 pol), 10 mil', qty: 27, unit: 'saco', store: 'Outros', section: 'Embalagem', note: 'O pacote com 60 cobre os 27.' },
-  { name: 'Absorvedores de oxigênio de 500 cc', qty: 25, unit: 'unidade', store: 'Outros', section: 'Embalagem' },
+  { name: 'Absorvedores de oxigênio de 700 cc', qty: 25, unit: 'unidade', store: 'Outros', section: 'Embalagem' },
   { name: 'Tampa com rosca (Gamma Seal)', qty: 2, unit: 'tampa', store: 'Outros', section: 'Embalagem', note: 'Para o balde em uso.' },
   { name: 'Balança de cozinha (até 5 kg), funil grande e chapinha ou ferro de passar', qty: 1, unit: 'kit', store: 'Outros', section: 'Embalagem' },
   { name: 'Pote de vidro com tampa (absorvedores que sobrarem)', qty: 1, unit: 'pote', store: 'Outros', section: 'Embalagem' },

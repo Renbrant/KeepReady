@@ -11,9 +11,9 @@ export const BUY_LINKS: Record<string, BuyLink> = {
     title: 'Mylar 2 gal, 13×17 pol, 10 mil, pacote com 60 (vem com 20 absorvedores de 400 cc)',
   },
   'pkg:o2': {
-    url: 'https://link.amazon/B0g0bqp1X',
+    url: 'https://link.amazon/B0io2n6vN',
     label: 'Ver na Amazon',
-    title: 'Absorvedores de oxigênio 500 cc, 200 unidades em pacotes de 10 (confira que a variante 500cc está marcada)',
+    title: 'Absorvedores de oxigênio 700 cc, 100 unidades em pacotes de 5 (confira que a variante 700cc está marcada)',
   },
 };
 

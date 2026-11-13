@@ -93,7 +93,7 @@ function BucketCard({ b, all, row, settings }: { b: B; all: B[]; row: RotRow; se
         </tbody>
       </table>
       <div class="xs muted" style={{ marginTop: 6 }}>
-        {b.bags} sacos de Mylar, 1 absorvedor de oxigênio de 500 cc por saco com grãos. {b.note}
+        {b.bags} sacos de Mylar, 1 absorvedor de oxigênio de 700 cc por saco com grãos. {b.note}
       </div>
 
       {b.sealedOn && (

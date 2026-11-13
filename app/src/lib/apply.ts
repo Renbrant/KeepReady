@@ -242,8 +242,8 @@ export function foodShopping(planned: Bucket[]): ShopSeed[] {
     const o2 = planned.reduce((s, b) => s + (b.kind === 'grain' ? b.bags : 1), 0);
     out.push(
       { name: 'Baldes de 5 galões com tampa', qty: nb, unit: 'balde', store: 'Outros', section: 'Embalagem', note: "Home Depot, Lowe's ou Amazon.", auto: 'pkg:buckets' },
-      { name: 'Sacos de Mylar de 2 galões (13×17 pol), 10 mil', qty: bags, unit: 'saco', store: 'Outros', section: 'Embalagem', note: 'O pacote com 60 cobre 27 sacos. Os 20 absorvedores que vêm nele não bastam: compre os de 500 cc abaixo.', auto: 'pkg:mylar' },
-      { name: 'Absorvedores de oxigênio de 500 cc', qty: o2, unit: 'unidade', store: 'Outros', section: 'Embalagem', auto: 'pkg:o2' },
+      { name: 'Sacos de Mylar de 2 galões (13×17 pol), 10 mil', qty: bags, unit: 'saco', store: 'Outros', section: 'Embalagem', note: 'O pacote com 60 cobre 27 sacos. Os 20 absorvedores que vêm nele não bastam: compre os de 700 cc abaixo.', auto: 'pkg:mylar' },
+      { name: 'Absorvedores de oxigênio de 700 cc', qty: o2, unit: 'unidade', store: 'Outros', section: 'Embalagem', auto: 'pkg:o2' },
       { name: 'Tampa com rosca (Gamma Seal)', qty: Math.min(2, nb), unit: 'tampa', store: 'Outros', section: 'Embalagem', note: 'Para o balde em uso.', auto: 'pkg:gamma' },
       { name: 'Balança de cozinha (até 5 kg), funil grande e chapinha ou ferro de passar', qty: 1, unit: 'kit', store: 'Outros', section: 'Embalagem', auto: 'pkg:tools' },
       { name: 'Pote de vidro com tampa (absorvedores que sobrarem)', qty: 1, unit: 'pote', store: 'Outros', section: 'Embalagem', auto: 'pkg:jar' },
