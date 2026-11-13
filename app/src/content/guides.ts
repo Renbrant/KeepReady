@@ -1,3 +1,6 @@
+import { getLang } from '../lib/i18n';
+import { GUIDES_EN } from './guides.en';
+
 export interface Source {
   title: string;
   url: string;
@@ -191,5 +194,5 @@ export const GUIDES: Guide[] = [
 
 /** Guias no idioma atual. A versão em inglês fica em guides.en.ts. */
 export function getGuides(): Guide[] {
-  return GUIDES;
+  return getLang() === 'en' ? GUIDES_EN : GUIDES;
 }

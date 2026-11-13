@@ -9,7 +9,7 @@ import { STORED_EN } from '../content/stored-en';
 export type Lang = 'en' | 'pt';
 const KEY = 'kr.lang';
 /** Idioma de quem ainda não escolheu. */
-const DEFAULT_LANG: Lang = 'pt';
+const DEFAULT_LANG: Lang = 'en';
 
 function load(): Lang {
   try {
@@ -66,5 +66,15 @@ export function locale(): string {
 export function tx(s: string | undefined): string {
   if (!s) return s ?? '';
   if (current !== 'en') return s;
-  return STORED_EN[s] ?? s;
+  const hit = STORED_EN[s];
+  if (hit !== undefined) return hit;
+  let m: RegExpExecArray | null;
+  if ((m = /^Balde (\d+) \(misto\)$/.exec(s))) return `Bucket ${m[1]} (mixed)`;
+  if ((m = /^Balde (\d+)$/.exec(s))) return `Bucket ${m[1]}`;
+  if ((m = /^Adulto (\d+)$/.exec(s))) return `Adult ${m[1]}`;
+  if ((m = /^Pessoa (\d+)$/.exec(s))) return `Person ${m[1]}`;
+  if ((m = /^(.+) \(reposição do (.+)\)$/.exec(s))) return `${tx(m[1])} (replacement for ${tx(m[2])})`;
+  if ((m = /^Rende cerca de ([\d.,]+) dias para a família\.$/.exec(s))) return `Lasts about ${m[1].replace(',', '.')} days for the family.`;
+  if ((m = /^Açúcar e sal vão sem absorvedor\.(?: Quantidades a (\d+)% do balde de exemplo\.)?$/.exec(s))) return `Sugar and salt go in without an absorber.${m[1] ? ` Quantities at ${m[1]}% of the sample bucket.` : ''}`;
+  return s;
 }

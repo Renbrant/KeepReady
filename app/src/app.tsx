@@ -1,6 +1,7 @@
 import type { ComponentChildren } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { Icon } from './components/ui';
+import { L, useLang } from './lib/i18n';
 import { saveSettings, saveSupplies, store, useSettings, useStoreVersion } from './lib/db';
 import { householdKcalPerDay, waterNeededGal } from './lib/calc';
 import { defaultSettings } from './lib/plan';
@@ -33,11 +34,11 @@ function useRoute(): string {
 }
 
 const TABS = [
-  { href: '#/painel', icon: 'painel', label: 'Painel', match: ['', 'painel'] },
-  { href: '#/estoque', icon: 'estoque', label: 'Estoque', match: ['estoque', 'caixas', 'agua'] },
-  { href: '#/rotacao', icon: 'rotacao', label: 'Rotação', match: ['rotacao'] },
-  { href: '#/compras', icon: 'compras', label: 'Compras', match: ['compras'] },
-  { href: '#/mais', icon: 'mais', label: 'Mais', match: ['mais', 'plano', 'familia', 'guias', 'ajustes', 'imprimir'] },
+  { href: '#/painel', icon: 'painel', get label() { return L('Painel', 'Dashboard'); }, match: ['', 'painel'] },
+  { href: '#/estoque', icon: 'estoque', get label() { return L('Estoque', 'Stock'); }, match: ['estoque', 'caixas', 'agua'] },
+  { href: '#/rotacao', icon: 'rotacao', get label() { return L('Rotação', 'Rotation'); }, match: ['rotacao'] },
+  { href: '#/compras', icon: 'compras', get label() { return L('Compras', 'Shopping'); }, match: ['compras'] },
+  { href: '#/mais', icon: 'mais', get label() { return L('Mais', 'More'); }, match: ['mais', 'plano', 'familia', 'guias', 'ajustes', 'imprimir'] },
 ] as const;
 
 function view(route: string): ComponentChildren {
@@ -72,6 +73,7 @@ function view(route: string): ComponentChildren {
 
 export function App() {
   const route = useRoute();
+  useLang();
   const { theme } = useSettings();
 
   useEffect(() => {
@@ -104,7 +106,7 @@ export function App() {
   return (
     <>
       <main class="shell">{view(route)}</main>
-      <nav class="nav" aria-label="Principal">
+      <nav class="nav" aria-label={L('Principal', 'Main')}>
         <ul>
           {TABS.map((t) => {
             const active = (t.match as readonly string[]).includes(head);

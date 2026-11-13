@@ -1,3 +1,5 @@
+import { setLang } from '../src/lib/i18n';
+setLang('pt');
 import { describe, expect, it } from 'vitest';
 import { memberTarget, recommendationNote, recommendedKcal, SPHERE_KCAL } from '../src/lib/nutrition';
 

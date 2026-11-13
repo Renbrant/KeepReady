@@ -12,7 +12,7 @@ export default defineConfig({
       manifest: {
         name: 'KeepReady',
         short_name: 'KeepReady',
-        description: 'Estoque de emergência da família: baldes, calorias, rotação e compras. Funciona offline.',
+        description: 'Family emergency food, water and supply planner: buckets, calories, rotation and shopping. Works offline.',
         lang: 'pt-BR',
         start_url: '.',
         scope: '.',

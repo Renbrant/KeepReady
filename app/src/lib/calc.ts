@@ -1,6 +1,7 @@
 import type { Bucket, Member, PantryItem, Settings, ShopItem, Supplies } from './types';
 import { DAYS_PER_MONTH, addDays, addMonths, diffDays } from './dates';
 import { memberTarget } from './nutrition';
+import { L, tx } from './i18n';
 
 export const GAL_L = 3.785411784;
 export const LB_KG = 0.45359237;
@@ -196,10 +197,10 @@ export type StartCheck = { ok: true } | { ok: false; reason: string };
 
 export function canStartRotation(buckets: Bucket[], n: number): StartCheck {
   const target = buckets.find((b) => b.n === n);
-  if (!target) return { ok: false, reason: 'Balde não encontrado.' };
-  if (target.status !== 'sealed') return { ok: false, reason: 'Só um balde lacrado pode entrar em rotação.' };
+  if (!target) return { ok: false, reason: L('Balde não encontrado.', 'Bucket not found.') };
+  if (target.status !== 'sealed') return { ok: false, reason: L('Só um balde lacrado pode entrar em rotação.', 'Only a sealed bucket can enter rotation.') };
   const active = buckets.find((b) => b.status === 'rotating');
-  if (active) return { ok: false, reason: `O ${active.name} já está em rotação. Conclua a reposição dele antes de abrir outro.` };
+  if (active) return { ok: false, reason: L(`O ${tx(active.name)} já está em rotação. Conclua a reposição dele antes de abrir outro.`, `${tx(active.name)} is already in rotation. Finish its replacement before opening another.`) };
   return { ok: true };
 }
 

@@ -1,3 +1,5 @@
+import { setLang } from '../src/lib/i18n';
+setLang('pt');
 import { describe, expect, it } from 'vitest';
 import { CATALOG, up } from '../src/content/catalog';
 import { buildApply, foodShopping, reconcileBuckets, regenerateShopping, scalePantry, shopKey, type ApplyState, type Op } from '../src/lib/apply';

@@ -1,4 +1,5 @@
 import { LB_KG, bucketKcal, round } from './calc';
+import { L, tx } from './i18n';
 import { GRAIN_BAGS, PANTRY_VARIETY, grainItems } from './plan';
 import { grainBucketKcal, mixedBagsFor, scaledMixedItems, MIN_PANTRY_SHARE, type PlanResult } from './planner';
 import type { Bucket, PantryItem, Rec, ShopItem, Supplies } from './types';
@@ -343,12 +344,12 @@ export function buildApply(s: ApplyState): ApplyPreview {
   const grainNow = s.buckets.filter((b) => b.kind === 'grain').length;
   const mixedNow = s.buckets.filter((b) => b.kind === 'mixed').length;
   if (food.strategy === 'pantry') {
-    lines.push(`Comida: meta curta (${plan.days} dias). O plano usa comida pronta da despensa, sem baldes novos.`);
+    lines.push(L(`Comida: meta curta (${plan.days} dias). O plano usa comida pronta da despensa, sem baldes novos.`, `Food: short goal (${plan.days} days). The plan uses ready-to-eat pantry food, no new buckets.`));
   }
-  lines.push(`Baldes de grãos: ${grainNow} → ${rec.after.grain}${rec.locked.grain > 0 ? ` (${rec.locked.grain} lacrados ou em rotação não mudam)` : ''}`);
-  lines.push(`Balde misto: ${mixedNow} → ${rec.after.mixed}${food.mixedBuckets > 0 && food.mixedScale < 0.95 ? ` (a ${Math.round(food.mixedScale * 100)}% das quantidades)` : ''}`);
+  lines.push(L(`Baldes de grãos: ${grainNow} → ${rec.after.grain}${rec.locked.grain > 0 ? ` (${rec.locked.grain} lacrados ou em rotação não mudam)` : ''}`, `Grain buckets: ${grainNow} → ${rec.after.grain}${rec.locked.grain > 0 ? ` (${rec.locked.grain} sealed or rotating stay unchanged)` : ''}`));
+  lines.push(L(`Balde misto: ${mixedNow} → ${rec.after.mixed}${food.mixedBuckets > 0 && food.mixedScale < 0.95 ? ` (a ${Math.round(food.mixedScale * 100)}% das quantidades)` : ''}`, `Mixed bucket: ${mixedNow} → ${rec.after.mixed}${food.mixedBuckets > 0 && food.mixedScale < 0.95 ? ` (at ${Math.round(food.mixedScale * 100)}% of the quantities)` : ''}`));
   if (rec.over.grain > 0 || rec.over.mixed > 0) {
-    lines.push(`Você já tem ${rec.over.grain + rec.over.mixed} balde(s) lacrado(s) além da meta: eles ficam, e a despensa pede menos.`);
+    lines.push(L(`Você já tem ${rec.over.grain + rec.over.mixed} balde(s) lacrado(s) além da meta: eles ficam, e a despensa pede menos.`, `You already have ${rec.over.grain + rec.over.mixed} sealed bucket(s) beyond the goal: they stay, and the pantry asks for less.`));
   }
 
   // A despensa cobre o que os baldes (com o conteúdo real dos lacrados) não cobrem.
@@ -371,12 +372,12 @@ export function buildApply(s: ApplyState): ApplyPreview {
     const cur = s.pantry.find((x) => x.id === p.id);
     if (cur && cur.planQty !== p.planQty) ops.push({ type: 'put', kind: 'pantry', id: p.id, data: { ...stripId(cur), planQty: p.planQty } });
   }
-  if (additions.length > 0) lines.push(`Variedade: entram na despensa ${additions.map((a) => a.name.split(' (')[0].toLowerCase()).join(' e ')}.`);
+  if (additions.length > 0) lines.push(L(`Variedade: entram na despensa ${additions.map((a) => a.name.split(' (')[0].toLowerCase()).join(' e ')}.`, `Variety: added to the pantry: ${additions.map((a) => tx(a.name).split(' (')[0].toLowerCase()).join(' and ')}.`));
   if (scaled.length > 0) {
     const pct = pantryNow > 0 ? Math.round((pantryTarget / pantryNow - 1) * 100) : 0;
-    lines.push(`Despensa: ${Math.round(pantryTarget / 1000).toLocaleString('pt-BR')} mil kcal (${pct >= 0 ? '+' : ''}${pct}% sobre o plano atual). O que você já tem não muda.`);
+    lines.push(L(`Despensa: ${Math.round(pantryTarget / 1000).toLocaleString('pt-BR')} mil kcal (${pct >= 0 ? '+' : ''}${pct}% sobre o plano atual). O que você já tem não muda.`, `Pantry: ${Math.round(pantryTarget / 1000).toLocaleString('en-US')}k kcal (${pct >= 0 ? '+' : ''}${pct}% over the current plan). What you already have does not change.`));
   } else {
-    lines.push('Despensa: o plano atual já cobre a meta. Nada muda.');
+    lines.push(L('Despensa: o plano atual já cobre a meta. Nada muda.', 'Pantry: the current plan already covers the goal. Nothing changes.'));
   }
 
   const waterTarget = Math.ceil(plan.waterGal);
@@ -384,12 +385,12 @@ export function buildApply(s: ApplyState): ApplyPreview {
   if (waterTarget !== s.sup.waterTargetGal || gasTarget !== s.sup.propaneTarget) {
     ops.push({ type: 'put', kind: 'supply', id: 'supplies', data: { ...s.sup, waterTargetGal: waterTarget, propaneTarget: gasTarget } });
   }
-  lines.push(`Água: meta de ${s.sup.waterTargetGal} → ${waterTarget} gal. Gás: ${s.sup.propaneTarget} → ${gasTarget} botijões de 20 lb.`);
+  lines.push(L(`Água: meta de ${s.sup.waterTargetGal} → ${waterTarget} gal. Gás: ${s.sup.propaneTarget} → ${gasTarget} botijões de 20 lb.`, `Water: goal ${s.sup.waterTargetGal} → ${waterTarget} gal. Gas: ${s.sup.propaneTarget} → ${gasTarget} 20 lb cylinders.`));
 
   const change = regenerateShopping(s.shop, [...foodShopping(rec.planned), ...waterShopping()], s.makeId);
   for (const p of change.puts) ops.push({ type: 'put', kind: 'shop', id: p.id, data: p.data });
   for (const id of change.removeIds) ops.push({ type: 'remove', id });
-  lines.push(`Lista de compras: ${change.removeIds.length} itens não comprados do plano antigo saem e ${change.puts.length} entram. O que você marcou como comprado e o que adicionou fica.`);
+  lines.push(L(`Lista de compras: ${change.removeIds.length} itens não comprados do plano antigo saem e ${change.puts.length} entram. O que você marcou como comprado e o que adicionou fica.`, `Shopping list: ${change.removeIds.length} unbought items from the old plan go out and ${change.puts.length} come in. What you marked as bought and what you added stays.`));
 
   return { ops, lines };
 }
