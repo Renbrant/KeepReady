@@ -18,6 +18,7 @@ export const defaultSettings: Settings = {
   altitudeFt: 5300,
   cookingMode: 'pressure',
   drinkLPerPersonDay: Math.round(GAL_L * 100) / 100,
+  cleanLPerPersonDay: Math.round(GAL_L * 50) / 100,
   packagingCostPerBag: 0,
   bufferPct: 10,
   bucketMode: 'auto',

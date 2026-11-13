@@ -227,3 +227,37 @@ describe('custo de reposição', () => {
     expect(items[0].store).toBe('Reposição');
   });
 });
+
+import { cleanNeededGal, lotExpiry, TAP_WATER_MONTHS, waterSummary } from '../src/lib/calc';
+
+describe('água: lotes e validade', () => {
+  const t = '2026-11-13';
+  it('sem lotes usa o número antigo de Estoque', () => {
+    expect(waterSummary([], 12, t)).toMatchObject({ potableGal: 12, cleanGal: 0, hasLots: false });
+  });
+  it('separa potável e limpa e ignora vencidos', () => {
+    const s = waterSummary(
+      [
+        { gal: 18, type: 'potavel', origin: 'engarrafada', expiresOn: '2028-11-01' },
+        { gal: 5, type: 'potavel', origin: 'engarrafada', expiresOn: '2026-10-01' },
+        { gal: 10, type: 'limpa', origin: 'torneira', filledOn: '2026-11-01' },
+        { gal: 3, type: 'potavel', origin: 'engarrafada', expiresOn: '2026-12-20' },
+      ],
+      0,
+      t,
+    );
+    expect(s.potableGal).toBe(21);
+    expect(s.cleanGal).toBe(10);
+    expect(s.expiredGal).toBe(5);
+    expect(s.soonGal).toBe(3);
+  });
+  it('água da torneira vence após o prazo a partir do enchimento', () => {
+    expect(TAP_WATER_MONTHS).toBe(6);
+    expect(lotExpiry({ gal: 1, type: 'potavel', origin: 'torneira', filledOn: '2026-11-13' })).toBe('2027-05-13');
+    expect(lotExpiry({ gal: 1, type: 'potavel', origin: 'engarrafada' })).toBeUndefined();
+  });
+  it('meta de água limpa: pessoas x meio galão x dias', () => {
+    const s = { cleanLPerPersonDay: 1.89, daysTarget: 14 } as never;
+    expect(Math.round(cleanNeededGal([{}, {}, {}, {}] as never, s))).toBe(28);
+  });
+});

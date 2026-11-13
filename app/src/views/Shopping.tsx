@@ -197,11 +197,15 @@ export function Shopping() {
                     <div class="row between">
                       <div class="grow">
                         <div style={{ fontWeight: 600 }}>Água</div>
-                        <div class="xs muted mono">falta {n0(waterMissing)} gal (meta {n0(r.sup.waterTargetGal)}, tenho {n0(r.sup.waterGal)})</div>
+                        <div class="xs muted mono">falta {n0(waterMissing)} gal (meta {n0(r.sup.waterTargetGal)}, tenho {n0(r.sup.waterGal)} potável)</div>
                       </div>
+                      {r.water.hasLots ? (
+                        <a class="btn small" href="#/agua">Adicionar lote</a>
+                      ) : (
                       <Btn small onClick={() => saveSupplies({ waterGal: r.sup.waterTargetGal })}>
                         Completei
                       </Btn>
+                      )}
                     </div>
                   </li>
                 )}

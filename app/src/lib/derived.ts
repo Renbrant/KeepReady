@@ -1,4 +1,4 @@
-import { useBuckets, useGear, useMembers, usePantry, useSettings, useShop, useSupplies } from './db';
+import { useBuckets, useGear, useMembers, usePantry, useSettings, useShop, useSupplies, useWater } from './db';
 import { computePlan } from './planner';
 import {
   autonomy,
@@ -10,7 +10,10 @@ import {
   stockKcal,
   waterDays,
   waterNeededGal,
+  cleanNeededGal,
+  waterSummary,
 } from './calc';
+import { todayISO } from './dates';
 
 /** Tudo que o painel e as outras telas precisam, calculado a partir dos dados atuais. */
 export function useReadiness() {
@@ -19,13 +22,16 @@ export function useReadiness() {
   const buckets = useBuckets();
   const pantry = usePantry();
   const shop = useShop();
-  const sup = useSupplies();
+  const supRaw = useSupplies();
+  const lots = useWater();
+  const water0 = waterSummary(lots, supRaw.waterGal, todayISO());
+  const sup = { ...supRaw, waterGal: water0.potableGal };
   const kcalPerDay = householdKcalPerDay(members);
   const stock = stockKcal(buckets, pantry);
   const food = foodDays(stock.totalKcal, kcalPerDay);
-  const water = waterDays(sup, members, kcalPerDay, settings);
+  const waterD = waterDays(sup, members, kcalPerDay, settings);
   const gas = gasDays(sup, kcalPerDay, settings);
-  const a = autonomy(food, water, gas);
+  const a = autonomy(food, waterD, gas);
   return {
     settings,
     members,
@@ -33,6 +39,9 @@ export function useReadiness() {
     pantry,
     shop,
     sup,
+    waterLots: lots,
+    water: water0,
+    cleanNeedGal: cleanNeededGal(members, settings),
     kcalPerDay,
     stock,
     a,

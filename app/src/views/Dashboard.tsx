@@ -1,6 +1,6 @@
 import { SyncPill, agoLabel } from '../components/SyncPill';
 import { Card, Gauge, Pill, Ring, toneFor, type Tone } from '../components/ui';
-import { cylindersNeeded, expiringSoon, nextDue, rotationRows, type RotStatus } from '../lib/calc';
+import { cylindersNeeded, expiringSoon, lotExpiry, nextDue, rotationRows, type RotStatus } from '../lib/calc';
 import { addDays, diffDays, fmtDate, todayISO } from '../lib/dates';
 import { usePlan, useReadiness } from '../lib/derived';
 import { activeLines, gearProgress } from '../lib/planner';
@@ -50,6 +50,12 @@ export function Dashboard() {
     if (g.have <= 0 || !g.expiresOn) continue;
     const d = diffDays(today, g.expiresOn);
     if (d <= 90) alerts.push({ tone: d < 0 ? 'bad' : 'warn', text: d < 0 ? `${g.name} (caixas) venceu em ${fmtDate(g.expiresOn)}.` : `${g.name} (caixas) vence em ${d} dias.`, href: '#/caixas' });
+  }
+  for (const l of r.waterLots) {
+    const exp = lotExpiry(l);
+    if (!exp) continue;
+    const d = diffDays(today, exp);
+    if (d <= 30) alerts.push({ tone: d < 0 ? 'bad' : 'warn', text: d < 0 ? `Água "${l.name}" venceu em ${fmtDate(exp)}.` : `Água "${l.name}" vence em ${d} dias.`, href: '#/agua' });
   }
   if (!noStock && r.a.min < target) {
     alerts.push({ tone: r.a.min < target / 2 ? 'bad' : 'warn', text: `${PILLAR_LABEL[r.a.limiting]} cobre só ${daysFmt(r.a.min)} dos ${target} dias da meta.`, href: '#/estoque' });

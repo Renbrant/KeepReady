@@ -1,7 +1,7 @@
-export type Kind = 'settings' | 'member' | 'bucket' | 'pantry' | 'shop' | 'supply' | 'gear';
+export type Kind = 'settings' | 'member' | 'bucket' | 'pantry' | 'shop' | 'supply' | 'gear' | 'water';
 
 /** Lista única dos tipos de registro (backup, testes). O servidor tem a mesma lista numa restrição da tabela `records`. */
-export const KINDS: Kind[] = ['settings', 'member', 'bucket', 'pantry', 'shop', 'supply', 'gear'];
+export const KINDS: Kind[] = ['settings', 'member', 'bucket', 'pantry', 'shop', 'supply', 'gear', 'water'];
 
 /** Registro local-first. `dirty` e `rev` só existem no aparelho; o resto vai para o servidor. */
 export interface Rec<T = unknown> {
@@ -92,6 +92,19 @@ export interface ShopItem {
   order: number;
 }
 
+/** Um lote de água guardada. Potável: beber e cozinhar. Limpa: higiene, louça e descarga (não beber). */
+export interface WaterLot {
+  name: string;
+  gal: number;
+  type: 'potavel' | 'limpa';
+  /** 'engarrafada' usa a validade impressa; 'torneira' vence a partir da data de enchimento. */
+  origin: 'engarrafada' | 'torneira';
+  filledOn?: string;
+  expiresOn?: string;
+  note?: string;
+  order: number;
+}
+
 export interface Supplies {
   waterGal: number;
   waterTargetGal: number;
@@ -109,6 +122,8 @@ export interface Settings {
   altitudeFt: number;
   cookingMode: 'pressure' | 'open';
   drinkLPerPersonDay: number;
+  /** Água limpa (não para beber) por pessoa por dia, em litros: higiene, louça, descarga. */
+  cleanLPerPersonDay: number;
   packagingCostPerBag: number;
   /** Folga sobre a meta de comida, em %, para perda, apetite e visitas. */
   bufferPct: number;

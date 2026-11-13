@@ -7,6 +7,7 @@ import { Family } from './views/Family';
 import { Guides } from './views/Guides';
 import { Plan } from './views/Plan';
 import { Totes } from './views/Totes';
+import { Water } from './views/Water';
 import { More } from './views/More';
 import { Print } from './views/Print';
 import { Rotation } from './views/Rotation';
@@ -30,7 +31,7 @@ function useRoute(): string {
 
 const TABS = [
   { href: '#/painel', icon: 'painel', label: 'Painel', match: ['', 'painel'] },
-  { href: '#/estoque', icon: 'estoque', label: 'Estoque', match: ['estoque', 'caixas'] },
+  { href: '#/estoque', icon: 'estoque', label: 'Estoque', match: ['estoque', 'caixas', 'agua'] },
   { href: '#/rotacao', icon: 'rotacao', label: 'Rotação', match: ['rotacao'] },
   { href: '#/compras', icon: 'compras', label: 'Compras', match: ['compras'] },
   { href: '#/mais', icon: 'mais', label: 'Mais', match: ['mais', 'plano', 'familia', 'guias', 'ajustes', 'imprimir'] },
@@ -51,6 +52,8 @@ function view(route: string): ComponentChildren {
       return <Plan />;
     case 'caixas':
       return <Totes />;
+    case 'agua':
+      return <Water />;
     case 'familia':
       return <Family />;
     case 'guias':

@@ -313,3 +313,50 @@ export function replacementShopping(b: Bucket, startOrder: number): Omit<ShopIte
 export function expiringSoon(items: PantryItem[], today: string, days = 90): PantryItem[] {
   return items.filter((i) => i.haveQty > 0 && i.expiresOn && diffDays(today, i.expiresOn) <= days);
 }
+
+/* ---------- Água guardada: lotes, validade, potável x limpa ---------- */
+
+/** Água de torneira guardada por você: troque depois deste prazo (Ready.gov cita 6 meses para água guardada em casa). */
+export const TAP_WATER_MONTHS = 6;
+
+export interface LotLike {
+  gal: number;
+  type: 'potavel' | 'limpa';
+  origin: 'engarrafada' | 'torneira';
+  filledOn?: string;
+  expiresOn?: string;
+}
+
+/** Data de vencimento do lote: a que você informou ou, para água de torneira, enchimento + 6 meses. */
+export function lotExpiry(l: LotLike): string | undefined {
+  if (l.expiresOn) return l.expiresOn;
+  if (l.origin === 'torneira' && l.filledOn) return addMonths(l.filledOn, TAP_WATER_MONTHS);
+  return undefined;
+}
+
+export interface WaterSummary {
+  potableGal: number;
+  cleanGal: number;
+  expiredGal: number;
+  /** Vence em até 60 dias (e ainda conta). */
+  soonGal: number;
+  hasLots: boolean;
+}
+
+/** Soma só o que não venceu. Sem nenhum lote, usa o número simples de Estoque (compatível com o que você já tinha). */
+export function waterSummary(lots: LotLike[], legacyPotableGal: number, today: string): WaterSummary {
+  if (lots.length === 0) return { potableGal: legacyPotableGal, cleanGal: 0, expiredGal: 0, soonGal: 0, hasLots: false };
+  let potableGal = 0, cleanGal = 0, expiredGal = 0, soonGal = 0;
+  for (const l of lots) {
+    const exp = lotExpiry(l);
+    const d = exp ? diffDays(today, exp) : undefined;
+    if (d !== undefined && d < 0) { expiredGal += l.gal; continue; }
+    if (d !== undefined && d <= 60) soonGal += l.gal;
+    if (l.type === 'potavel') potableGal += l.gal; else cleanGal += l.gal;
+  }
+  return { potableGal, cleanGal, expiredGal, soonGal, hasLots: true };
+}
+
+export function cleanNeededGal(members: Member[], s: Settings): number {
+  return (members.length * s.cleanLPerPersonDay * s.daysTarget) / GAL_L;
+}

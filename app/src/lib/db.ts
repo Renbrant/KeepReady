@@ -4,7 +4,7 @@ import { createRecordStore, type Persist } from './store';
 import { seedRecords } from './plan';
 import type { Op } from './apply';
 import { gearRecId, type GearRec } from './planner';
-import type { Bucket, GearState, Member, PantryItem, Settings, ShopItem, Supplies } from './types';
+import type { Bucket, GearState, Member, PantryItem, Settings, ShopItem, Supplies, WaterLot } from './types';
 import { defaultSettings } from './plan';
 
 const KEY = 'kr.records.v1';
@@ -63,7 +63,18 @@ export function useGear(): GearRec[] {
   return store.list<GearState>('gear').map((r) => ({ id: r.id, state: r.data }));
 }
 
+export function useWater(): WithId<WaterLot>[] {
+  useStoreVersion();
+  return listData<WaterLot>('water').sort((a, b) => a.order - b.order);
+}
+
 /* ---------- Ações ---------- */
+
+export function saveWater(id: string, patch: Partial<WaterLot>): void {
+  const cur = store.get<WaterLot>(id)?.data;
+  if (cur) store.put('water', id, { ...cur, ...patch });
+}
+
 
 /** Atualiza o estado de um item das caixas (cria o registro na primeira vez). `id` é o id do catálogo ou do item seu. */
 export function saveGear(id: string, patch: Partial<GearState>): void {

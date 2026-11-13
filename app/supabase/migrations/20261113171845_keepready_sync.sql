@@ -31,7 +31,7 @@ create table if not exists public.household_users (
 create table if not exists public.records (
   household_id uuid not null references public.households (id) on delete cascade,
   id text not null,
-  kind text not null check (kind in ('settings', 'member', 'bucket', 'pantry', 'shop', 'supply', 'gear')),
+  kind text not null check (kind in ('settings', 'member', 'bucket', 'pantry', 'shop', 'supply', 'gear', 'water')),
   data jsonb not null default '{}'::jsonb,
   deleted boolean not null default false,
   updated_at timestamptz not null default now(),

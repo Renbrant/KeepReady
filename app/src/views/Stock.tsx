@@ -223,10 +223,28 @@ export function Stock() {
         </ul>
       </Card>
 
+      <a class="menu-link" href="#/agua">
+        <span>
+          Água: potável e limpa, com validade
+          <small>
+            {n0(r.water.potableGal)} gal potável · {n0(r.water.cleanGal)} gal limpa{r.water.expiredGal > 0 ? ` · ${n0(r.water.expiredGal)} vencidos` : ''}
+          </small>
+        </span>
+        <span aria-hidden="true">›</span>
+      </a>
+
       <h2>Água e gás</h2>
       <Card>
         <div class="grid2">
-          <NumField label="Água guardada" suffix="gal" value={r.sup.waterGal} min={0} onChange={(v) => saveSupplies({ waterGal: v ?? 0 })} />
+          {r.water.hasLots ? (
+            <div>
+              <div class="xs muted">Água potável guardada</div>
+              <div class="mono" style={{ fontSize: '1.1rem', fontWeight: 700 }}>{n0(r.water.potableGal)} gal</div>
+              <a href="#/agua" class="xs">Ver lotes e validade</a>
+            </div>
+          ) : (
+            <NumField label="Água guardada" suffix="gal" value={r.sup.waterGal} min={0} onChange={(v) => saveSupplies({ waterGal: v ?? 0 })} />
+          )}
           <NumField label="Meta de água" suffix="gal" value={r.sup.waterTargetGal} min={0} onChange={(v) => saveSupplies({ waterTargetGal: v ?? 0 })} />
           <NumField label="Botijões cheios (20 lb)" value={r.sup.propaneFull} min={0} step={1} onChange={(v) => saveSupplies({ propaneFull: v ?? 0 })} />
           <NumField label="Meta de botijões" value={r.sup.propaneTarget} min={0} step={1} onChange={(v) => saveSupplies({ propaneTarget: v ?? 0 })} />
