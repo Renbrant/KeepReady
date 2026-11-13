@@ -213,6 +213,21 @@ const FOOD_PACKS: Record<string, Pack> = {
   'Café (em pote vedado, fora do balde)': { key: 'food:coffee', name: 'Café moído Kirkland', unit: 'saco 2,5 lb', packLb: 2.5, price: 17.99, store: 'Costco' },
 };
 
+/** Itens de compra que não dependem dos baldes: reforço de purificação de água. */
+export function waterShopping(): ShopSeed[] {
+  const out: ShopSeed[] = [];
+  out.push({
+    name: 'Pastilhas de purificação de água (Aquatabs 397 mg, frasco com 100)',
+    qty: 1,
+    unit: 'frasco',
+    store: 'Outros',
+    section: 'Água',
+    note: 'Reforço se a água guardada acabar: 1 pastilha trata até 4 galões (cerca de 15 L) em 30 minutos, segundo o anúncio. Água turva: filtre antes. Não cobre Cryptosporidium. Validade no frasco.',
+    auto: 'pkg:aquatabs',
+  });
+  return out;
+}
+
 /** Sacos de Mylar por balde e absorvedores: 1 por saco de grãos e 1 no leite do balde misto. */
 export function foodShopping(planned: Bucket[]): ShopSeed[] {
   const kgBy = new Map<string, number>();
@@ -371,7 +386,7 @@ export function buildApply(s: ApplyState): ApplyPreview {
   }
   lines.push(`Água: meta de ${s.sup.waterTargetGal} → ${waterTarget} gal. Gás: ${s.sup.propaneTarget} → ${gasTarget} botijões de 20 lb.`);
 
-  const change = regenerateShopping(s.shop, foodShopping(rec.planned), s.makeId);
+  const change = regenerateShopping(s.shop, [...foodShopping(rec.planned), ...waterShopping()], s.makeId);
   for (const p of change.puts) ops.push({ type: 'put', kind: 'shop', id: p.id, data: p.data });
   for (const id of change.removeIds) ops.push({ type: 'remove', id });
   lines.push(`Lista de compras: ${change.removeIds.length} itens não comprados do plano antigo saem e ${change.puts.length} entram. O que você marcou como comprado e o que adicionou fica.`);

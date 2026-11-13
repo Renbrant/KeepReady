@@ -578,3 +578,13 @@ describe('variedade na despensa', () => {
     expect(s.buckets[0].items.some((i) => i.name === 'Lentilha')).toBe(true);
   });
 });
+
+describe('compras de água', () => {
+  it('pastilhas de purificação entram sempre, sem preço e com a chave do link', async () => {
+    const { waterShopping } = await import('../src/lib/apply');
+    const w = waterShopping();
+    expect(w).toHaveLength(1);
+    expect(w[0].auto).toBe('pkg:aquatabs');
+    expect(w[0].unitPrice).toBeUndefined();
+  });
+});

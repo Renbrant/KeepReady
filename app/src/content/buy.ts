@@ -15,6 +15,11 @@ export const BUY_LINKS: Record<string, BuyLink> = {
     label: 'Ver na Amazon',
     title: 'Absorvedores de oxigênio 700 cc, 100 unidades em pacotes de 5 (confira que a variante 700cc está marcada)',
   },
+  'pkg:aquatabs': {
+    url: 'https://link.amazon/B02qpl2AA',
+    label: 'Ver na Amazon',
+    title: 'Aquatabs 397 mg, 100 pastilhas (confira que o tamanho 397 mg está marcado)',
+  },
 };
 
 export const AFFILIATE_DISCLOSURE = 'Como associado da Amazon, o KeepReady ganha com compras qualificadas feitas pelos links "Ver na Amazon". Isso não muda o preço para você. O preço e a disponibilidade são os da página da Amazon.';
