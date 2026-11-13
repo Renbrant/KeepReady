@@ -1,5 +1,5 @@
 import { LB_KG, bucketKcal, round } from './calc';
-import { GRAIN_BAGS, grainItems } from './plan';
+import { GRAIN_BAGS, PANTRY_VARIETY, grainItems } from './plan';
 import { grainBucketKcal, mixedBagsFor, scaledMixedItems, MIN_PANTRY_SHARE, type PlanResult } from './planner';
 import type { Bucket, PantryItem, Rec, ShopItem, Supplies } from './types';
 
@@ -25,6 +25,8 @@ export interface ApplyState {
   shop: WithId<ShopItem>[];
   sup: Supplies;
   makeId: (prefix: string) => string;
+  /** Adicionar os itens de variedade à despensa (só na primeira vez). */
+  addVariety?: boolean;
 }
 
 export interface ApplyPreview {
@@ -204,6 +206,7 @@ const FOOD_PACKS: Record<string, Pack> = {
   Arroz: { key: 'food:rice', name: 'Arroz branco grão longo (Kirkland ou Supreme)', unit: 'saco 25 lb', packLb: 25, price: 12, store: 'Costco' },
   Feijão: { key: 'food:beans', name: 'Feijão pinto (Rhodes Stockton)', unit: 'saco 25 lb', packLb: 25, price: 14.99, store: 'Costco' },
   'Macarrão quebrado': { key: 'food:pasta', name: 'Macarrão espaguete Barilla', unit: 'pacote 4 × 2 lb', packLb: 8, price: 9.49, store: 'Costco' },
+  Lentilha: { key: 'food:lentils', name: 'Lentilha seca', unit: 'kg', packLb: 2.2046, price: 0, store: 'Outros' },
   Aveia: { key: 'food:oats', name: 'Aveia em flocos Kirkland', unit: 'saco 10 lb', packLb: 10, price: 7.99, store: 'Costco' },
   Açúcar: { key: 'food:sugar', name: 'Açúcar granulado', unit: 'saco 25 lb', packLb: 25, price: 16, store: 'Costco' },
   'Leite em pó': { key: 'food:milk', name: "Leite em pó desnatado Saco Mix'n Drink", unit: 'saco 8 lb', packLb: 8, price: 35.99, store: 'Costco', note: 'Visto só em algumas unidades: confirme na sua.' },
@@ -225,7 +228,7 @@ export function foodShopping(planned: Bucket[]): ShopSeed[] {
       unit: pack.unit,
       store: pack.store,
       section: 'Baldes',
-      unitPrice: pack.price,
+      unitPrice: pack.price > 0 ? pack.price : undefined,
       note: pack.note,
       auto: pack.key,
     });
@@ -337,13 +340,23 @@ export function buildApply(s: ApplyState): ApplyPreview {
   const need = food.needKcal;
   const floor = food.strategy === 'buckets' ? need * MIN_PANTRY_SHARE : 0;
   const pantryTarget = Math.max(floor, need - rec.kcalAfter);
-  const pantryNow = s.pantry.reduce((sum, p) => sum + p.planQty * p.kcalPerUnit, 0);
-  const pantryOk = pantryNow >= pantryTarget - 1 && pantryNow <= pantryTarget * PANTRY_TOLERANCE + pantrySlack(s.pantry);
-  const scaled = pantryOk ? [] : scalePantry(s.pantry, pantryTarget);
+  // Variedade: itens novos entram uma vez, junto com os que já existem, e tudo é escalado junto.
+  let order = s.pantry.reduce((m, p) => Math.max(m, p.order), 0);
+  const have = new Set(s.pantry.map((p) => p.name));
+  const additions: WithId<PantryItem>[] = s.addVariety
+    ? PANTRY_VARIETY.filter((v) => !have.has(v.name)).map((v) => ({ ...v, haveQty: 0, order: ++order, id: s.makeId('pantry') }))
+    : [];
+  const list = [...s.pantry, ...additions];
+  const pantryNow = list.reduce((sum, p) => sum + p.planQty * p.kcalPerUnit, 0);
+  const pantryOk = pantryNow >= pantryTarget - 1 && pantryNow <= pantryTarget * PANTRY_TOLERANCE + pantrySlack(list);
+  const scaled = pantryOk ? [] : scalePantry(list, pantryTarget);
+  const finalQty = (id: string, fallback: number) => scaled.find((x) => x.id === id)?.planQty ?? fallback;
+  for (const a of additions) ops.push({ type: 'put', kind: 'pantry', id: a.id, data: { ...stripId(a), planQty: finalQty(a.id, a.planQty) } });
   for (const p of scaled) {
-    const cur = s.pantry.find((x) => x.id === p.id)!;
-    if (cur.planQty !== p.planQty) ops.push({ type: 'put', kind: 'pantry', id: p.id, data: { ...stripId(cur), planQty: p.planQty } });
+    const cur = s.pantry.find((x) => x.id === p.id);
+    if (cur && cur.planQty !== p.planQty) ops.push({ type: 'put', kind: 'pantry', id: p.id, data: { ...stripId(cur), planQty: p.planQty } });
   }
+  if (additions.length > 0) lines.push(`Variedade: entram na despensa ${additions.map((a) => a.name.split(' (')[0].toLowerCase()).join(' e ')}.`);
   if (scaled.length > 0) {
     const pct = pantryNow > 0 ? Math.round((pantryTarget / pantryNow - 1) * 100) : 0;
     lines.push(`Despensa: ${Math.round(pantryTarget / 1000).toLocaleString('pt-BR')} mil kcal (${pct >= 0 ? '+' : ''}${pct}% sobre o plano atual). O que você já tem não muda.`);

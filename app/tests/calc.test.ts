@@ -38,21 +38,21 @@ const five: Settings = { ...defaultSettings, altitudeFt: 5000 };
 
 describe('plano de 4 pessoas', () => {
   it('seis baldes de grãos têm 37.225 kcal e o misto 43.220', () => {
-    expect(Math.round(bucketKcal(buckets[0]))).toBe(37225);
+    expect(Math.round(bucketKcal(buckets[0]))).toBe(37325);
     expect(Math.round(bucketKcal(buckets[6]))).toBe(43220);
   });
 
-  it('baldes somam 266.570 kcal e a despensa 94.870, total 361.440', () => {
+  it('baldes somam 267.170 kcal e a despensa 94.870, total 362.040', () => {
     const planned = stockKcal(buckets, pantry).plannedKcal;
-    expect(Math.round(planned)).toBe(361440);
+    expect(Math.round(planned)).toBe(362040);
     const bucketsOnly = buckets.reduce((s, b) => s + bucketKcal(b), 0);
-    expect(Math.round(bucketsOnly)).toBe(266570);
+    expect(Math.round(bucketsOnly)).toBe(267170);
   });
 
   it('meta da casa: 4 × 2.000 = 8.000 kcal/dia, e o plano completo dura ~45 dias', () => {
     const perDay = householdKcalPerDay(members);
     expect(perDay).toBe(8000);
-    expect(foodDays(361440, perDay)).toBeCloseTo(45.18, 2);
+    expect(foodDays(362040, perDay)).toBeCloseTo(45.26, 2);
   });
 });
 
@@ -61,7 +61,7 @@ describe('estoque', () => {
     const b1 = sealBucket(buckets[0], '2026-12-01', 24, 7);
     const b2 = startRotation(sealBucket(buckets[1], '2026-12-01', 24, 7), '2027-01-01');
     const s = stockKcal([b1, b2, buckets[2]], []);
-    expect(Math.round(s.bucketsKcal)).toBe(37225);
+    expect(Math.round(s.bucketsKcal)).toBe(37325);
   });
 
   it('despensa conta pelo que você tem, não pelo plano', () => {
@@ -201,11 +201,11 @@ describe('rotação, um balde por vez', () => {
 });
 
 describe('custo de reposição', () => {
-  it('balde de grãos custa ~US$ 17 em comida (preços do Costco)', () => {
+  it('balde de grãos custa ~US$ 15 em comida (preços do Costco; a lentilha ainda está sem preço)', () => {
     const c = replacementCost(buckets[0], defaultSettings);
-    expect(c.food).toBeGreaterThan(16);
-    expect(c.food).toBeLessThan(18);
-    expect(c.missingPrice).toEqual([]);
+    expect(c.food).toBeGreaterThan(14);
+    expect(c.food).toBeLessThan(16);
+    expect(c.missingPrice).toEqual(['Lentilha']);
   });
 
   it('embalagem entra pelo custo por saco', () => {
@@ -220,7 +220,7 @@ describe('custo de reposição', () => {
 
   it('lista de compras da reposição vem em libras e marcada com o balde', () => {
     const items = replacementShopping(buckets[0], 100);
-    expect(items).toHaveLength(4);
+    expect(items).toHaveLength(5);
     expect(items[0].forBucket).toBe(1);
     expect(items[0].unit).toBe('lb');
     expect(items[0].qty).toBeCloseTo(7.7, 1);

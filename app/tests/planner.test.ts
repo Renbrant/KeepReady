@@ -96,8 +96,8 @@ describe('planFood', () => {
     }
   });
 
-  it('o balde de exemplo bate com o plano original (37.225 kcal de grãos, 43.220 do misto)', () => {
-    expect(grainBucketKcal()).toBeCloseTo(37225, 0);
+  it('o balde de exemplo bate com o plano original (37.325 kcal de grãos, 43.220 do misto)', () => {
+    expect(grainBucketKcal()).toBeCloseTo(37325, 0);
     expect(mixedBucketKcal()).toBeCloseTo(43220, 0);
   });
 });
@@ -309,9 +309,9 @@ function seedState(over: Partial<{ members: Member[]; settings: Settings }> = {}
 let idCounter = 0;
 const makeId = (p: string) => `${p}-t${++idCounter}`;
 
-function toApplyState(s: ReturnType<typeof seedState>): ApplyState {
+function toApplyState(s: ReturnType<typeof seedState>, addVariety = false): ApplyState {
   const plan = computePlan({ members: s.members, settings: s.settings, gear: [] });
-  return { plan, buckets: s.buckets, pantry: s.pantry, shop: s.shop, sup: s.sup, makeId };
+  return { plan, buckets: s.buckets, pantry: s.pantry, shop: s.shop, sup: s.sup, makeId, addVariety };
 }
 
 /** Aplica as operações a uma cópia do estado, como o app faria. */
@@ -559,5 +559,22 @@ describe('foodRations', () => {
   });
   it('sem pessoas, vazio', () => {
     expect(foodRations(planFood({ kcalPerDay: 0, days: 30, bufferPct: 10, mode: 'auto' }), 0).rows).toEqual([]);
+  });
+});
+
+describe('variedade na despensa', () => {
+  it('adiciona carne em lata e refeição liofilizada uma vez, sem duplicar na segunda', () => {
+    const s = seedState();
+    const first = applyOps(s, buildApply(toApplyState(s, true)).ops);
+    expect(first.pantry.length).toBe(s.pantry.length + 2);
+    expect(first.pantry.some((p) => p.name.startsWith('Carne e ensopado'))).toBe(true);
+    const second = applyOps(first, buildApply(toApplyState(first, false)).ops);
+    expect(second.pantry.length).toBe(first.pantry.length);
+    const again = applyOps(first, buildApply(toApplyState(first, true)).ops);
+    expect(again.pantry.length).toBe(first.pantry.length); // mesmo com a flag, não duplica por nome
+  });
+  it('o balde de grãos agora leva lentilha', () => {
+    const s = seedState();
+    expect(s.buckets[0].items.some((i) => i.name === 'Lentilha')).toBe(true);
   });
 });

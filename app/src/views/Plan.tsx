@@ -52,14 +52,14 @@ export function Plan() {
   const prog = gearProgress(plan.gearLines);
   const rations = foodRations(f, plan.people);
   const grainDays = plan.kcalPerDay > 0 ? grainBucketKcal() / plan.kcalPerDay : 0;
-  const state = { plan, buckets: r.buckets, pantry: r.pantry, shop: r.shop, sup: r.sup };
+  const state = { plan, buckets: r.buckets, pantry: r.pantry, shop: r.shop, sup: r.sup, addVariety: !s.varietyAdded };
   // A prévia é refeita a cada tela, então nunca fica velha se o usuário mexer nos números com ela aberta.
   const preview = confirming ? buildApply({ ...state, makeId: (p) => `${p}-novo` }) : null;
 
   const apply = () => {
     const real = buildApply({ ...state, makeId: newId });
     runOps(real.ops);
-    saveSettings({ planConfigured: true });
+    saveSettings({ planConfigured: true, varietyAdded: true });
     setConfirming(false);
     setDone('Plano aplicado. Veja os baldes em Estoque, a lista em Compras e as caixas em Estoque, Caixas de 27 gal.');
   };

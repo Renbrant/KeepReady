@@ -118,6 +118,8 @@ export interface Settings {
   toteCapKg: number;
   /** O usuário já passou pelo plano (pessoas, dias, perfil) ou dispensou o convite. */
   planConfigured: boolean;
+  /** Os itens de variedade (carne em lata, refeição liofilizada) já foram adicionados à despensa. */
+  varietyAdded: boolean;
   theme: 'auto' | 'dark' | 'light';
 }
 

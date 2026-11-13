@@ -5,7 +5,8 @@ import { GAL_L, LB_KG } from './calc';
 export const perKg = (usd: number, lb: number) => usd / (lb * LB_KG);
 
 export const RICE: BucketItem = { name: 'Arroz', kg: 3.5, kcalPerKg: 3600, waterLPerKg: 2.2, pricePerKg: perKg(12, 25) };
-export const BEANS: BucketItem = { name: 'Feijão', kg: 3.25, kcalPerKg: 3400, waterLPerKg: 4, pricePerKg: perKg(14.99, 25) };
+export const BEANS: BucketItem = { name: 'Feijão', kg: 2.25, kcalPerKg: 3400, waterLPerKg: 4, pricePerKg: perKg(14.99, 25) };
+export const LENTILS: BucketItem = { name: 'Lentilha', kg: 1, kcalPerKg: 3500, waterLPerKg: 2.5 };
 export const PASTA: BucketItem = { name: 'Macarrão quebrado', kg: 2.25, kcalPerKg: 3500, waterLPerKg: 4, pricePerKg: perKg(9.49, 8) };
 export const OATS: BucketItem = { name: 'Aveia', kg: 1.5, kcalPerKg: 3800, waterLPerKg: 5, pricePerKg: perKg(7.99, 10) };
 
@@ -22,6 +23,7 @@ export const defaultSettings: Settings = {
   bucketMode: 'auto',
   toteCapKg: 20,
   planConfigured: false,
+  varietyAdded: false,
   theme: 'auto',
 };
 
@@ -39,7 +41,7 @@ export const GRAIN_BAGS = 4;
 export const MIXED_BAGS = 3;
 
 /** Itens de um balde de grãos (5 dias para 4 pessoas no plano de exemplo). */
-export const grainItems = (): BucketItem[] => [RICE, BEANS, PASTA, OATS].map((i) => ({ ...i }));
+export const grainItems = (): BucketItem[] => [RICE, BEANS, LENTILS, PASTA, OATS].map((i) => ({ ...i }));
 
 /** Itens do balde misto do plano de exemplo. */
 export const mixedItems = (): BucketItem[] => [
@@ -83,6 +85,12 @@ export const PANTRY: Omit<PantryItem, 'order' | 'haveQty'>[] = [
   { name: 'Biscoito salgado (400 g)', unit: 'pacotes', planQty: 11, kcalPerUnit: 1720 },
   { name: 'Barras de cereal ou proteína', unit: 'barras', planQty: 40, kcalPerUnit: 200 },
   { name: 'Óleo de cozinha', unit: 'L', planQty: 3, kcalPerUnit: 8000 },
+];
+
+/** Itens de variedade (carne em lata e refeição liofilizada). Entram na despensa uma vez, ao aplicar o plano. Kcal por unidade são estimativas de rótulo típico. */
+export const PANTRY_VARIETY: Omit<PantryItem, 'order' | 'haveQty'>[] = [
+  { name: 'Carne e ensopado em lata (chili, carne bovina, presunto)', unit: 'latas', planQty: 20, kcalPerUnit: 350 },
+  { name: 'Refeição liofilizada (porções)', unit: 'porções', planQty: 20, kcalPerUnit: 250 },
 ];
 
 type ShopSeed = Omit<ShopItem, 'order' | 'checked'>;
