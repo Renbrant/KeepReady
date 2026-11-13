@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>KeepReady — Colors, typography and components</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1620px; box-sizing: border-box; background: #0D0C0B; font-family: Inter, system-ui, sans-serif; color: #F5F1EA; padding: 64px; display: flex; flex-direction: column; gap: 48px">
+
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <h1 style="margin: 0; font-family: Outfit, Inter, sans-serif; font-weight: 700; font-size: 44px; line-height: 48px">Colors, typography and components</h1>
+    <p style="margin: 0; font-size: 17px; line-height: 26px; color: #A39A90; max-width: 820px">Warm graphite as the base and ember orange as the signature. Orange marks the identity and actions; status (on track, warning, critical) uses its own colors, always with an icon and text.</p>
+  </div>
+
+  <section style="display: flex; flex-direction: column; gap: 28px">
+    <h2 style="margin: 0; font-family: Outfit, Inter, sans-serif; font-weight: 600; font-size: 26px">Colors</h2>
+
+    <div style="display: flex; flex-direction: column; gap: 14px">
+      <span style="font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #8A8176">Ember · brand and actions</span>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px">
+        <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #FFB16B"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Ember 300</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#FFB16B</span></div></div>
+        <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #FF9640"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Ember 400</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#FF9640</span></div></div>
+        <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #FF7A1A"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Ember 500 · primary</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#FF7A1A</span></div></div>
+        <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #E8620A"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Ember 600 · pressed</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#E8620A</span></div></div>
+        <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #C8480B"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Ember 700 · on light</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#C8480B</span></div></div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px">
+      <span style="font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #8A8176">Graphite · backgrounds and surfaces</span>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px">
+        <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #0D0C0B; border: 1px solid #2F2A25"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Background</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#0D0C0B</span></div></div>
+        <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #151311; border: 1px solid #2F2A25"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Surface</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#151311</span></div></div>
+        <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #1D1A17; border: 1px solid #2F2A25"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Card</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#1D1A17</span></div></div>
+        <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #26221E; border: 1px solid #2F2A25"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Raised</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#26221E</span></div></div>
+        <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #2F2A25; border: 1px solid #3A342E"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Line</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#2F2A25</span></div></div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 3fr 6fr; gap: 40px">
+      <div style="display: flex; flex-direction: column; gap: 14px">
+        <span style="font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #8A8176">Text</span>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+          <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #F5F1EA"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Primary</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#F5F1EA</span></div></div>
+          <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #A39A90"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Secondary</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#A39A90</span></div></div>
+          <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #8A8176"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Muted</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#8A8176</span></div></div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px">
+        <span style="font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #8A8176">Functional · categories and status</span>
+        <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 20px">
+          <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #FF7A1A"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Food</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#FF7A1A</span></div></div>
+          <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #38BDF8"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Water</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#38BDF8</span></div></div>
+          <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #A78BFA"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Gas</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#A78BFA</span></div></div>
+          <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #3DD68C"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">On track</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#3DD68C</span></div></div>
+          <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #FACC15"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Warning</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#FACC15</span></div></div>
+          <div style="display: flex; flex-direction: column; gap: 10px"><div style="height: 88px; border-radius: 14px; background: #FB7185"></div><div style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; font-size: 15px">Critical</span><span style="font-size: 13px; color: #A39A90; font-family: ui-monospace, monospace">#FB7185</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin: 0; font-size: 14px; line-height: 22px; color: #A39A90">Contrast measured on the background: primary text 17.4:1 · secondary 7.1:1 · muted 5.1:1 · orange 7.5:1. Dark text on orange (buttons) 7.5:1. White text on orange gives only 2.6:1, so it is not used.</p>
+  </section>
+
+  <section style="display: grid; grid-template-columns: 1fr 1fr; gap: 56px">
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <h2 style="margin: 0; font-family: Outfit, Inter, sans-serif; font-weight: 600; font-size: 26px">Typography</h2>
+      <div style="background: #151311; border: 1px solid #2F2A25; border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 14px">
+        <span style="font-family: Outfit, Inter, sans-serif; font-weight: 700; font-size: 120px; line-height: 120px; color: #FF7A1A">Aa</span>
+        <span style="font-family: Outfit, Inter, sans-serif; font-weight: 700; font-size: 36px; line-height: 42px">Supplies ready for 90 days</span>
+        <span style="font-size: 15px; line-height: 22px; color: #A39A90">Outfit Bold and SemiBold · headings, numbers and the brand name</span>
+        <span style="font-size: 15px; line-height: 22px; color: #A39A90">Inter Regular, Medium and SemiBold · body text, lists and labels</span>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0; padding-top: 52px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding: 18px 0; border-bottom: 1px solid #2F2A25">
+        <span style="font-family: Outfit, Inter, sans-serif; font-weight: 700; font-size: 44px; line-height: 48px">38 days</span>
+        <span style="font-size: 13px; color: #8A8176; text-align: right">Number · Outfit 700 · 44/48</span>
+      </div>
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding: 18px 0; border-bottom: 1px solid #2F2A25">
+        <span style="font-family: Outfit, Inter, sans-serif; font-weight: 600; font-size: 24px; line-height: 30px">Next actions</span>
+        <span style="font-size: 13px; color: #8A8176; text-align: right">Heading · Outfit 600 · 24/30</span>
+      </div>
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding: 18px 0; border-bottom: 1px solid #2F2A25">
+        <span style="font-size: 16px; line-height: 24px">Rotate the bucket before it expires.</span>
+        <span style="font-size: 13px; color: #8A8176; text-align: right">Body · Inter 400 · 16/24</span>
+      </div>
+      <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding: 18px 0; border-bottom: 1px solid #2F2A25">
+        <span style="font-weight: 500; font-size: 13px; line-height: 18px; color: #A39A90">Sealed Nov 2024</span>
+        <span style="font-size: 13px; color: #8A8176; text-align: right">Caption · Inter 500 · 13/18</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 24px">
+    <h2 style="margin: 0; font-family: Outfit, Inter, sans-serif; font-weight: 600; font-size: 26px">Components</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px">
+
+      <div style="background: #151311; border: 1px solid #2F2A25; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+        <span style="font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #8A8176">Buttons</span>
+        <button type="button" style="height: 52px; border: 0; border-radius: 14px; background: #FF7A1A; color: #0D0C0B; font-family: Inter, sans-serif; font-weight: 600; font-size: 16px; cursor: pointer">Create household</button>
+        <button type="button" style="height: 52px; border: 1px solid #3A342E; border-radius: 14px; background: #1D1A17; color: #F5F1EA; font-family: Inter, sans-serif; font-weight: 600; font-size: 16px; cursor: pointer">Join with code</button>
+        <button type="button" style="height: 44px; border: 0; border-radius: 14px; background: transparent; color: #FF9640; font-family: Inter, sans-serif; font-weight: 600; font-size: 16px; cursor: pointer">View guides</button>
+      </div>
+
+      <div style="background: #151311; border: 1px solid #2F2A25; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+        <span style="font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #8A8176">Status</span>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px">
+          <span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: rgba(61,214,140,0.14); color: #3DD68C; font-weight: 600; font-size: 13px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>On track</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: rgba(250,204,21,0.14); color: #FACC15; font-weight: 600; font-size: 13px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>Due soon</span>
+          <span style="display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: rgba(251,113,133,0.14); color: #FB7185; font-weight: 600; font-size: 13px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6v7M12 17.5v.5"/></svg>Overdue</span>
+        </div>
+        <span style="font-size: 14px; line-height: 21px; color: #A39A90">Color, icon and text together: status never relies on color alone.</span>
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px">
+          <label for="campo-codigo" style="font-size: 13px; font-weight: 500; color: #A39A90">Invite code</label>
+          <input id="campo-codigo" type="text" value="K7QM-4XNP" style="height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 12px; border: 1px solid #FF7A1A; background: #0D0C0B; color: #F5F1EA; font-family: ui-monospace, monospace; font-size: 16px; letter-spacing: 0.08em">
+        </div>
+      </div>
+
+      <div style="background: #151311; border: 1px solid #2F2A25; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+        <span style="font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #8A8176">Autonomy bars</span>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; justify-content: space-between; font-size: 14px"><span style="font-weight: 600">Food</span><span style="color: #A39A90">52 of 90 days</span></div>
+          <div style="height: 10px; border-radius: 999px; background: #26221E"><div style="width: 58%; height: 10px; border-radius: 999px; background: #FF7A1A"></div></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; justify-content: space-between; font-size: 14px"><span style="font-weight: 600">Water</span><span style="color: #A39A90">38 of 90 days</span></div>
+          <div style="height: 10px; border-radius: 999px; background: #26221E"><div style="width: 42%; height: 10px; border-radius: 999px; background: #38BDF8"></div></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="display: flex; justify-content: space-between; font-size: 14px"><span style="font-weight: 600">Gas</span><span style="color: #A39A90">61 of 90 days</span></div>
+          <div style="height: 10px; border-radius: 999px; background: #26221E"><div style="width: 68%; height: 10px; border-radius: 999px; background: #A78BFA"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1620}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

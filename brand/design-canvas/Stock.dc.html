@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>KeepReady — Stock and rotation</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap">
+<style>
+body{margin:0}
+a{text-decoration:none;color:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; background: #0D0C0B; font-family: Inter, system-ui, sans-serif; color: #F5F1EA; display: flex; flex-direction: column">
+
+  <div style="flex: 1; min-height: 0; padding: 28px 20px 0; display: flex; flex-direction: column; gap: 12px; overflow: hidden">
+
+    <h1 style="margin: 0; font-family: Outfit, Inter, sans-serif; font-weight: 700; font-size: 30px; line-height: 38px">Stock</h1>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; background: #1D1A17; border: 1px solid #2F2A25; border-radius: 14px">
+      <button type="button" aria-pressed="true" style="height: 40px; border: 0; border-radius: 10px; background: #26221E; color: #F5F1EA; font-family: Inter, sans-serif; font-weight: 600; font-size: 14px; cursor: pointer">Buckets</button>
+      <button type="button" aria-pressed="false" style="height: 40px; border: 0; border-radius: 10px; background: transparent; color: #A39A90; font-family: Inter, sans-serif; font-weight: 500; font-size: 14px; cursor: pointer">Items</button>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 20px; color: #A39A90">One bucket at a time · 24-month rotation interval</p>
+
+    <div style="background: #1D1A17; border: 1px solid #4A3A2C; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+      <div style="display: flex; align-items: center; justify-content: space-between">
+        <span style="font-size: 13px; font-weight: 500; color: #A39A90">Next to rotate</span>
+        <span style="display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border-radius: 999px; background: rgba(250,204,21,0.14); color: #FACC15; font-weight: 600; font-size: 12px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>Due soon</span>
+      </div>
+      <h2 style="margin: 0; font-family: Outfit, Inter, sans-serif; font-weight: 600; font-size: 22px; line-height: 28px">Bucket 2 · Black beans</h2>
+      <p style="margin: 0; font-size: 14px; line-height: 20px; color: #A39A90">18 lb · sealed Nov 2024</p>
+      <div style="height: 8px; border-radius: 999px; background: #26221E; margin-top: 10px"><div style="width: 97%; height: 8px; border-radius: 999px; background: #FACC15"></div></div>
+      <p style="margin: 2px 0 8px; font-size: 13px; line-height: 18px; font-weight: 500; color: #A39A90">Rotate by Nov 30, 2026 · in 17 days</p>
+      <button type="button" style="height: 48px; border: 0; border-radius: 14px; background: #FF7A1A; color: #0D0C0B; font-family: Inter, sans-serif; font-weight: 600; font-size: 16px; cursor: pointer">Mark as rotated</button>
+    </div>
+
+    <h2 style="margin: 8px 0 0; font-family: Outfit, Inter, sans-serif; font-weight: 600; font-size: 18px; line-height: 24px">Other buckets</h2>
+
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <div style="background: #1D1A17; border: 1px solid #2F2A25; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; align-items: center; gap: 12px">
+          <span style="flex: none; width: 40px; height: 40px; border-radius: 12px; background: #26221E; display: flex; align-items: center; justify-content: center"><img src="../logos/svg/keepready-symbol.svg" alt="" style="width: 30px; height: 30px; display: block"></span>
+          <span style="flex: 1; display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px; line-height: 20px">Bucket 1 · White rice</span><span style="font-size: 13px; line-height: 18px; color: #A39A90">22 lb · rotate by May 2027</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border-radius: 999px; background: rgba(61,214,140,0.14); color: #3DD68C; font-weight: 600; font-size: 12px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>On track</span>
+        </div>
+        <div style="height: 6px; border-radius: 999px; background: #26221E"><div style="width: 75%; height: 6px; border-radius: 999px; background: #FF7A1A"></div></div>
+      </div>
+      <div style="background: #1D1A17; border: 1px solid #2F2A25; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; align-items: center; gap: 12px">
+          <span style="flex: none; width: 40px; height: 40px; border-radius: 12px; background: #26221E; display: flex; align-items: center; justify-content: center"><img src="../logos/svg/keepready-symbol.svg" alt="" style="width: 30px; height: 30px; display: block"></span>
+          <span style="flex: 1; display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px; line-height: 20px">Bucket 3 · Pasta</span><span style="font-size: 13px; line-height: 18px; color: #A39A90">13 lb · rotate by Nov 2027</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border-radius: 999px; background: rgba(61,214,140,0.14); color: #3DD68C; font-weight: 600; font-size: 12px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>On track</span>
+        </div>
+        <div style="height: 6px; border-radius: 999px; background: #26221E"><div style="width: 50%; height: 6px; border-radius: 999px; background: #FF7A1A"></div></div>
+      </div>
+      <div style="background: #1D1A17; border: 1px solid #2F2A25; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; align-items: center; gap: 12px">
+          <span style="flex: none; width: 40px; height: 40px; border-radius: 12px; background: #26221E; display: flex; align-items: center; justify-content: center"><img src="../logos/svg/keepready-symbol.svg" alt="" style="width: 30px; height: 30px; display: block"></span>
+          <span style="flex: 1; display: flex; flex-direction: column"><span style="font-weight: 600; font-size: 15px; line-height: 20px">Bucket 4 · Oats</span><span style="font-size: 13px; line-height: 18px; color: #A39A90">11 lb · rotate by May 2028</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border-radius: 999px; background: rgba(61,214,140,0.14); color: #3DD68C; font-weight: 600; font-size: 12px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>On track</span>
+        </div>
+        <div style="height: 6px; border-radius: 999px; background: #26221E"><div style="width: 25%; height: 6px; border-radius: 999px; background: #FF7A1A"></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <nav aria-label="Main navigation" style="flex: none; height: 80px; box-sizing: border-box; background: #151311; border-top: 1px solid #2F2A25; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 6px 8px 14px">
+    <a href="Dashboard.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #A39A90; font-size: 12px; font-weight: 500">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4-5"/></svg>Dashboard
+    </a>
+    <a href="Stock.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #FF9640; font-size: 12px; font-weight: 600">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 7.5L12 3.5l8.5 4v9L12 20.5l-8.5-4z"/><path d="M3.5 7.5L12 11.5l8.5-4M12 11.5v9"/></svg>Stock
+    </a>
+    <a href="Shopping.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #A39A90; font-size: 12px; font-weight: 500">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M3 4h2.5l2.2 10.5h10.3L20 8H6.5"/></svg>Shopping
+    </a>
+    <a href="Family.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #A39A90; font-size: 12px; font-weight: 500">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M17 14c2.6 0 4.5 2 4.5 5"/></svg>Family
+    </a>
+    <a href="Welcome.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: #A39A90; font-size: 12px; font-weight: 500">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5.5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="18.5" cy="12" r="1.7"/></svg>More
+    </a>
+  </nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

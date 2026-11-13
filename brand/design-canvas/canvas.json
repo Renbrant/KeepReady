@@ -1,0 +1,110 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-13T17:30:00Z"
+  },
+  "title": "KeepReady — Visual identity and screens",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Cover.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 810,
+      "title": "Cover"
+    },
+    "Logos.dc.html": {
+      "x": 0,
+      "y": 930,
+      "w": 1440,
+      "h": 1400,
+      "title": "Logo system"
+    },
+    "Foundations.dc.html": {
+      "x": 0,
+      "y": 2450,
+      "w": 1440,
+      "h": 1620,
+      "title": "Colors, typography and components"
+    },
+    "AppIcon.dc.html": {
+      "x": 0,
+      "y": 4190,
+      "w": 1440,
+      "h": 760,
+      "title": "App icon"
+    },
+    "Welcome.dc.html": {
+      "x": 1600,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Welcome",
+      "is_interactive": true
+    },
+    "Dashboard.dc.html": {
+      "x": 2070,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Dashboard",
+      "is_interactive": true
+    },
+    "Stock.dc.html": {
+      "x": 2540,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Stock and rotation",
+      "is_interactive": true
+    },
+    "Shopping.dc.html": {
+      "x": 3010,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Shopping",
+      "is_interactive": true
+    },
+    "Family.dc.html": {
+      "x": 3480,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Family",
+      "is_interactive": true
+    }
+  },
+  "order": [
+    "Cover.dc.html",
+    "Logos.dc.html",
+    "Foundations.dc.html",
+    "AppIcon.dc.html",
+    "Welcome.dc.html",
+    "Dashboard.dc.html",
+    "Stock.dc.html",
+    "Shopping.dc.html",
+    "Family.dc.html"
+  ],
+  "notes": {
+    "marca": {
+      "x": 0,
+      "y": -300,
+      "text": "Brand and visual system",
+      "kind": "title1",
+      "maxW": 1440
+    },
+    "telas": {
+      "x": 1600,
+      "y": -300,
+      "text": "App screens (clickable prototype)",
+      "kind": "title1",
+      "maxW": 2260
+    }
+  },
+  "designSystems": []
+}
