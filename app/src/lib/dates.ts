@@ -1,3 +1,4 @@
+import { locale } from './i18n';
 /** Datas como 'AAAA-MM-DD' no fuso do aparelho. */
 
 export function todayISO(d: Date = new Date()): string {
@@ -38,9 +39,9 @@ export const DAYS_PER_MONTH = 30.4375;
 
 export function fmtDate(s?: string): string {
   if (!s) return '—';
-  return new Intl.DateTimeFormat('pt-BR').format(parseISO(s));
+  return new Intl.DateTimeFormat(locale()).format(parseISO(s));
 }
 
 export function fmtMonthYear(s: string): string {
-  return new Intl.DateTimeFormat('pt-BR', { month: 'short', year: 'numeric' }).format(parseISO(s));
+  return new Intl.DateTimeFormat(locale(), { month: 'short', year: 'numeric' }).format(parseISO(s));
 }

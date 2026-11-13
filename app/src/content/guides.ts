@@ -188,3 +188,8 @@ export const GUIDES: Guide[] = [
     sources: [MDN],
   },
 ];
+
+/** Guias no idioma atual. A versão em inglês fica em guides.en.ts. */
+export function getGuides(): Guide[] {
+  return GUIDES;
+}

@@ -1,15 +1,19 @@
 import { useState } from 'preact/hooks';
 import { Card } from '../components/ui';
-import { GUIDES } from '../content/guides';
+import { getGuides } from '../content/guides';
+import { useLang } from '../lib/i18n';
+import { L } from '../lib/i18n';
 
 export function Guides({ openId }: { openId?: string }) {
+  useLang();
+  const GUIDES = getGuides();
   const [open, setOpen] = useState<string | undefined>(openId);
   return (
     <>
       <div class="topbar">
         <div>
-          <h1>Guias</h1>
-          <div class="sub">Procedimentos e a base dos cálculos</div>
+          <h1>{L('Guias', 'Guides')}</h1>
+          <div class="sub">{L('Procedimentos e a base dos cálculos', 'Procedures and the basis of the calculations')}</div>
         </div>
       </div>
 
@@ -48,7 +52,7 @@ export function Guides({ openId }: { openId?: string }) {
 
           {g.notes && (
             <div class="banner">
-              <b>Atenção</b>
+              <b>{L('Atenção', 'Heads up')}</b>
               <ul style={{ margin: '6px 0 0', paddingLeft: 18 }}>
                 {g.notes.map((n) => (
                   <li key={n} class="small">
@@ -61,7 +65,7 @@ export function Guides({ openId }: { openId?: string }) {
 
           {g.estimates && (
             <div class="banner">
-              <b>Estimativas do app</b>
+              <b>{L('Estimativas do app', 'App estimates')}</b>
               <ul style={{ margin: '6px 0 0', paddingLeft: 18 }}>
                 {g.estimates.map((n) => (
                   <li key={n} class="small">
@@ -88,7 +92,7 @@ export function Guides({ openId }: { openId?: string }) {
 
       <Card>
         <div class="xs muted">
-          O KeepReady é uma ferramenta de organização, não um aconselhamento médico, de segurança ou de nutrição. Confira as fontes e use o bom senso, principalmente com gás, fogo e pessoas com necessidades especiais.
+          {L('O KeepReady é uma ferramenta de organização, não um aconselhamento médico, de segurança ou de nutrição. Confira as fontes e use o bom senso, principalmente com gás, fogo e pessoas com necessidades especiais.', 'KeepReady is an organizing tool, not medical, safety or nutrition advice. Check the sources and use good judgment, especially with gas, fire and people with special needs.')}
         </div>
       </Card>
     </>

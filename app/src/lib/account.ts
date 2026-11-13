@@ -1,6 +1,7 @@
 import { store } from './db';
 import { clearAccountMeta, getMeta, setMeta } from './meta';
 import { supabase } from './supabase';
+import { L } from './i18n';
 
 function client() {
   if (!supabase) throw new Error('Este app foi publicado sem as chaves do Supabase, então não há login nem sincronização.');
@@ -19,13 +20,13 @@ export function isNetworkError(e: unknown): boolean {
 
 export function friendly(e: unknown): string {
   const m = messageOf(e);
-  if (isNetworkError(e)) return 'Sem internet. Tente de novo quando estiver online.';
-  if (/invalid login/i.test(m)) return 'E-mail ou senha incorretos.';
-  if (/already registered|already been registered/i.test(m)) return 'Este e-mail já tem conta. Use "Entrar".';
-  if (/password should be at least/i.test(m)) return 'A senha precisa ter pelo menos 6 caracteres.';
-  if (/email not confirmed/i.test(m)) return 'Confirme seu e-mail pelo link que enviamos e entre de novo.';
-  if (/invalid_code/i.test(m)) return 'Código de convite inválido.';
-  if (/rate limit/i.test(m)) return 'Muitas tentativas. Espere alguns minutos.';
+  if (isNetworkError(e)) return L('Sem internet. Tente de novo quando estiver online.', 'No internet. Try again when you are online.');
+  if (/invalid login/i.test(m)) return L('E-mail ou senha incorretos.', 'Incorrect email or password.');
+  if (/already registered|already been registered/i.test(m)) return L('Este e-mail já tem conta. Use "Entrar".', 'This email already has an account. Use "Sign in".');
+  if (/password should be at least/i.test(m)) return L('A senha precisa ter pelo menos 6 caracteres.', 'The password must be at least 6 characters.');
+  if (/email not confirmed/i.test(m)) return L('Confirme seu e-mail pelo link que enviamos e entre de novo.', 'Confirm your email with the link we sent and sign in again.');
+  if (/invalid_code/i.test(m)) return L('Código de convite inválido.', 'Invalid invite code.');
+  if (/rate limit/i.test(m)) return L('Muitas tentativas. Espere alguns minutos.', 'Too many attempts. Wait a few minutes.');
   return m;
 }
 

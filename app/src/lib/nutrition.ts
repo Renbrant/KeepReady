@@ -1,4 +1,5 @@
 import type { Activity, Member, Sex } from './types';
+import { L } from './i18n';
 
 /**
  * Calorias estimadas por dia para manter o peso, por idade, sexo e nível de atividade.
@@ -46,15 +47,27 @@ export const SPHERE_KCAL = 2100;
 const ACT_INDEX: Record<Activity, 0 | 1 | 2> = { sedentary: 0, moderate: 1, active: 2 };
 
 export const ACTIVITY_LABEL: Record<Activity, string> = {
-  sedentary: 'Sedentário',
-  moderate: 'Moderado',
-  active: 'Ativo',
+  get sedentary() {
+    return L('Sedentário', 'Sedentary');
+  },
+  get moderate() {
+    return L('Moderado', 'Moderate');
+  },
+  get active() {
+    return L('Ativo', 'Active');
+  },
 };
 
 export const ACTIVITY_HELP: Record<Activity, string> = {
-  sedentary: 'Só a atividade leve do dia a dia.',
-  moderate: 'Atividade leve mais caminhada de 1,5 a 3 milhas (2,4 a 4,8 km) por dia.',
-  active: 'Atividade leve mais caminhada de mais de 3 milhas (4,8 km) por dia.',
+  get sedentary() {
+    return L('Só a atividade leve do dia a dia.', 'Only light day-to-day activity.');
+  },
+  get moderate() {
+    return L('Atividade leve mais caminhada de 1,5 a 3 milhas (2,4 a 4,8 km) por dia.', 'Light activity plus walking 1.5 to 3 miles (2.4 to 4.8 km) a day.');
+  },
+  get active() {
+    return L('Atividade leve mais caminhada de mais de 3 milhas (4,8 km) por dia.', 'Light activity plus walking more than 3 miles (4.8 km) a day.');
+  },
 };
 
 /** Recomendação da tabela, ou null se faltar idade/sexo ou a idade estiver fora da tabela (menos de 2 anos). */
@@ -78,8 +91,8 @@ export function memberTarget(m: Member): number {
 
 /** Por que a recomendação não se aplica, se for o caso. */
 export function recommendationNote(m: Member): string | null {
-  if (m.age !== undefined && m.age < 2) return 'Menor de 2 anos: a tabela não cobre. Defina a meta com o pediatra.';
-  if (m.pregnantOrNursing) return 'Gestante ou lactante: a tabela não se aplica. Defina a meta com seu médico.';
-  if (!m.sex || m.age === undefined) return 'Informe idade e sexo para ver a recomendação.';
+  if (m.age !== undefined && m.age < 2) return L('Menor de 2 anos: a tabela não cobre. Defina a meta com o pediatra.', 'Under 2 years old: the table does not cover this. Set the goal with the pediatrician.');
+  if (m.pregnantOrNursing) return L('Gestante ou lactante: a tabela não se aplica. Defina a meta com seu médico.', 'Pregnant or nursing: the table does not apply. Set the goal with your doctor.');
+  if (!m.sex || m.age === undefined) return L('Informe idade e sexo para ver a recomendação.', 'Enter age and sex to see the recommendation.');
   return null;
 }
