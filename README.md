@@ -12,6 +12,7 @@
 * [Page Flows & Screen Architecture (PAGE_FLOWS.md)](./PAGE_FLOWS.md) — Comprehensive user journeys, wireflow logic, and layout adaptations for Mobile (APK) and Web.
 * [Emergency Communications & Offline Maps (COMMUNICATIONS_AND_MAPS.md)](./COMMUNICATIONS_AND_MAPS.md) — The PACE framework, LoRa mesh bridge (Meshtastic / MeshCore), local USB-OTG RTL-SDR tuning, and downloadable offline vector maps.
 * [Visual Identity & Design System (DESIGN_SYSTEM.md)](./DESIGN_SYSTEM.md) — Tactical minimalist UI specifications, color tokens, typography, and component styling inspired by Voxyl and MeshCrossway.
+* [Brand Kit (brand/)](./brand/README.md) — Logos, app icons, social image and color/type tokens for the KeepReady identity.
 * [Authoritative Public Data Sources (DATA_SOURCES.md)](./DATA_SOURCES.md) — Catalog of scientific standards, government APIs, humanitarian nutrition benchmarks, and civil defense frameworks with verified links.
 * [Reference Knowledge Base (knowledge_base/)](./knowledge_base/README.md) — Structured directory containing empirical food storage profiles, cooking fuel physics, CDC water formulas, TCCC trauma protocols, and global SDR presets.
 * [Database Schema (schema.sql)](./schema.sql) — Comprehensive PostgreSQL relational schema designed for Supabase with Row-Level Security (RLS).
