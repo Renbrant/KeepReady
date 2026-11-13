@@ -1,8 +1,9 @@
 import { useState } from 'preact/hooks';
 import { Btn, Card, NumField, Pill, SelectField, TextField } from '../components/ui';
 import { saveGear, savePantry, saveShop, saveSupplies, store } from '../lib/db';
-import { GEAR_UNIT_PRICE, PANTRY_HINTS, PANTRY_UNIT_PRICE } from '../lib/apply';
+import { GEAR_UNIT_PRICE, PANTRY_HINTS, PANTRY_UNIT_PRICE, shopKey } from '../lib/apply';
 import { CATEGORY_LABEL } from '../content/catalog';
+import { AFFILIATE_DISCLOSURE, BUY_LINKS } from '../content/buy';
 import { usePlan, useReadiness } from '../lib/derived';
 import { activeLines } from '../lib/planner';
 import { n0, n1, usd } from '../lib/fmt';
@@ -15,6 +16,8 @@ type Tab = 'Todos' | 'Costco' | 'Outros' | 'Reposição';
 function Row({ it }: { it: Item }) {
   const [editing, setEditing] = useState(false);
   const sub = it.unitPrice !== undefined ? it.unitPrice * it.qty : undefined;
+  const key = shopKey(it);
+  const link = key ? BUY_LINKS[key] : undefined;
   return (
     <li>
       <div class={`item-check ${it.checked ? 'done' : ''}`}>
@@ -29,6 +32,14 @@ function Row({ it }: { it: Item }) {
             {sub !== undefined ? ` = ${usd(sub)}` : ''}
           </div>
           {it.note && <div class="xs faint">{it.note}</div>}
+          {link && (
+            <div style={{ marginTop: 6 }}>
+              <a class="btn small" href={link.url} target="_blank" rel="sponsored noopener noreferrer" title={link.title}>
+                {link.label}
+              </a>
+              <div class="xs faint">{link.title}</div>
+            </div>
+          )}
         </div>
         <Btn small onClick={() => setEditing(!editing)}>
           {editing ? 'Fechar' : 'Editar'}
@@ -115,6 +126,7 @@ export function Shopping() {
         <div class="small" style={{ marginTop: 10 }}>
           Despensa e caixas, calculadas pelo plano: <b>cerca de {usd(planEst)}</b> nos itens com preço estimado ({planNoPrice} itens sem preço, como lanternas, remédios, água e gás). Total estimado: <b>{usd(left + planEst)}</b>.
         </div>
+        {items.some((i) => { const k = shopKey(i); return !!k && !!BUY_LINKS[k]; }) && <div class="xs faint" style={{ marginTop: 8 }}>{AFFILIATE_DISCLOSURE}</div>}
         <div class="xs faint" style={{ marginTop: 8 }}>Os preços são estimativas do plano, não leitura de hoje: confira na loja e corrija em Editar.</div>
       </Card>
 
