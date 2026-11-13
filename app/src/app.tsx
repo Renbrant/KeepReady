@@ -5,6 +5,8 @@ import { useSettings } from './lib/db';
 import { Dashboard } from './views/Dashboard';
 import { Family } from './views/Family';
 import { Guides } from './views/Guides';
+import { Plan } from './views/Plan';
+import { Totes } from './views/Totes';
 import { More } from './views/More';
 import { Print } from './views/Print';
 import { Rotation } from './views/Rotation';
@@ -28,10 +30,10 @@ function useRoute(): string {
 
 const TABS = [
   { href: '#/painel', icon: 'painel', label: 'Painel', match: ['', 'painel'] },
-  { href: '#/estoque', icon: 'estoque', label: 'Estoque', match: ['estoque'] },
+  { href: '#/estoque', icon: 'estoque', label: 'Estoque', match: ['estoque', 'caixas'] },
   { href: '#/rotacao', icon: 'rotacao', label: 'Rotação', match: ['rotacao'] },
   { href: '#/compras', icon: 'compras', label: 'Compras', match: ['compras'] },
-  { href: '#/mais', icon: 'mais', label: 'Mais', match: ['mais', 'familia', 'guias', 'ajustes', 'imprimir'] },
+  { href: '#/mais', icon: 'mais', label: 'Mais', match: ['mais', 'plano', 'familia', 'guias', 'ajustes', 'imprimir'] },
 ] as const;
 
 function view(route: string): ComponentChildren {
@@ -45,6 +47,10 @@ function view(route: string): ComponentChildren {
       return <Shopping />;
     case 'mais':
       return <More />;
+    case 'plano':
+      return <Plan />;
+    case 'caixas':
+      return <Totes />;
     case 'familia':
       return <Family />;
     case 'guias':

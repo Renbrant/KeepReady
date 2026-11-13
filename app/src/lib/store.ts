@@ -1,4 +1,4 @@
-import type { Kind, Rec, RemoteRec } from './types';
+import { KINDS, type Kind, type Rec, type RemoteRec } from './types';
 
 export interface Persist {
   load(): Promise<Rec[] | undefined>;
@@ -160,7 +160,7 @@ export function createRecordStore(persist: Persist, seed: (now: string) => Rec[]
   function importBackup(file: unknown): number {
     const f = file as BackupFile;
     if (!f || f.app !== 'keepready' || f.version !== 1 || !Array.isArray(f.records)) throw new Error('Arquivo de backup inválido.');
-    const kinds: Kind[] = ['settings', 'member', 'bucket', 'pantry', 'shop', 'supply'];
+    const kinds: Kind[] = KINDS;
     const recs: Rec[] = f.records
       .filter((r) => r && typeof r.id === 'string' && kinds.includes(r.kind))
       .map((r) => ({ id: r.id, kind: r.kind, data: r.data, updatedAt: clock(), dirty: true, rev: 0 }));

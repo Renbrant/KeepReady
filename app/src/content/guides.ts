@@ -22,6 +22,8 @@ const MYLAR: Source = { title: 'Survival Freedom: Mylar bags and oxygen absorber
 const CSU_PRESSURE: Source = { title: 'CSU Extension: Adjusting for elevation when pressure cooking', url: 'https://extension.colostate.edu/resource/adjusting-for-elevation-when-pressure-cooking' };
 const CSU_BEANS: Source = { title: 'CSU Extension: Cooking dry beans', url: 'https://extension.colostate.edu/resource/cooking-dry-beans/' };
 const CSU_HIGH: Source = { title: 'CSU Extension: High elevation food preparation', url: 'https://extension.colostate.edu/resource/high-elevation-food-preparation/' };
+const READY: Source = { title: 'Ready.gov: Build a Kit', url: 'https://www.ready.gov/kit' };
+const REDCROSS: Source = { title: 'Cruz Vermelha Americana: Survival Kit Supplies', url: 'https://redcross.org/get-help/how-to-prepare-for-emergencies/survival-kit-supplies.html' };
 const MDN: Source = { title: 'MDN: Storage quotas and eviction criteria', url: 'https://developer.mozilla.org/docs/Web/API/Storage_API/Storage_quotas_and_eviction_criteria' };
 
 export const GUIDES: Guide[] = [
@@ -111,6 +113,49 @@ export const GUIDES: Guide[] = [
     ],
     notes: ['Teste no seu fogão. Cozinhe um balde "de teste" em casa, anote o tempo real e a quantidade de gás gasta, e ajuste a altitude ou o modo de cozimento em Ajustes se necessário.'],
     sources: [CSU_PRESSURE, CSU_HIGH, CSU_BEANS],
+  },
+  {
+    id: 'plano',
+    title: 'Como o plano calcula as quantidades',
+    summary: 'Pessoas, dias e perfil viram comida, baldes, água, gás e caixas de 27 galões. O que é fonte e o que é estimativa.',
+    intro: [
+      'Você informa quantas pessoas, quantos dias de autonomia e o perfil de cada uma (idade, sexo, atividade, remédio contínuo, óculos). O app soma as calorias da casa e calcula o resto a partir disso. Tudo é recalculado na hora que você muda um número.',
+    ],
+    steps: [
+      {
+        title: 'Comida',
+        text: 'Calorias por dia da casa × dias × (1 + folga). A folga padrão é 10%. Em metas acima de 14 dias, a comida se divide como no plano de exemplo: cerca de 62% em baldes de grãos, 12% no balde misto (açúcar, leite, sal, café) e o resto na despensa de comida pronta, com no mínimo 10% na despensa. O número de baldes de grãos sempre sobe para o inteiro seguinte e a despensa absorve a diferença, então o plano nunca cobre menos que a meta. Em metas de até 14 dias, o app usa só comida pronta de mercado, sem baldes de Mylar: o Mylar serve para guardar por anos, e comida de mercado dura o bastante para uma meta curta. Você pode escolher "Sempre" nas Opções do plano.',
+      },
+      {
+        title: 'Água e gás',
+        text: 'Água: beber (padrão 1 galão por pessoa por dia, o valor que a Ready.gov e a Cruz Vermelha citam) mais a água de cozimento. Gás: minutos de fogo por dia, corrigidos pela altitude e pelo modo de cozinhar, com 20% de folga. Veja o guia de altitude.',
+      },
+      {
+        title: 'Caixas de 27 galões',
+        text: 'As caixas guardam o que não é perecível, não precisa de vedação e é usado com frequência. A lista de itens vem da Ready.gov e da Cruz Vermelha, mais o kit de trauma e o rádio do repositório do KeepReady. O app multiplica cada item por pessoas e dias (ou 1 por casa), arruma por categoria e enche uma caixa de cada vez até 80% do volume de 27 galões (cerca de 102 L) ou o peso máximo (20 kg por padrão). Itens grandes, como cobertores, extintor, panela de pressão e fogareiro, ficam fora da conta de caixas.',
+      },
+      {
+        title: 'Perfil de cada pessoa',
+        text: 'Mulheres de 12 a 51 anos entram no cálculo de absorventes. Crianças até 3 anos entram no de fraldas. Quem usa remédio contínuo entra no suprimento de remédios, e quem usa óculos ou lentes, na reserva de óculos. Sem idade ou sexo informado, esses itens não aparecem.',
+      },
+    ],
+    notes: [
+      'As fontes públicas listam os itens, mas quase nunca a quantidade por pessoa e por dia. A Cruz Vermelha cita números para água (1 galão por pessoa por dia), comida (3 dias para evacuar, 2 semanas em casa) e 7 dias de remédios. A Ready.gov fala em 1 galão por pessoa por dia e em "vários dias" de comida. Nos outros itens, a quantidade é estimativa do app e aparece marcada como tal em cada item. Ajuste ao seu consumo: marque "Tenho" e desligue o que não se aplica.',
+      'Remédios: o app só conta dias de suprimento. Não calcula doses. Siga a bula e o seu médico. O kit de trauma só serve com treinamento.',
+      'Bebês com menos de 1 ano: fórmula e papinha não entram na conta. A tabela de calorias também não vale para menores de 2 anos. Combine com o pediatra.',
+      'A despensa é escalada em proporção ao plano de exemplo. Se você trocou os itens dela, a proporção entre eles é mantida. Variedade e micronutrientes não são calculados: o plano mira em calorias.',
+      'Aplicar o plano não mexe em baldes lacrados ou em rotação, no que você já tem na despensa, no que marcou como comprado nem nos itens que você adicionou.',
+    ],
+    estimates: [
+      'Papel higiênico: 0,4 rolo por pessoa por dia.',
+      'Lenços umedecidos, sabonete, pasta de dente, álcool em gel, sacos de lixo, papel toalha, detergente, esponja: taxas por pessoa-dia definidas pelo app.',
+      'Pilhas AA: 0,3 por pessoa por dia.',
+      'Lanternas (1 por pessoa), baterias externas (1 a cada 2 pessoas), máscaras N95 (2 por pessoa).',
+      'Absorventes: 20 a cada 28 dias. Fraldas: 8, 6 e 5 por dia até 1, 2 e 3 anos.',
+      'Volume e peso de cada item (para estimar quantas caixas), aproveitamento de 80% da caixa e limite de 20 kg.',
+      'Divisão da comida entre baldes e despensa, mínimo de 10% na despensa e limite de 14 dias para a meta curta.',
+    ],
+    sources: [READY, REDCROSS],
   },
   {
     id: 'calorias',

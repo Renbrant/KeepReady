@@ -15,7 +15,8 @@ import {
 import { addDays, fmtDate, todayISO } from '../lib/dates';
 import { addReplacementShopping, removeReplacementShopping } from '../lib/actions';
 import { saveBucket, savePantry, saveSupplies } from '../lib/db';
-import { useReadiness } from '../lib/derived';
+import { usePlan, useReadiness } from '../lib/derived';
+import { gearProgress } from '../lib/planner';
 import { n0, n1, usd } from '../lib/fmt';
 import type { Bucket, Settings } from '../lib/types';
 
@@ -160,6 +161,8 @@ function BucketCard({ b, all, row, settings }: { b: B; all: B[]; row: RotRow; se
 
 export function Stock() {
   const r = useReadiness();
+  const plan = usePlan();
+  const prog = gearProgress(plan.gearLines);
   const today = todayISO();
   const rows = rotationRows(r.buckets, today);
   const sealed = r.buckets.filter((b) => b.status === 'sealed').length;
@@ -175,6 +178,16 @@ export function Stock() {
           </div>
         </div>
       </div>
+
+      <a class="menu-link" href="#/caixas">
+        <span>
+          Caixas de 27 gal
+          <small>
+            {plan.totes.length} {plan.totes.length === 1 ? 'caixa' : 'caixas'} · {prog.done} de {prog.total} itens completos
+          </small>
+        </span>
+        <span aria-hidden="true">›</span>
+      </a>
 
       <h2>Baldes</h2>
       {r.buckets.map((b) => (

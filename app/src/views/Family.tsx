@@ -8,9 +8,9 @@ import { newId } from '../lib/store';
 import type { Activity, Member, Sex } from '../lib/types';
 import { foodDays, stockKcal } from '../lib/calc';
 
-type M = Member & { id: string };
+export type M = Member & { id: string };
 
-function MemberCard({ m, canRemove }: { m: M; canRemove: boolean }) {
+export function MemberCard({ m, canRemove }: { m: M; canRemove: boolean }) {
   const rec = memberRecommended(m);
   const note = recommendationNote(m);
   const target = memberTarget(m);
@@ -55,6 +55,15 @@ function MemberCard({ m, canRemove }: { m: M; canRemove: boolean }) {
           <input type="checkbox" checked={!!m.pregnantOrNursing} onChange={(e) => saveMember(m.id, { pregnantOrNursing: (e.currentTarget as HTMLInputElement).checked })} />
           <span class="small">Gestante ou lactante</span>
         </label>
+        <label class="row" style={{ cursor: 'pointer' }}>
+          <input type="checkbox" checked={!!m.takesMeds} onChange={(e) => saveMember(m.id, { takesMeds: (e.currentTarget as HTMLInputElement).checked })} />
+          <span class="small">Usa remédio de uso contínuo</span>
+        </label>
+        <label class="row" style={{ cursor: 'pointer' }}>
+          <input type="checkbox" checked={!!m.glasses} onChange={(e) => saveMember(m.id, { glasses: (e.currentTarget as HTMLInputElement).checked })} />
+          <span class="small">Usa óculos ou lentes</span>
+        </label>
+        <div class="xs muted">Idade, sexo e estes dois itens definem o que o plano pede nas caixas (remédios, óculos, fraldas, absorventes).</div>
 
         <div class="banner">
           <div class="row between">
@@ -104,16 +113,16 @@ function MemberCard({ m, canRemove }: { m: M; canRemove: boolean }) {
   );
 }
 
+export function addMember(existing: Member[]): void {
+  const order = existing.reduce((mx, m) => Math.max(mx, m.order), 0) + 1;
+  store.put('member', newId('member'), { name: `Pessoa ${order}`, activity: 'moderate', kcalOverride: SPHERE_KCAL, order } satisfies Member);
+}
+
 export function Family() {
   const r = useReadiness();
   const buckets = useBuckets();
   const pantry = usePantry();
   const plannedDays = foodDays(stockKcal(buckets, pantry).plannedKcal, r.kcalPerDay);
-
-  const addMember = () => {
-    const order = r.members.reduce((mx, m) => Math.max(mx, m.order), 0) + 1;
-    store.put('member', newId('member'), { name: `Pessoa ${order}`, activity: 'moderate', kcalOverride: SPHERE_KCAL, order } satisfies Member);
-  };
 
   return (
     <>
@@ -139,7 +148,7 @@ export function Family() {
         <MemberCard key={m.id} m={m as M} canRemove={r.members.length > 1} />
       ))}
       <div style={{ marginBottom: 16 }}>
-        <Btn onClick={addMember}>Adicionar pessoa</Btn>
+        <Btn onClick={() => addMember(r.members)}>Adicionar pessoa</Btn>
       </div>
 
       <Account />

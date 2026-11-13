@@ -1,8 +1,11 @@
 import { useState } from 'preact/hooks';
 import { Btn, Card, NumField, Pill, SelectField, TextField } from '../components/ui';
-import { saveShop, store } from '../lib/db';
-import { useReadiness } from '../lib/derived';
-import { n0, usd } from '../lib/fmt';
+import { saveGear, savePantry, saveShop, saveSupplies, store } from '../lib/db';
+import { PANTRY_HINTS } from '../lib/apply';
+import { CATEGORY_LABEL } from '../content/catalog';
+import { usePlan, useReadiness } from '../lib/derived';
+import { activeLines } from '../lib/planner';
+import { n0, n1, usd } from '../lib/fmt';
 import { newId } from '../lib/store';
 import type { ShopItem } from '../lib/types';
 
@@ -48,6 +51,7 @@ function Row({ it }: { it: Item }) {
 
 export function Shopping() {
   const r = useReadiness();
+  const plan = usePlan();
   const [tab, setTab] = useState<Tab>('Todos');
   const [name, setName] = useState('');
   const [qty, setQty] = useState<number | undefined>(1);
@@ -62,6 +66,11 @@ export function Shopping() {
   const noPrice = items.filter((i) => !i.checked && i.unitPrice === undefined).length;
   const done = items.filter((i) => i.checked).length;
   const hasRep = items.some((i) => i.store === 'Reposição');
+
+  const pantryMissing = r.pantry.filter((p) => p.planQty - p.haveQty > 1e-9);
+  const waterMissing = Math.max(0, r.sup.waterTargetGal - r.sup.waterGal);
+  const gasMissing = Math.max(0, r.sup.propaneTarget - r.sup.propaneFull);
+  const gearMissing = activeLines(plan.gearLines).filter((l) => l.missing > 0);
 
   const stores: ('Reposição' | 'Costco' | 'Outros')[] = ['Reposição', 'Costco', 'Outros'];
   const groups = stores
@@ -124,6 +133,106 @@ export function Shopping() {
           </ul>
         </Card>
       ))}
+
+
+      {tab === 'Todos' && (
+        <>
+          <h2>Calculado pelo plano</h2>
+          <div class="xs muted" style={{ marginBottom: 8 }}>
+            Estas listas saem do que o plano pede menos o que você já tem. Não entram nos totais em US$ e se atualizam sozinhas. Toque em "Comprei" para dar como completo.
+          </div>
+          {pantryMissing.length > 0 && (
+            <Card>
+              <div class="row between">
+                <h2 style={{ margin: 0 }}>Despensa</h2>
+                <Pill tone="neutral">{pantryMissing.length} itens</Pill>
+              </div>
+              <ul class="list" style={{ marginTop: 6 }}>
+                {pantryMissing.map((p) => (
+                  <li key={p.id}>
+                    <div class="row between" style={{ alignItems: 'flex-start' }}>
+                      <div class="grow">
+                        <div style={{ fontWeight: 600 }}>{p.name}</div>
+                        <div class="xs muted mono">
+                          falta {n1(p.planQty - p.haveQty)} {p.unit} (plano {n1(p.planQty)}, tenho {n1(p.haveQty)})
+                        </div>
+                        {PANTRY_HINTS[p.name] && <div class="xs faint">{PANTRY_HINTS[p.name]}</div>}
+                      </div>
+                      <Btn small onClick={() => savePantry(p.id, { haveQty: p.planQty })}>
+                        Comprei
+                      </Btn>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          )}
+          {(waterMissing > 0 || gasMissing > 0) && (
+            <Card>
+              <h2>Água e gás</h2>
+              <ul class="list" style={{ marginTop: 6 }}>
+                {waterMissing > 0 && (
+                  <li>
+                    <div class="row between">
+                      <div class="grow">
+                        <div style={{ fontWeight: 600 }}>Água</div>
+                        <div class="xs muted mono">falta {n0(waterMissing)} gal (meta {n0(r.sup.waterTargetGal)}, tenho {n0(r.sup.waterGal)})</div>
+                      </div>
+                      <Btn small onClick={() => saveSupplies({ waterGal: r.sup.waterTargetGal })}>
+                        Completei
+                      </Btn>
+                    </div>
+                  </li>
+                )}
+                {gasMissing > 0 && (
+                  <li>
+                    <div class="row between">
+                      <div class="grow">
+                        <div style={{ fontWeight: 600 }}>Botijões de propano 20 lb cheios</div>
+                        <div class="xs muted mono">falta {gasMissing} (meta {r.sup.propaneTarget}, tenho {r.sup.propaneFull})</div>
+                        <div class="xs faint">O Costco enche, mas não troca. Confirme se a sua unidade enche.</div>
+                      </div>
+                      <Btn small onClick={() => saveSupplies({ propaneFull: r.sup.propaneTarget })}>
+                        Completei
+                      </Btn>
+                    </div>
+                  </li>
+                )}
+              </ul>
+            </Card>
+          )}
+          {gearMissing.length > 0 && (
+            <Card>
+              <div class="row between">
+                <h2 style={{ margin: 0 }}>Caixas de 27 gal</h2>
+                <Pill tone="neutral">{gearMissing.length} itens</Pill>
+              </div>
+              <ul class="list" style={{ marginTop: 6 }}>
+                {gearMissing.map((l) => (
+                  <li key={l.id}>
+                    <div class="row between" style={{ alignItems: 'flex-start' }}>
+                      <div class="grow">
+                        <div style={{ fontWeight: 600 }}>{l.name}</div>
+                        <div class="xs muted mono">
+                          falta {n0(l.missing)} {l.unit} · {CATEGORY_LABEL[l.category]}
+                        </div>
+                      </div>
+                      <Btn small onClick={() => saveGear(l.id, { have: l.need })}>
+                        Comprei
+                      </Btn>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          )}
+          {pantryMissing.length === 0 && waterMissing === 0 && gasMissing === 0 && gearMissing.length === 0 && (
+            <Card>
+              <div class="small muted">Nada pendente na despensa, na água, no gás nem nas caixas.</div>
+            </Card>
+          )}
+        </>
+      )}
 
       <details class="card">
         <summary>

@@ -1,5 +1,5 @@
 import { SyncPill } from '../components/SyncPill';
-import { useReadiness } from '../lib/derived';
+import { usePlan, useReadiness } from '../lib/derived';
 import { n0, plural } from '../lib/fmt';
 import { useMeta } from '../lib/meta';
 
@@ -17,6 +17,7 @@ function Link({ href, title, sub }: { href: string; title: string; sub: string }
 
 export function More() {
   const r = useReadiness();
+  const plan = usePlan();
   const meta = useMeta();
   return (
     <>
@@ -27,6 +28,11 @@ export function More() {
         </div>
         <SyncPill />
       </div>
+      <Link
+        href="#/plano"
+        title="Plano e meta"
+        sub={`${r.members.length} ${plural(r.members.length, 'pessoa', 'pessoas')} · ${r.settings.daysTarget} dias · ${plan.food.grainBuckets} baldes, ${plan.totes.length} ${plural(plan.totes.length, 'caixa', 'caixas')} de 27 gal`}
+      />
       <Link
         href="#/familia"
         title="Família e conta"

@@ -2,7 +2,8 @@ import { SyncPill, agoLabel } from '../components/SyncPill';
 import { Card, Gauge, Pill, Ring, toneFor, type Tone } from '../components/ui';
 import { cylindersNeeded, expiringSoon, nextDue, rotationRows, type RotStatus } from '../lib/calc';
 import { addDays, diffDays, fmtDate, todayISO } from '../lib/dates';
-import { useReadiness } from '../lib/derived';
+import { usePlan, useReadiness } from '../lib/derived';
+import { activeLines, gearProgress } from '../lib/planner';
 import { daysFmt, isStandalone, n0, n1, plural, usd } from '../lib/fmt';
 import { useMeta } from '../lib/meta';
 import { syncAvailable } from '../lib/supabase';
@@ -19,6 +20,8 @@ interface Alert {
 
 export function Dashboard() {
   const r = useReadiness();
+  const plan = usePlan();
+  const gear = gearProgress(plan.gearLines);
   const meta = useMeta();
   const today = todayISO();
   const target = r.settings.daysTarget;
@@ -43,6 +46,11 @@ export function Dashboard() {
     const d = diffDays(today, p.expiresOn!);
     alerts.push({ tone: d < 0 ? 'bad' : 'warn', text: d < 0 ? `${p.name} venceu em ${fmtDate(p.expiresOn)}.` : `${p.name} vence em ${d} dias.`, href: '#/estoque' });
   }
+  for (const g of activeLines(plan.gearLines)) {
+    if (g.have <= 0 || !g.expiresOn) continue;
+    const d = diffDays(today, g.expiresOn);
+    if (d <= 90) alerts.push({ tone: d < 0 ? 'bad' : 'warn', text: d < 0 ? `${g.name} (caixas) venceu em ${fmtDate(g.expiresOn)}.` : `${g.name} (caixas) vence em ${d} dias.`, href: '#/caixas' });
+  }
   if (!noStock && r.a.min < target) {
     alerts.push({ tone: r.a.min < target / 2 ? 'bad' : 'warn', text: `${PILLAR_LABEL[r.a.limiting]} cobre só ${daysFmt(r.a.min)} dos ${target} dias da meta.`, href: '#/estoque' });
   }
@@ -65,6 +73,7 @@ export function Dashboard() {
     { done: shopTotal > 0 && shopDone === shopTotal, title: 'Comprar os itens', detail: `${shopDone} de ${shopTotal} comprados`, href: '#/compras' },
     { done: inRotationOrSealed === r.buckets.length, title: 'Reembalar e lacrar os baldes', detail: `${inRotationOrSealed} de ${r.buckets.length} lacrados`, href: '#/estoque' },
     { done: pantryDone === r.pantry.length, title: 'Montar a despensa', detail: `${pantryDone} de ${r.pantry.length} itens completos`, href: '#/estoque' },
+    { done: gear.total > 0 && gear.done === gear.total, title: 'Montar as caixas de 27 gal', detail: `${gear.done} de ${gear.total} itens completos · ${plan.totes.length} ${plan.totes.length === 1 ? 'caixa' : 'caixas'}`, href: '#/caixas' },
     { done: waterOk && gasOk, title: 'Água e gás', detail: `${n0(r.sup.waterGal)} de ${n0(r.sup.waterTargetGal)} gal · ${r.sup.propaneFull} de ${r.sup.propaneTarget} botijões`, href: '#/estoque' },
     {
       done: !!meta.householdId,
@@ -86,14 +95,28 @@ export function Dashboard() {
         <SyncPill />
       </div>
 
+      {!r.settings.planConfigured && (
+        <Card>
+          <div class="small">
+            <b>Configure o seu plano.</b> Diga quantas pessoas, quantos dias de autonomia e o perfil de cada uma: o app calcula comida, baldes, água, gás e caixas de 27 galões.
+          </div>
+          <div style={{ marginTop: 10 }}>
+            <a class="btn primary" href="#/plano">
+              Configurar plano
+            </a>
+          </div>
+        </Card>
+      )}
+
       <Card>
         <div class="row" style={{ gap: 16 }}>
           <Ring value={target > 0 ? r.a.min / target : 0} tone={tone} big={daysFmt(r.a.min)} label="dias de autonomia" />
           <div class="grow">
-            <div class="small muted">Meta</div>
+            <div class="small muted">Meta · {r.members.length} {plural(r.members.length, 'pessoa', 'pessoas')}</div>
             <div class="mono" style={{ fontSize: '1.2rem', fontWeight: 700 }}>
               {target} dias
             </div>
+            <a class="xs" href="#/plano">Ajustar plano</a>
             <div style={{ marginTop: 8 }}>
               <Pill tone={noStock ? 'neutral' : tone}>{noStock ? 'Estoque vazio' : `Gargalo: ${PILLAR_LABEL[r.a.limiting]}`}</Pill>
             </div>

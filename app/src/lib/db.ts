@@ -2,7 +2,9 @@ import { get, set } from 'idb-keyval';
 import { useEffect, useState } from 'preact/hooks';
 import { createRecordStore, type Persist } from './store';
 import { seedRecords } from './plan';
-import type { Bucket, Member, PantryItem, Settings, ShopItem, Supplies } from './types';
+import type { Op } from './apply';
+import { gearRecId, type GearRec } from './planner';
+import type { Bucket, GearState, Member, PantryItem, Settings, ShopItem, Supplies } from './types';
 import { defaultSettings } from './plan';
 
 const KEY = 'kr.records.v1';
@@ -56,7 +58,27 @@ export function useSupplies(): Supplies {
   return store.get<Supplies>('supplies')?.data ?? { waterGal: 0, waterTargetGal: 190, propaneFull: 0, propaneTarget: 3 };
 }
 
+export function useGear(): GearRec[] {
+  useStoreVersion();
+  return store.list<GearState>('gear').map((r) => ({ id: r.id, state: r.data }));
+}
+
 /* ---------- Ações ---------- */
+
+/** Atualiza o estado de um item das caixas (cria o registro na primeira vez). `id` é o id do catálogo ou do item seu. */
+export function saveGear(id: string, patch: Partial<GearState>): void {
+  const rid = gearRecId(id);
+  const cur = store.get<GearState>(rid)?.data ?? { have: 0 };
+  store.put('gear', rid, { ...cur, ...patch });
+}
+
+/** Aplica uma lista de operações do plano. */
+export function runOps(ops: Op[]): void {
+  for (const op of ops) {
+    if (op.type === 'put') store.put(op.kind, op.id, op.data);
+    else store.remove(op.id);
+  }
+}
 
 export function saveSettings(patch: Partial<Settings>): void {
   const cur = { ...defaultSettings, ...(store.get<Settings>('settings')?.data ?? {}) };

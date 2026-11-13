@@ -1,4 +1,7 @@
-export type Kind = 'settings' | 'member' | 'bucket' | 'pantry' | 'shop' | 'supply';
+export type Kind = 'settings' | 'member' | 'bucket' | 'pantry' | 'shop' | 'supply' | 'gear';
+
+/** Lista única dos tipos de registro (backup, testes). O servidor tem a mesma lista numa restrição da tabela `records`. */
+export const KINDS: Kind[] = ['settings', 'member', 'bucket', 'pantry', 'shop', 'supply', 'gear'];
 
 /** Registro local-first. `dirty` e `rev` só existem no aparelho; o resto vai para o servidor. */
 export interface Rec<T = unknown> {
@@ -28,6 +31,10 @@ export interface Member {
   age?: number;
   activity: Activity;
   pregnantOrNursing?: boolean;
+  /** Usa remédio de uso contínuo (entra no cálculo de suprimento de remédios). */
+  takesMeds?: boolean;
+  /** Usa óculos ou lentes (entra no cálculo de reserva de óculos e solução). */
+  glasses?: boolean;
   /** Meta escolhida pelo usuário (kcal/dia). Se ausente, usa a recomendação. */
   kcalOverride?: number | null;
   order: number;
@@ -80,6 +87,8 @@ export interface ShopItem {
   checked: boolean;
   note?: string;
   forBucket?: number;
+  /** Chave de um item gerado pelo plano (ex.: 'food:rice'). Itens sem chave são seus. */
+  auto?: string;
   order: number;
 }
 
@@ -101,5 +110,24 @@ export interface Settings {
   cookingMode: 'pressure' | 'open';
   drinkLPerPersonDay: number;
   packagingCostPerBag: number;
+  /** Folga sobre a meta de comida, em %, para perda, apetite e visitas. */
+  bufferPct: number;
+  /** 'auto': baldes de Mylar só a partir de 15 dias. 'always': sempre. */
+  bucketMode: 'auto' | 'always';
+  /** Peso máximo de cada caixa de 27 gal, em kg. */
+  toteCapKg: number;
+  /** O usuário já passou pelo plano (pessoas, dias, perfil) ou dispensou o convite. */
+  planConfigured: boolean;
   theme: 'auto' | 'dark' | 'light';
+}
+
+export type GearCategory = 'saude' | 'higiene' | 'cozinha' | 'energia' | 'ferramentas' | 'documentos';
+
+/** Estado de um item da lista das caixas. O id do registro é `gear-<id do catálogo>` ou `gear-c-…` para item seu. */
+export interface GearState {
+  have: number;
+  expiresOn?: string;
+  hidden?: boolean;
+  /** Presente só em item criado pelo usuário. */
+  custom?: { name: string; category: GearCategory; unit: string; need: number; liters: number; kg: number };
 }

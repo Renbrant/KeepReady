@@ -1,8 +1,12 @@
 # KeepReady (PWA)
 
-App web instalável para a família acompanhar o estoque de emergência: dashboard de autonomia (comida, água e gás), baldes com rotação (um por vez), metas de calorias por pessoa, lista de compras e guias. Funciona sem internet e, com login, sincroniza entre os aparelhos da casa.
+App web instalável para a família planejar e acompanhar o estoque de emergência: dashboard de autonomia (comida, água e gás), baldes com rotação (um por vez), metas de calorias por pessoa, lista de compras e guias. Funciona sem internet e, com login, sincroniza entre os aparelhos da casa.
 
 Stack: Preact + TypeScript + Vite + vite-plugin-pwa (service worker) + IndexedDB (idb-keyval) + Supabase (login, Postgres, RLS). Hospedagem: Cloudflare Workers (static assets).
+
+## Plano flexível
+
+Em Mais, Plano e meta: você informa **quantas pessoas, quantos dias e o perfil de cada uma**, e o app calcula comida, baldes de grãos, despensa, água, gás e **caixas de 27 galões** (higiene, cozinha, remédios, luz, ferramentas). Metas de até 14 dias usam comida pronta, sem baldes de Mylar (dá para forçar nas Opções do plano). "Aplicar" ajusta só o que ainda não foi feito: baldes lacrados ou em rotação, o que você tem na despensa e o que você marcou como comprado não mudam. A lista das caixas vem da Ready.gov, da Cruz Vermelha e do repositório; as quantidades por pessoa e dia são, na maioria, estimativas do app, marcadas como tal (Guias, Como o plano calcula).
 
 ## Como funciona
 
@@ -16,7 +20,7 @@ Stack: Preact + TypeScript + Vite + vite-plugin-pwa (service worker) + IndexedDB
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm test           # 42 testes (contas, calorias, sincronização)
+npm test           # 90 testes (contas, calorias, sincronização, plano)
 npm run build      # tsc + vite build, gera dist/
 npm run preview    # serve dist/ em http://127.0.0.1:4173
 ```
@@ -86,11 +90,12 @@ Pontos de atenção no plano gratuito do Supabase:
 
 ```
 src/lib/        regras e dados: calc.ts (contas), nutrition.ts (calorias), store.ts (registros locais),
-                sync.ts (uma rodada de sincronização), supabase.ts, account.ts, plan.ts (plano de exemplo)
+                sync.ts (uma rodada de sincronização), supabase.ts, account.ts, plan.ts (plano de exemplo),
+                planner.ts (motor do plano), apply.ts (aplicar sem apagar o que já foi feito)
 src/views/      Dashboard, Stock, Rotation, Shopping, Family, Guides, Settings, More, Print
-src/content/    textos dos guias, com fontes
+src/content/    guides.ts (guias, com fontes), catalog.ts (itens das caixas)
 supabase/       migrations/20261113171845_keepready_sync.sql
-tests/          calc, nutrition, sync (vitest)
+tests/          calc, nutrition, sync, planner (vitest)
 ```
 
 ## Fontes

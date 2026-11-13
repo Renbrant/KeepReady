@@ -1,13 +1,13 @@
 import type { Bucket, BucketItem, Member, PantryItem, Rec, Settings, ShopItem, Supplies } from './types';
 import { GAL_L, LB_KG } from './calc';
 
-/** Preços do Costco (US$ por libra), lidos em novembro de 2026. São estimativas editáveis. */
-const perKg = (usd: number, lb: number) => usd / (lb * LB_KG);
+/** Preços do plano original (Costco, US$ por libra). São estimativas editáveis, não uma leitura de preço de hoje. */
+export const perKg = (usd: number, lb: number) => usd / (lb * LB_KG);
 
-const RICE: BucketItem = { name: 'Arroz', kg: 3.5, kcalPerKg: 3600, waterLPerKg: 2.2, pricePerKg: perKg(12, 25) };
-const BEANS: BucketItem = { name: 'Feijão', kg: 3.25, kcalPerKg: 3400, waterLPerKg: 4, pricePerKg: perKg(14.99, 25) };
-const PASTA: BucketItem = { name: 'Macarrão quebrado', kg: 2.25, kcalPerKg: 3500, waterLPerKg: 4, pricePerKg: perKg(9.49, 8) };
-const OATS: BucketItem = { name: 'Aveia', kg: 1.5, kcalPerKg: 3800, waterLPerKg: 5, pricePerKg: perKg(7.99, 10) };
+export const RICE: BucketItem = { name: 'Arroz', kg: 3.5, kcalPerKg: 3600, waterLPerKg: 2.2, pricePerKg: perKg(12, 25) };
+export const BEANS: BucketItem = { name: 'Feijão', kg: 3.25, kcalPerKg: 3400, waterLPerKg: 4, pricePerKg: perKg(14.99, 25) };
+export const PASTA: BucketItem = { name: 'Macarrão quebrado', kg: 2.25, kcalPerKg: 3500, waterLPerKg: 4, pricePerKg: perKg(9.49, 8) };
+export const OATS: BucketItem = { name: 'Aveia', kg: 1.5, kcalPerKg: 3800, waterLPerKg: 5, pricePerKg: perKg(7.99, 10) };
 
 export const defaultSettings: Settings = {
   householdName: 'Minha casa',
@@ -18,6 +18,10 @@ export const defaultSettings: Settings = {
   cookingMode: 'pressure',
   drinkLPerPersonDay: Math.round(GAL_L * 100) / 100,
   packagingCostPerBag: 0,
+  bufferPct: 10,
+  bucketMode: 'auto',
+  toteCapKg: 20,
+  planConfigured: false,
   theme: 'auto',
 };
 
@@ -30,13 +34,28 @@ const SCHEDULE_NOTE = [
   'Dias 26 a 30',
 ];
 
+/** Sacos de Mylar por balde de grãos e por balde misto, no plano de exemplo. */
+export const GRAIN_BAGS = 4;
+export const MIXED_BAGS = 3;
+
+/** Itens de um balde de grãos (5 dias para 4 pessoas no plano de exemplo). */
+export const grainItems = (): BucketItem[] => [RICE, BEANS, PASTA, OATS].map((i) => ({ ...i }));
+
+/** Itens do balde misto do plano de exemplo. */
+export const mixedItems = (): BucketItem[] => [
+  { name: 'Açúcar', kg: 6, kcalPerKg: 3870, pricePerKg: perKg(16, 25) },
+  { name: 'Leite em pó', kg: 4, kcalPerKg: 5000, pricePerKg: perKg(35.99, 8) },
+  { name: 'Sal', kg: 1.2, kcalPerKg: 0 },
+  { name: 'Café (em pote vedado, fora do balde)', kg: 1.2, kcalPerKg: 0, pricePerKg: perKg(17.99, 2.5) },
+];
+
 function grainBuckets(): Bucket[] {
   return [1, 2, 3, 4, 5, 6].map((n) => ({
     n,
     name: `Balde ${n}`,
     kind: 'grain' as const,
-    bags: 4,
-    items: [RICE, BEANS, PASTA, OATS].map((i) => ({ ...i })),
+    bags: GRAIN_BAGS,
+    items: grainItems(),
     status: 'planned' as const,
     cycle: 0,
     note: SCHEDULE_NOTE[n - 1],
@@ -48,20 +67,15 @@ function mixedBucket(): Bucket {
     n: 7,
     name: 'Balde 7 (misto)',
     kind: 'mixed',
-    bags: 3,
-    items: [
-      { name: 'Açúcar', kg: 6, kcalPerKg: 3870, pricePerKg: perKg(16, 25) },
-      { name: 'Leite em pó', kg: 4, kcalPerKg: 5000, pricePerKg: perKg(35.99, 8) },
-      { name: 'Sal', kg: 1.2, kcalPerKg: 0 },
-      { name: 'Café (em pote vedado, fora do balde)', kg: 1.2, kcalPerKg: 0, pricePerKg: perKg(17.99, 2.5) },
-    ],
+    bags: MIXED_BAGS,
+    items: mixedItems(),
     status: 'planned',
     cycle: 0,
     note: 'Aberto junto com o balde 1. Açúcar e sal vão sem absorvedor.',
   };
 }
 
-const PANTRY: Omit<PantryItem, 'order' | 'haveQty'>[] = [
+export const PANTRY: Omit<PantryItem, 'order' | 'haveQty'>[] = [
   { name: 'Atum, sardinha e frango em lata', unit: 'latas', planQty: 80, kcalPerUnit: 150 },
   { name: 'Pasta de amendoim', unit: 'kg', planQty: 3, kcalPerUnit: 5900 },
   { name: 'Carne seca', unit: 'kg', planQty: 1.5, kcalPerUnit: 4100 },

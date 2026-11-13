@@ -262,6 +262,11 @@ a {
 .btn.block {
   width: 100%;
 }
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
 
 label.field {
   display: block;

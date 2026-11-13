@@ -1,4 +1,5 @@
-import { useBuckets, useMembers, usePantry, useSettings, useShop, useSupplies } from './db';
+import { useBuckets, useGear, useMembers, usePantry, useSettings, useShop, useSupplies } from './db';
+import { computePlan } from './planner';
 import {
   autonomy,
   cylindersNeeded,
@@ -40,4 +41,12 @@ export function useReadiness() {
     waterNeedGal: waterNeededGal(members, kcalPerDay, settings),
     cylindersNeed: cylindersNeeded(kcalPerDay, settings),
   };
+}
+
+/** O plano calculado (comida, baldes, água, gás e caixas) para as pessoas, a meta de dias e o perfil de agora. */
+export function usePlan() {
+  const settings = useSettings();
+  const members = useMembers();
+  const gear = useGear();
+  return computePlan({ members, settings, gear });
 }
