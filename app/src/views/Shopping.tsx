@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks';
 import { Btn, Card, NumField, Pill, SelectField, TextField } from '../components/ui';
 import { saveGear, savePantry, saveShop, saveSupplies, store } from '../lib/db';
-import { PANTRY_HINTS } from '../lib/apply';
+import { GEAR_UNIT_PRICE, PANTRY_HINTS, PANTRY_UNIT_PRICE } from '../lib/apply';
 import { CATEGORY_LABEL } from '../content/catalog';
 import { usePlan, useReadiness } from '../lib/derived';
 import { activeLines } from '../lib/planner';
@@ -72,6 +72,11 @@ export function Shopping() {
   const gasMissing = Math.max(0, r.sup.propaneTarget - r.sup.propaneFull);
   const gearMissing = activeLines(plan.gearLines).filter((l) => l.missing > 0);
 
+  const pantryEst = pantryMissing.reduce((sum, p) => sum + (PANTRY_UNIT_PRICE[p.name] ?? 0) * (p.planQty - p.haveQty), 0);
+  const gearEst = gearMissing.reduce((sum, l) => sum + (GEAR_UNIT_PRICE[l.id] ?? 0) * l.missing, 0);
+  const planEst = pantryEst + gearEst;
+  const planNoPrice = pantryMissing.filter((p) => PANTRY_UNIT_PRICE[p.name] === undefined).length + gearMissing.filter((l) => GEAR_UNIT_PRICE[l.id] === undefined).length;
+
   const stores: ('Reposição' | 'Costco' | 'Outros')[] = ['Reposição', 'Costco', 'Outros'];
   const groups = stores
     .map((s) => ({ s, items: shown.filter((i) => i.store === s) }))
@@ -106,6 +111,9 @@ export function Shopping() {
             <div class="mono" style={{ fontSize: '1.3rem', fontWeight: 700 }}>{usd(bought)}</div>
             <div class="xs muted">já comprado</div>
           </div>
+        </div>
+        <div class="small" style={{ marginTop: 10 }}>
+          Despensa e caixas, calculadas pelo plano: <b>cerca de {usd(planEst)}</b> nos itens com preço estimado ({planNoPrice} itens sem preço, como lanternas, remédios, água e gás). Total estimado: <b>{usd(left + planEst)}</b>.
         </div>
         <div class="xs faint" style={{ marginTop: 8 }}>Os preços são estimativas do plano, não leitura de hoje: confira na loja e corrija em Editar.</div>
       </Card>
@@ -155,6 +163,7 @@ export function Shopping() {
                         <div style={{ fontWeight: 600 }}>{p.name}</div>
                         <div class="xs muted mono">
                           falta {n1(p.planQty - p.haveQty)} {p.unit} (plano {n1(p.planQty)}, tenho {n1(p.haveQty)})
+                          {PANTRY_UNIT_PRICE[p.name] !== undefined ? ` · ≈ ${usd(PANTRY_UNIT_PRICE[p.name] * (p.planQty - p.haveQty))}` : ' · sem preço'}
                         </div>
                         {PANTRY_HINTS[p.name] && <div class="xs faint">{PANTRY_HINTS[p.name]}</div>}
                       </div>

@@ -370,3 +370,22 @@ function stripId<T extends { id: string }>(x: T): Omit<T, 'id'> {
   const { id: _id, ...rest } = x;
   return rest;
 }
+
+/**
+ * Preço estimado por unidade da despensa, tirado da lista original do Costco (pacote ÷ unidades).
+ * Estimativas editáveis do plano original, não leitura de preço de hoje. Itens que não estão aqui ficam sem preço.
+ */
+export const PANTRY_UNIT_PRICE: Record<string, number> = {
+  'Atum, sardinha e frango em lata': 1.7,
+  'Carne seca': 35,
+  'Legumes, sopas e feijão em lata': 1.1,
+  'Biscoito salgado (400 g)': 4.6,
+  'Barras de cereal ou proteína': 0.35,
+  'Óleo de cozinha': 2.4,
+};
+
+/** Preço estimado por unidade de itens das caixas (da lista original). */
+export const GEAR_UNIT_PRICE: Record<string, number> = {
+  'toilet-paper': 0.7,
+  'trash-bags': 0.1,
+};
