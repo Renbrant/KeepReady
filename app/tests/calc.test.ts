@@ -113,15 +113,23 @@ describe('altitude', () => {
 });
 
 describe('água', () => {
+  it('modelo novo: beber 3 L e cozinhar só a comida seca (família de 4, 30 dias, 5.300 pés)', () => {
+    const s = { ...five, daysTarget: 30, altitudeFt: 5300, drinkLPerPersonDay: 3, bucketMode: 'auto' as const };
+    const need = waterNeededGal(members, 9000, s);
+    // beber 4 x 3 L x 30 = 360 L; cozinhar 1,86 x 4,5 x 1,165 x 0,74 = 7,2 L/dia x 30 = 216 L; total 576 L = 152 gal
+    expect(need).toBeGreaterThan(150);
+    expect(need).toBeLessThan(154);
+  });
+
   it('a 5.000 pés o plano pede ~188 galões em 30 dias', () => {
-    const need = waterNeededGal(members, 8000, { ...five, drinkLPerPersonDay: 3.785411784 });
+    const need = waterNeededGal(members, 8000, { ...five, drinkLPerPersonDay: 3.785411784 }, 1);
     expect(need).toBeGreaterThan(187);
     expect(need).toBeLessThan(189);
   });
 
   it('190 galões duram ~30 dias para 4 pessoas', () => {
     const sup: Supplies = { waterGal: 190, waterTargetGal: 190, propaneFull: 0, propaneTarget: 3 };
-    const d = waterDays(sup, members, 8000, { ...five, drinkLPerPersonDay: 3.785411784 });
+    const d = waterDays(sup, members, 8000, { ...five, drinkLPerPersonDay: 3.785411784 }, 1);
     expect(d).toBeGreaterThan(30);
     expect(d).toBeLessThan(31);
   });

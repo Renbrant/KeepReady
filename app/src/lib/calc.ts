@@ -86,23 +86,36 @@ export function altitudeFactors(altitudeFt: number): AltitudeFactors {
 
 /* ---------- Água ---------- */
 
-export function cookingWaterLPerDay(kcalPerDay: number, s: Settings): number {
+/**
+ * Parte das calorias que vem de comida seca (arroz, feijão, macarrão, aveia, leite em pó), que precisa de água para cozinhar.
+ * Metas acima de 14 dias (ou "Sempre" em baldes): grãos 62% + mistos 12% do plano de exemplo.
+ * Metas curtas: comida pronta de mercado; 10% é uma estimativa (aveia instantânea, sopa em pó).
+ */
+export const DRY_FOOD_SHARE_LONG = 0.74;
+export const DRY_FOOD_SHARE_SHORT = 0.1;
+const SHORT_GOAL_DAYS_CALC = 14;
+
+export function dryFoodShare(s: Pick<Settings, 'daysTarget' | 'bucketMode'>): number {
+  return s.bucketMode === 'always' || s.daysTarget > SHORT_GOAL_DAYS_CALC ? DRY_FOOD_SHARE_LONG : DRY_FOOD_SHARE_SHORT;
+}
+
+export function cookingWaterLPerDay(kcalPerDay: number, s: Settings, dryShare: number = dryFoodShare(s)): number {
   const people2000 = kcalPerDay / 2000;
-  return COOKING_L_PER_PERSON_DAY * people2000 * altitudeFactors(s.altitudeFt).water;
+  return COOKING_L_PER_PERSON_DAY * people2000 * altitudeFactors(s.altitudeFt).water * dryShare;
 }
 
-export function waterLPerDay(members: Member[], kcalPerDay: number, s: Settings): number {
-  return members.length * s.drinkLPerPersonDay + cookingWaterLPerDay(kcalPerDay, s);
+export function waterLPerDay(members: Member[], kcalPerDay: number, s: Settings, dryShare: number = dryFoodShare(s)): number {
+  return members.length * s.drinkLPerPersonDay + cookingWaterLPerDay(kcalPerDay, s, dryShare);
 }
 
-export function waterDays(sup: Supplies, members: Member[], kcalPerDay: number, s: Settings): number {
-  const perDay = waterLPerDay(members, kcalPerDay, s);
+export function waterDays(sup: Supplies, members: Member[], kcalPerDay: number, s: Settings, dryShare: number = dryFoodShare(s)): number {
+  const perDay = waterLPerDay(members, kcalPerDay, s, dryShare);
   return perDay > 0 ? (sup.waterGal * GAL_L) / perDay : 0;
 }
 
 /** Quanta água o plano pede para `daysTarget` dias, em galões. */
-export function waterNeededGal(members: Member[], kcalPerDay: number, s: Settings): number {
-  return (waterLPerDay(members, kcalPerDay, s) * s.daysTarget) / GAL_L;
+export function waterNeededGal(members: Member[], kcalPerDay: number, s: Settings, dryShare: number = dryFoodShare(s)): number {
+  return (waterLPerDay(members, kcalPerDay, s, dryShare) * s.daysTarget) / GAL_L;
 }
 
 /* ---------- Gás ---------- */

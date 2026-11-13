@@ -1,7 +1,10 @@
 import type { ComponentChildren } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { Icon } from './components/ui';
-import { useSettings } from './lib/db';
+import { saveSettings, saveSupplies, store, useSettings, useStoreVersion } from './lib/db';
+import { householdKcalPerDay, waterNeededGal } from './lib/calc';
+import { defaultSettings } from './lib/plan';
+import type { Member, Settings as SettingsData, Supplies } from './lib/types';
 import { Dashboard } from './views/Dashboard';
 import { Family } from './views/Family';
 import { Guides } from './views/Guides';
@@ -74,6 +77,24 @@ export function App() {
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
   }, [theme]);
+
+  /** Uma vez: quem já tinha o plano salvo passa para o modelo de água novo (beber 3 L por pessoa por dia). Depois você ajusta em Plano. */
+  useStoreVersion();
+  const rawModel = store.get<SettingsData>('settings')?.data.waterModel;
+  const hasSettings = !!store.get('settings');
+  useEffect(() => {
+    if (!hasSettings || (rawModel ?? 1) >= 2) return;
+    const cur = store.get<SettingsData>('settings')!.data;
+    const members = store.list<Member>('member').map((r) => r.data);
+    const kcal = householdKcalPerDay(members);
+    const oldTarget = Math.ceil(waterNeededGal(members, kcal, { ...defaultSettings, ...cur }, 1));
+    const sup = store.get<Supplies>('supplies')?.data;
+    saveSettings({ waterModel: 2, drinkLPerPersonDay: 3 });
+    // Só troca a meta de água se ela ainda era a calculada pelo modelo antigo (não mexe se você a definiu na mão).
+    if (sup && Math.abs(sup.waterTargetGal - oldTarget) <= 1) {
+      saveSupplies({ waterTargetGal: Math.ceil(waterNeededGal(members, kcal, { ...defaultSettings, ...cur, drinkLPerPersonDay: 3 })) });
+    }
+  }, [hasSettings, rawModel]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

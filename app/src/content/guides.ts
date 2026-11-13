@@ -105,7 +105,7 @@ export const GUIDES: Guide[] = [
       { title: 'Panela aberta', text: 'Para cozinhar sem pressão o app estima um aumento de 25% no tempo a cada 3.000 pés acima de 2.000 e de 15% na água de cozimento, na mesma base. Esses dois valores são estimativas do app, calibradas pelo texto da CSU de que cozinhar em altitude exige mais tempo e mais líquido.' },
       { title: 'Tempos de partida', text: 'Para o plano de 4 pessoas e 8.000 kcal por dia, o app parte de 37,5 min para o arroz, 18 min para o macarrão, 12 min para a aveia, 15 min para a água quente e 60 min para o feijão com pressão (135 min sem pressão), e multiplica pelo fator da altitude.' },
       { title: 'Gás', text: 'Um queimador de 10.000 BTU por hora, propano a 21.500 BTU por libra e botijão de 20 lb, que dá 430.000 BTU. O app soma uma folga de 20%. Resultado típico: 3 botijões com panela de pressão e 4 sem.' },
-      { title: 'Água', text: 'São 1,86 litros por pessoa por dia só para cozinhar, no nível do mar, mais a água de beber (padrão de 1 galão por pessoa por dia, ajustável em Ajustes). O fator de altitude aumenta a parte de cozimento.' },
+      { title: 'Água', text: 'Beber: 3 litros por pessoa por dia (padrão do app, menos que o galão por pessoa que a Ready.gov e a Cruz Vermelha citam, que também cobre higiene; a água limpa para higiene é contada à parte em Água). Cozinhar: 1,86 litros por pessoa de 2.000 kcal por dia, no nível do mar, só sobre a parte da comida que é seca (74% em metas acima de 14 dias, 10% nas curtas, estimativas do app). O fator de altitude aumenta a parte de cozimento.' },
     ],
     estimates: [
       'Estimativas do app: fatores da panela aberta, da água de cozimento e a folga de 20% no gás.',
@@ -128,7 +128,7 @@ export const GUIDES: Guide[] = [
       },
       {
         title: 'Água e gás',
-        text: 'Água: beber (padrão 1 galão por pessoa por dia, o valor que a Ready.gov e a Cruz Vermelha citam) mais a água de cozimento. Gás: minutos de fogo por dia, corrigidos pela altitude e pelo modo de cozinhar, com 20% de folga. Veja o guia de altitude.',
+        text: 'Água: beber (padrão do app: 3 litros por pessoa por dia; a Ready.gov e a Cruz Vermelha citam 1 galão, que inclui higiene) mais a água de cozimento da comida seca. Gás: minutos de fogo por dia, corrigidos pela altitude e pelo modo de cozinhar, com 20% de folga. Veja o guia de altitude.',
       },
       {
         title: 'Caixas de 27 galões',

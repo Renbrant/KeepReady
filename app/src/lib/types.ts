@@ -122,6 +122,8 @@ export interface Settings {
   altitudeFt: number;
   cookingMode: 'pressure' | 'open';
   drinkLPerPersonDay: number;
+  /** Versão do modelo de água. 2 = beber 3 L por pessoa por dia e cozinhar só a comida seca. */
+  waterModel?: number;
   /** Água limpa (não para beber) por pessoa por dia, em litros: higiene, louça, descarga. */
   cleanLPerPersonDay: number;
   packagingCostPerBag: number;
