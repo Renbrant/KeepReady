@@ -1,5 +1,7 @@
 -- KeepReady: casa, membros e sincronização (MVP).
--- Rode uma vez no Supabase: SQL Editor > New query > cole tudo > Run.
+-- Já aplicada no projeto Supabase "KeepReady" como migração 20261113171845 (keepready_sync).
+-- Para um projeto novo: SQL Editor > New query > cole tudo > Run (ou `supabase db push`).
+-- É seguro rodar de novo: usa "if not exists", "or replace" e "drop ... if exists".
 -- Depois, em Authentication > Providers > Email, desligue "Confirm email" se quiser
 -- que a família entre sem precisar confirmar o e-mail (bom para o teste).
 
@@ -38,10 +40,12 @@ create table if not exists public.records (
 );
 
 create index if not exists records_household_updated_idx on public.records (household_id, updated_at);
+create index if not exists household_users_user_idx on public.household_users (user_id);
 
 create or replace function public.touch_record()
 returns trigger
 language plpgsql
+set search_path = ''
 as $$
 begin
   new.updated_at := clock_timestamp();
@@ -145,6 +149,8 @@ as $$
   limit 1;
 $$;
 
+revoke all on function public.is_member(uuid) from public, anon;
+grant execute on function public.is_member(uuid) to authenticated;
 revoke all on function public.create_household(text, text) from public, anon;
 revoke all on function public.join_household(text, text) from public, anon;
 revoke all on function public.my_household() from public, anon;

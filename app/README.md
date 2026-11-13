@@ -24,7 +24,7 @@ npm run preview    # serve dist/ em http://127.0.0.1:4173
 ## Ligar login e sincronização (Supabase, plano gratuito)
 
 1. Crie um projeto em supabase.com.
-2. SQL Editor, New query, cole o conteúdo de `supabase/001_keepready_sync.sql` e rode. Cria as tabelas `households`, `household_users` e `records`, as regras de acesso (RLS) e as funções `create_household`, `join_household` e `my_household`.
+2. SQL Editor, New query, cole o conteúdo de `supabase/migrations/20261113171845_keepready_sync.sql` e rode (é seguro rodar de novo). Se você conectou o Supabase ao GitHub, defina o Working directory da integração como `app`: com a mesma versão já registrada no projeto, a migração não é aplicada duas vezes, e novas migrações nessa pasta são aplicadas quando entram na `main` (com "Deploy to production" ligado). Cria as tabelas `households`, `household_users` e `records`, as regras de acesso (RLS) e as funções `create_household`, `join_household` e `my_household`.
 3. Authentication, Providers, Email: para o teste em família, desligue "Confirm email". Se deixar ligado, cada pessoa precisa clicar no link do e-mail antes do primeiro login.
 4. Project Settings, API (ou API Keys): copie a **Project URL** e a chave pública (chamada `anon` ou `publishable`). Ela é pública por desenho; quem protege os dados são as regras de RLS do passo 2. **Nunca** coloque a chave `service_role` ou `secret` no app.
 5. Copie `.env.example` para `.env` e preencha `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY`. As variáveis `VITE_*` são lidas na hora do build.
@@ -89,7 +89,7 @@ src/lib/        regras e dados: calc.ts (contas), nutrition.ts (calorias), store
                 sync.ts (uma rodada de sincronização), supabase.ts, account.ts, plan.ts (plano de exemplo)
 src/views/      Dashboard, Stock, Rotation, Shopping, Family, Guides, Settings, More, Print
 src/content/    textos dos guias, com fontes
-supabase/       001_keepready_sync.sql
+supabase/       migrations/20261113171845_keepready_sync.sql
 tests/          calc, nutrition, sync (vitest)
 ```
 
