@@ -45,6 +45,7 @@ export function More() {
           `${r.members.length} ${plural(r.members.length, 'person', 'people')} · ${n0(r.kcalPerDay)} kcal per day · ${meta.householdId ? `household ${meta.householdName}` : 'no account'}`,
         )}
       />
+      <Link href="#/entrada" title={L('Entrada de compras', 'Log purchases')} sub={L('Registrar o que comprou, com validade, etiqueta e código de barras', 'Log what you bought, with expiry, label and barcode')} />
       <Link href="#/guias" title={L('Guias', 'Guides')} sub={L('Reembalar, rotação, altitude, calorias, uso offline', 'Repacking, rotation, altitude, calories, offline use')} />
       <Link href="#/ajustes" title={L('Ajustes', 'Settings')} sub={L('Altitude, tema, backup, instalar', 'Altitude, theme, backup, install')} />
       <Link href="#/imprimir" title={L('Resumo para imprimir', 'Printable summary')} sub={L('Uma folha com o estado atual', 'One sheet with the current status')} />

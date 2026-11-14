@@ -616,3 +616,55 @@ details.card[open] > summary {
     break-inside: avoid;
   }
 }
+
+/* Leitor de código de barras */
+.scanner {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.scanner-box {
+  width: 100%;
+  max-width: 520px;
+  max-height: 100%;
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px 14px 0 0;
+  padding: 14px;
+}
+.scanner-video {
+  position: relative;
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 8px;
+}
+.scanner-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.scanner-line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 50%;
+  height: 2px;
+  background: var(--brand);
+  opacity: 0.85;
+}
+
+/* Entrada de compras */
+.label-chip {
+  font-family: var(--mono);
+  font-weight: 700;
+  border: 1px dashed var(--text3);
+  border-radius: 6px;
+  padding: 2px 8px;
+}

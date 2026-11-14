@@ -1,7 +1,7 @@
-export type Kind = 'settings' | 'member' | 'bucket' | 'pantry' | 'shop' | 'supply' | 'gear' | 'water';
+export type Kind = 'settings' | 'member' | 'bucket' | 'pantry' | 'shop' | 'supply' | 'gear' | 'water' | 'lot';
 
 /** Lista única dos tipos de registro (backup, testes). O servidor tem a mesma lista numa restrição da tabela `records`. */
-export const KINDS: Kind[] = ['settings', 'member', 'bucket', 'pantry', 'shop', 'supply', 'gear', 'water'];
+export const KINDS: Kind[] = ['settings', 'member', 'bucket', 'pantry', 'shop', 'supply', 'gear', 'water', 'lot'];
 
 /** Registro local-first. `dirty` e `rev` só existem no aparelho; o resto vai para o servidor. */
 export interface Rec<T = unknown> {
@@ -101,6 +101,34 @@ export interface WaterLot {
   origin: 'engarrafada' | 'torneira';
   filledOn?: string;
   expiresOn?: string;
+  note?: string;
+  order: number;
+}
+
+/** Onde e como guardar. A sugestão do app vem de content/storage.ts. */
+export type StorageKey = 'mylar_o2' | 'mylar' | 'cans' | 'dry_pack' | 'cool_dark' | 'tote' | 'other';
+
+/**
+ * Um lote guardado, com validade e etiqueta. Entra pela tela Entrada de compras.
+ * Só o que faz parte do estoque de emergência vira lote; o resto não é controlado.
+ */
+export interface StockLot {
+  name: string;
+  qty: number;
+  unit: string;
+  expiresOn?: string;
+  storage: StorageKey;
+  /** Onde está guardado, em texto livre (ex.: "Balde 3", "Caixa 2"). */
+  place?: string;
+  /** Código curto para escrever à caneta no pacote (ex.: "12", "12a"). */
+  label?: string;
+  /** Lote de origem, se este veio de um desmembramento. */
+  splitFrom?: string;
+  purchasedOn?: string;
+  price?: number;
+  barcode?: string;
+  /** Item da despensa cujo "Tenho" recebeu este lote. Consumir devolve a diferença. */
+  pantryId?: string;
   note?: string;
   order: number;
 }

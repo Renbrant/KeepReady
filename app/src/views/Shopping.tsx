@@ -113,6 +113,10 @@ export function Shopping() {
         </div>
       </div>
 
+      <a class="btn primary block" href="#/entrada" style={{ marginBottom: 12 }}>
+        {L('Registrei uma compra: dar entrada no estoque', 'I bought something: log it into stock')}
+      </a>
+
       <Card>
         <div class="grid2">
           <div>

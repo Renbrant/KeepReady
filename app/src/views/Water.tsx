@@ -11,11 +11,11 @@ import { L, tx } from '../lib/i18n';
 
 type Lot = WaterLot & { id: string };
 
-const TYPE_OPTS = [
+const typeOpts = () => [
   { value: 'potavel' as const, label: L('Potável (beber e cozinhar)', 'Drinking (drink and cook)') },
   { value: 'limpa' as const, label: L('Limpa (higiene, louça, descarga)', 'Clean (hygiene, dishes, flushing)') },
 ];
-const ORIGIN_OPTS = [
+const originOpts = () => [
   { value: 'engarrafada' as const, label: L('Engarrafada (validade impressa)', 'Bottled (printed expiry date)') },
   { value: 'torneira' as const, label: L('Da torneira, enchi eu', 'From the tap, filled by me') },
 ];
@@ -53,8 +53,8 @@ function LotCard({ l, today }: { l: Lot; today: string }) {
         <div class="grid2" style={{ marginTop: 10 }}>
           <TextField label={L('Nome', 'Name')} value={l.name} onChange={(v) => saveWater(l.id, { name: v })} />
           <NumField label={L('Galões', 'Gallons')} value={l.gal} min={0} step={1} onChange={(v) => saveWater(l.id, { gal: Math.max(0, v ?? 0) })} />
-          <SelectField label={L('Tipo', 'Type')} value={l.type} options={TYPE_OPTS} onChange={(v) => saveWater(l.id, { type: v })} />
-          <SelectField label={L('Origem', 'Source')} value={l.origin} options={ORIGIN_OPTS} onChange={(v) => saveWater(l.id, { origin: v })} />
+          <SelectField label={L('Tipo', 'Type')} value={l.type} options={typeOpts()} onChange={(v) => saveWater(l.id, { type: v })} />
+          <SelectField label={L('Origem', 'Source')} value={l.origin} options={originOpts()} onChange={(v) => saveWater(l.id, { origin: v })} />
           <TextField label={L('Data de enchimento', 'Fill date')} type="date" value={l.filledOn ?? ''} onChange={(v) => saveWater(l.id, { filledOn: v || undefined })} />
           <TextField label={L('Validade (se impressa)', 'Expiry date (if printed)')} type="date" value={l.expiresOn ?? ''} onChange={(v) => saveWater(l.id, { expiresOn: v || undefined })} />
           <div style={{ gridColumn: '1 / -1' }} class="row wrap">
@@ -186,8 +186,8 @@ export function Water() {
         <div class="grid2">
           <TextField label={L('Nome', 'Name')} value={name} onChange={setName} />
           <NumField label={L('Galões', 'Gallons')} value={gal} min={0} step={1} onChange={setGal} />
-          <SelectField label={L('Tipo', 'Type')} value={type} options={TYPE_OPTS} onChange={setType} />
-          <SelectField label={L('Origem', 'Source')} value={origin} options={ORIGIN_OPTS} onChange={setOrigin} />
+          <SelectField label={L('Tipo', 'Type')} value={type} options={typeOpts()} onChange={setType} />
+          <SelectField label={L('Origem', 'Source')} value={origin} options={originOpts()} onChange={setOrigin} />
         </div>
         <div style={{ marginTop: 10 }}>
           <Btn kind="primary" onClick={add}>

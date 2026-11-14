@@ -1,11 +1,13 @@
 import { SyncPill, agoLabel } from '../components/SyncPill';
 import { Card, Gauge, Pill, Ring, toneFor, type Tone } from '../components/ui';
+import { expiringLots } from '../lib/lots';
 import { cylindersNeeded, expiringSoon, lotExpiry, nextDue, rotationRows, type RotStatus } from '../lib/calc';
 import { addDays, diffDays, fmtDate, todayISO } from '../lib/dates';
 import { usePlan, useReadiness } from '../lib/derived';
 import { activeLines, gearProgress } from '../lib/planner';
 import { daysFmt, isStandalone, n0, n1, plural, usd } from '../lib/fmt';
 import { useMeta } from '../lib/meta';
+import { useLots } from '../lib/db';
 import { syncAvailable } from '../lib/supabase';
 import { L, tx } from '../lib/i18n';
 
@@ -34,6 +36,7 @@ export function Dashboard() {
   const plan = usePlan();
   const gear = gearProgress(plan.gearLines);
   const meta = useMeta();
+  const lots = useLots();
   const today = todayISO();
   const target = r.settings.daysTarget;
   const rows = rotationRows(r.buckets, today);
@@ -56,6 +59,11 @@ export function Dashboard() {
   for (const p of expiringSoon(r.pantry, today)) {
     const d = diffDays(today, p.expiresOn!);
     alerts.push({ tone: d < 0 ? 'bad' : 'warn', text: d < 0 ? L(`${tx(p.name)} venceu em ${fmtDate(p.expiresOn)}.`, `${tx(p.name)} expired on ${fmtDate(p.expiresOn)}.`) : L(`${tx(p.name)} vence em ${d} dias.`, `${tx(p.name)} expires in ${d} days.`), href: '#/estoque' });
+  }
+  for (const l of expiringLots(lots, today)) {
+    const d = diffDays(today, l.expiresOn!);
+    const nm = `${l.name}${l.label ? ` (${l.label})` : ''}`;
+    alerts.push({ tone: d < 0 ? 'bad' : 'warn', text: d < 0 ? L(`${nm} venceu em ${fmtDate(l.expiresOn)}.`, `${nm} expired on ${fmtDate(l.expiresOn)}.`) : L(`${nm} vence em ${d} dias.`, `${nm} expires in ${d} days.`), href: '#/entrada' });
   }
   for (const g of activeLines(plan.gearLines)) {
     if (g.have <= 0 || !g.expiresOn) continue;

@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.0",
+    "@zxing/browser": "^0.1.5",
+    "@zxing/library": "^0.21.3",
     "idb-keyval": "^6.3.0",
     "preact": "^10.29.8",
     "workbox-window": "^7.4.1"

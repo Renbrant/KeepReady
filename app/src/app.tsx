@@ -14,6 +14,7 @@ import { Totes } from './views/Totes';
 import { Water } from './views/Water';
 import { More } from './views/More';
 import { Print } from './views/Print';
+import { Intake } from './views/Intake';
 import { Rotation } from './views/Rotation';
 import { Settings } from './views/Settings';
 import { Shopping } from './views/Shopping';
@@ -37,7 +38,7 @@ const TABS = [
   { href: '#/painel', icon: 'painel', get label() { return L('Painel', 'Dashboard'); }, match: ['', 'painel'] },
   { href: '#/estoque', icon: 'estoque', get label() { return L('Estoque', 'Stock'); }, match: ['estoque', 'caixas', 'agua'] },
   { href: '#/rotacao', icon: 'rotacao', get label() { return L('Rotação', 'Rotation'); }, match: ['rotacao'] },
-  { href: '#/compras', icon: 'compras', get label() { return L('Compras', 'Shopping'); }, match: ['compras'] },
+  { href: '#/compras', icon: 'compras', get label() { return L('Compras', 'Shopping'); }, match: ['compras', 'entrada'] },
   { href: '#/mais', icon: 'mais', get label() { return L('Mais', 'More'); }, match: ['mais', 'plano', 'familia', 'guias', 'ajustes', 'imprimir'] },
 ] as const;
 
@@ -58,6 +59,8 @@ function view(route: string): ComponentChildren {
       return <Totes />;
     case 'agua':
       return <Water />;
+    case 'entrada':
+      return <Intake />;
     case 'familia':
       return <Family />;
     case 'guias':

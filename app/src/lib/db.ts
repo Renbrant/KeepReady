@@ -4,7 +4,7 @@ import { createRecordStore, type Persist } from './store';
 import { seedRecords } from './plan';
 import type { Op } from './apply';
 import { gearRecId, type GearRec } from './planner';
-import type { Bucket, GearState, Member, PantryItem, Settings, ShopItem, Supplies, WaterLot } from './types';
+import type { Bucket, GearState, Member, PantryItem, Settings, ShopItem, StockLot, Supplies, WaterLot } from './types';
 import { defaultSettings } from './plan';
 
 const KEY = 'kr.records.v1';
@@ -68,7 +68,16 @@ export function useWater(): WithId<WaterLot>[] {
   return listData<WaterLot>('water').sort((a, b) => a.order - b.order);
 }
 
+export function useLots(): WithId<StockLot>[] {
+  useStoreVersion();
+  return listData<StockLot>('lot').sort((a, b) => a.order - b.order);
+}
+
 /* ---------- Ações ---------- */
+
+export function saveLot(id: string, patch: Partial<StockLot>): void {
+  store.patch<StockLot>(id, (l) => ({ ...l, ...patch }));
+}
 
 export function saveWater(id: string, patch: Partial<WaterLot>): void {
   const cur = store.get<WaterLot>(id)?.data;
